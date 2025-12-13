@@ -10,6 +10,8 @@ website:
     left:
       - href: index.qmd
         text: Home
+      - href: about.qmd   
+        text: "About Me"
       - href: coaching.qmd
         text: Coaching
       - text: Philosophy
@@ -20,9 +22,23 @@ website:
             text: "Be Happy"
           - href: nutrition.qmd
             text: "Nutrition"
+          - href: mental.qmd
+            text: "Mental Training"
+          - href: strength.qmd   # New
+            text: "Strength Training"
+          - href: barefoot.qmd   # New
+            text: "Barefoot Running"
+          - href: speed.qmd      # New
+            text: "Speed Work"
+          - href: other.qmd      # New
+            text: "Other Stuff"
+      - href: library.qmd     
+        text: Library
+      - href: blog.qmd        # <--- ADD THIS LINE
+        text: Blog
 
   # FIX: Indented 2 spaces so it belongs to 'website'
-  page-footer: 
+page-footer: 
     left: "Copyright 2025 Gary Manley Running"
     right: 
       - icon: github

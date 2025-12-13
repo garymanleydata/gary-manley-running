@@ -1,0 +1,65 @@
+---
+title: "Other Methods & Resources"
+---
+
+A collection of training methods, recovery protocols, and resources that are essential to the holistic runner.
+
+---
+
+## Cross Training
+
+When I say cross training, I am referring to everything from walking and rucking to the elliptical, swimming, and cycling. 
+
+See [Mental Training](mental.qmd) to fully appreciate how much this kind of training can help you.
+
+**Key Benefits:**
+* **Cardio & Recovery:** If you are finding the running volume too high but want to improve, cross training increases aerobic load while reducing impact.
+* **Active Recovery:** There is a growing body of evidence showing that a gentle walk is more beneficial for recovery than sitting on the sofa.
+* **The "Ruck" Hack:** Going for a recovery walk? Add a backpack with a little weight. It increases strength and cardio load. So long as you stay under your desired heart rate, it is awesome training (even better on hills).
+
+---
+
+## Recovery Protocols
+
+### 1. Massage
+Massage has numerous reported benefits. The odd session with a sports masseuse is a good investment, and for day-to-day use, a massage gun can really help.
+
+**Reported Benefits:**
+* **Blood Flow:** Flushes waste products (like lactate) and delivers oxygen/nutrients for repair.
+* **Flexibility:** Breaks up adhesions and releases tight muscles, improving range of motion.
+* **Mental State:** Reduces cortisol (stress hormone) and improves sleep quality.
+
+::: {.callout-warning appearance="simple"}
+### Important Considerations
+* **Timing:** Some athletes prefer massage *before* competition to relax, others *after* for recovery.
+* **Caution:** A deep sports massage is **not** advised shortly before an all-out performance (it can leave legs feeling "heavy").
+:::
+
+### 2. Compression
+I have had mixed results myself, but there are many reported benefits for compression clothing. 
+* **The Theory:** It supports blood flow and reduces muscle oscillation.
+* **The Reality:** Even if the physical benefit is marginal, the **Expectation Effect** (see Mental Training) makes it worth trying. It is unlikely to hinder recovery.
+
+### 3. Breathing
+For a deep dive, read *Breath: The New Science of a Lost Art*.
+
+* **Nasal Breathing:** Try to adopt nasal breathing during most of the day and even on walks.
+* **Tools:** Devices like the **AiroFit** have limited evidence, but if you can get one second-hand, it can be a useful tool for respiratory strength.
+
+### 4. Bio-Hacks
+* **Standing Desks:** Essential for flexibility. If you sit for 8 hours, your hip flexors shorten, which ruins your running gait. Stand where you can.
+* **Power Poses:** Based on the TED Talk by **Amy Cuddy**. Performing "power poses" (standing tall, arms open) can increase testosterone and improve performance. Consider integrating this into your pre-race routine.
+
+---
+
+## My Library
+
+I am constantly reading and researching. If you only read three books this year, make it these:
+
+1.  **The Big Book of Endurance Training** - Phil Maffetone
+2.  **Born to Run** - Christopher McDougall
+3.  **Why We Sleep** - Matthew Walker
+
+## References
+* *Massage & Recovery:* [Rapaport et al., 2010 (NCBI)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2953308/)
+* *Power Poses:* [Amy Cuddy TED Talk](https://www.ted.com/talks/amy_cuddy_your_body_language_may_shape_who_you_are)

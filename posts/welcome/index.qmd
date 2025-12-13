@@ -1,0 +1,14 @@
+---
+title: "Welcome to My Blog"
+author: "Gary Manley"
+date: "2025-12-13"
+categories: [news, general]
+---
+
+This is my first blog post.
+
+I will use this space to share race reports, training updates, and random thoughts on the running world.
+
+
+## Why I am blogging
+Because running is more than just miles; it's about the journey. I wanted a method to try and get me to start journalling and keeping a track of things and lets see if this works. 

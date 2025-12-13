@@ -1,0 +1,95 @@
+---
+title: "Mental Training"
+---
+
+Mental training is an untapped performance enhancer for almost everyone. Athletes like **Keely Hodgkinson** have attributed 90% of their performance to the mental side of things.
+
+If it works for Olympians, it is worth working on.
+
+I 100% recommend the book *The Confident Mind* by Dr. Nate Zinsser. The following strategies are heavily influenced by his work on practical sports psychology.
+
+---
+
+## The 7 Key Steps
+
+::: {.callout-note appearance="simple"}
+**1. Set Ambitious Goals**
+Goals should be scary. Once set, work consistently towards **believing** that you can achieve them.
+
+**2. Use Affirmations**
+Come up with "I am" statements that you can read, think of throughout the day, or record and listen to while running. (See below for examples).
+
+**3. Focus on the Positives**
+* **Past:** Focus on races and training that went well.
+* **Present:** In a session, focus on the single rep that felt good.
+* **Future:** Focus on what you *can* control.
+
+**4. Create a Confidence Board**
+Combine your mental cues into a single view. [See my example here](https://docs.google.com/presentation/d/123sHGP6otpLD7mx2eLNAvjc8Tn8t_4B4NwO2khitxsk/edit?usp=sharing).
+
+**5. Visualization**
+Using all your senses, imagine yourself achieving your next goal. Be as detailed as possible.
+
+**6. Reframe the Day**
+If you are having a bad day, simply change your mind and decide to have a good day.
+
+**7. Manage Expectations**
+Understand the power of the "Expectation Effect" (see below) for both training and racing.
+:::
+---
+
+## Affirmations
+
+These don't require cardio, so you can do them even when your legs are dead.
+
+::: {.callout-tip icon="true" title="My Daily Affirmations"}
+* "I am fit, I am fast, I am strong."
+* "I am light, I am recovered, I feel good."
+* "I am confident. I have self-belief. I run well in all conditions."
+* "I am the healthiest and most consistent I can be."
+* "I do the little things well. My strength training powers my running."
+* "I focus on the controllables and do not worry about what I cannot control."
+* "I am unstoppable. I am capable of great things."
+:::
+
+---
+
+## Visualization
+
+The goal is to create a script for you to listen to or read out loud that details you crushing your next goal. You should use as much detail and as many senses as possible—smells, sights, the feel of your clothes, your thought patterns.
+
+Here is a script based on my local parkrun winter route:
+
+> "I arrive at the event in good time... I feel confident, recovered and have belief that my training will power me through.
+>
+> I perform my strides and warm up drills, noticing how my legs and arms feel strong and powerful. My shoes feel springy. I arrive back at the start line and move to the front. I undertake my CBA routine and prepare my convictions: **'It is my time to shine, I have done the work, today is my day.'**
+>
+> As the RD says go, I get up to speed quickly. I am confident and do not let others' performances deter me. My breathing becomes deep and the breeze starts to cool my skin... I pass through the 1km point onto the long back straight... I can feel my legs are still feeling strong...
+>
+> I drive over the bridge, through the underpass and onto the final straight. I kick going past the final bench and bolt through the finishing funnel.
+>
+> **I have just had the run of my life.** I feel elated and exhausted and in disbelief of my time. I smile as I head home to share the news."
+
+---
+
+## The Expectation Effect
+
+Research by **Alia Crum** shows the true link between the brain and the body. She demonstrated that simply *believing* a food was filling made it more filling, and cleaners who were taught that cleaning is good exercise actually became fitter.
+
+**Apply this to running:**
+* If you believe caffeine gives you a boost, it will have a larger impact.
+* If you believe running slow makes you fast, you will likely see faster improvements.
+* Researching your training methods increases your belief in them, which physically enhances their effectiveness.
+
+### Recommended Viewing
+
+{{< video https://www.youtube.com/watch?v=0tqq66zwa7g >}}
+*Change your mindset, change the game: Dr. Alia Crum at TEDxTraverseCity*
+
+{{< video https://www.youtube.com/watch?v=w-r8TLIYy5I >}}
+*The Expectation Effect: David Robson at TEDx*
+
+### Recommended Books
+* *The Confident Mind* by Dr. Nate Zinsser
+* *The Expectation Effect* by David Robson
+* *Beyond Grit* by Cindra Kamphoff
