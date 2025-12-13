@@ -1,0 +1,37 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Gary Manley Running"
+  
+  # FIX: Indented 2 spaces so it belongs to 'website'
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: coaching.qmd
+        text: Coaching
+      - text: Philosophy
+        menu:
+          - href: maf.qmd
+            text: "The MAF Method"
+          - href: happy.qmd
+            text: "Be Happy"
+          - href: nutrition.qmd
+            text: "Nutrition"
+
+  # FIX: Indented 2 spaces so it belongs to 'website'
+  page-footer: 
+    left: "Copyright 2025 Gary Manley Running"
+    right: 
+      - icon: github
+        href: https://github.com/garymanley
+      - icon: envelope
+        href: mailto:gary@garymanleyrunning.com
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: false

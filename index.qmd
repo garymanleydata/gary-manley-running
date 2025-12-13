@@ -1,0 +1,16 @@
+---
+title: "Gary Manley Running"
+about:
+  template: jolla      # 'jolla' is the clean circle-profile layout
+  image: profile.jpg
+  links:
+    - icon: envelope
+      text: Contact
+      href: mailto:gary@garymanleyrunning.com
+---
+
+## Run Healthy. Burn Fat. Go Further.
+
+I am a running coach with a unique philosophy. I believe that running should enhance your life, not dominate it. Whether you are chasing a parkrun PB or training for your first Ultra, the biology remains the same.
+
+[Read My Philosophy](maf.qmd)

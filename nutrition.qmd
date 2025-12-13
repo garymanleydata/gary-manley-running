@@ -1,0 +1,77 @@
+---
+title: "Nutrition & Fasting"
+---
+
+::: {.callout-warning title="Disclaimer"}
+I am not a qualified nutritionist. The following is based on 10 years of personal research and investigation since being obese myself. Depending on your dedication, gut health, and metabolic flexibility, there are many approaches you can take. **Take from this what you want.**
+:::
+
+## The Hierarchy of Diet
+
+To start with, the priority is **running slow**. If you then want to ease into healthier eating, that is the next step. You don't need to do everything at once.
+
+Here is the progression I recommend, depending on how "strict" you want to be:
+
+1.  **Level 1: The Basics**
+    * Remove or minimize alcohol.
+    * Remove processed garbage (cakes, biscuits, sweets, etc.).
+
+2.  **Level 2: The "Paleo" Approach**
+    * Reduce foods that were not available 10,000 years ago.
+    * *Cut out:* Pasta, rice, flour, bread.
+    * *Eat:* Meat, dairy, fruit, and vegetables.
+
+3.  **Level 3: The Keto Diet**
+    * Remove vegetables grown below ground (potatoes, carrots, etc.).
+    * Limit berries and high-sugar fruits.
+
+::: {.callout-tip title="Gut Health"}
+If you are struggling with digestion or inflammation, I find that **Kefir** really helps where other methods haven't.
+:::
+
+---
+
+## The Eating Schedule (Fasting)
+
+"Diet" is what you eat; "Fasting" is when you eat.
+
+This approach takes advantage of the fact that humans naturally fast overnight. Extending this window allows insulin to drop and fat cells to be mobilized. This pairs perfectly with slow running (MAF).
+
+Work by scientists like **Tim Noakes** has shown that becoming "fat-adapted" increases the energy you can derive from body fat during intense exercise, significantly reducing the chance of "bonking" (running out of energy).
+
+### My Protocols
+
+* **The Morning Window:** Don't eat for **2-3 hours** after waking up.
+* **Fasted Training:** Do some morning runs before eating anything.
+    * *Reference:* I regularly do parkrun fasted (approx. 21 hours without food).
+* **The Evening Gap:** Do not eat for at least **3 hours** before bed.
+
+### Advanced Adaptation
+If you take well to fat adaptation, you can push this further. It is routine for me to:
+
+* Run 10 miles first thing in the morning.
+* Not eat until lunchtime.
+* Fit in strength training or cross-training later.
+* Eat only one meal a day (OMAD) or within a 1-hour window.
+
+> **Note:** This level of fasting is for metabolically flexible runners. Don't force it if you feel dizzy or weak.
+
+---
+
+## Additional Resources
+
+Here are the key resources that have shaped my understanding of nutrition and performance.
+
+### Dr. Tim Noakes & Low Carb
+* **[The Noakes Foundation](https://thenoakesfoundation.org/):** Challenging the dogma around carbohydrates and performance.
+* **[Public Health Collaboration UK](https://phcuk.org/):** A charity dedicated to improving public health through lifestyle changes (Real Food/Low Carb).
+* **[Diet Doctor](https://www.dietdoctor.com/):** The world's largest low-carb site with visual guides on what to eat.
+
+### Gut Health & Fasting
+* **[Mark's Daily Apple](https://www.marksdailyapple.com/):** The definitive guide to the "Primal" (Paleo) lifestyle.
+* **[Dr. Jason Fung](https://www.youtube.com/user/drjasonfung):** The leading expert on Intermittent Fasting and insulin control.
+
+### Recommended Reading
+* *The Real Meal Revolution* by Tim Noakes
+* *The Obesity Code* by Dr. Jason Fung
+* *Primal Endurance* by Mark Sisson

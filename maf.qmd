@@ -1,0 +1,50 @@
+---
+title: "The MAF Method"
+---
+
+Running shouldn't dictate your life, and you shouldn't always be stressing about a plan. I prefer to call them **schedules** or **guidelines**.
+
+Listen to your body. Enjoy running as part of a healthy life.
+
+## The Core Philosophy
+A key feature of my training is **running slow**. To go fast, we must first build the engine to go far without stress.
+
+In an ideal world, you will use a chest-strap heart rate monitor, but a wrist-based one or even "running by feel" can work if you are honest with yourself.
+
+::: {.callout-note appearance="simple"}
+### The 180 Formula (MAF)
+The basic approach is to perform your cardio at **180 minus your age**.
+
+* **Example:** If you are 40 years old, most of your running should be below **140 beats per minute (bpm)**.
+* **The Limit:** 140 bpm is the *maximum*, not the average.
+
+To start with, this can be frustrating. It will likely include walking, especially uphill. I suggest a **Base Phase** where almost all your running is done at this heart rate. It builds a massive aerobic base without the cortisol stress of high-intensity training.
+:::
+
+## The 80/20 Rule
+Another popular philosophy I use is **80/20 Running**.
+
+::: {.callout-tip appearance="simple"}
+### The Balance
+* **80%** of your training should be very easy (like the MAF pace above).
+* **20%** of your training is speedwork.
+
+**Why this matters:**
+If you run 30 miles a week and run a hard parkrun (3 miles), you have done your 10% speedwork right there. If you do the rest of your runs "kind of hard," you are training in the grey zone—too hard to recover, too easy to get fast.
+:::
+
+I favour a conservative approach: start at **100/0** (all easy), then move to **90/10**, and finally **80/20** only when your body is ready.
+
+---
+
+## Additional Resources
+
+### Essential Viewing
+{{< video https://www.youtube.com/watch?v=Y6U728AZnV0 >}}
+*Run for your life! At a comfortable pace, and not too far: James O'Keefe at TEDx*
+
+### Recommended Reading
+* **Book:** [The Big Book of Endurance Training and Racing](https://www.amazon.co.uk/Big-Book-Endurance-Training-Racing-ebook/dp/B07MBJMMRQ) (Phil Maffetone)
+* **Article:** [Want Speed? Slow Down](https://philmaffetone.com/want-speed-slow-down/)
+* **Article:** [Overcoming Frustrations with MAF](https://extramilest.com/blog/overcoming-frustrations-maf-low-heart-rate-training/)
+* **Guide:** [What is 80/20 Running?](https://www.runnersworld.com/uk/training/motivation/a27718661/what-is-80-20-running/)
