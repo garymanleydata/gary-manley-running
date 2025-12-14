@@ -1,0 +1,28 @@
+---
+title: "Run Analysis: 2025-12-13"
+date: "2025-12-13"
+categories: [running, analysis]
+image: ../assets/images/analysis_2025-12-13.png
+format:
+  html:
+    toc: true
+---
+
+## Route Map
+<iframe src="../assets/maps/map_2025-12-13.html" width="100%" height="500px" style="border:none;"></iframe>
+
+## The Ghost Battle
+Comparing today's run against the ghost file.
+
+![](/assets/images/battle_2025-12-13.png)
+
+## Physiology
+**Effort Score:** 87
+
+![](/assets/images/hr_2025-12-13.png)
+
+## Mechanics & Discipline
+![](../assets/images/analysis_2025-12-13.png)
+
+## The Data Table
+{{< include ../assets/tables/table_2025-12-13.md >}}
