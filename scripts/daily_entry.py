@@ -3,7 +3,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+import sys
 from datetime import datetime
+import google.generativeai as genai
+from dotenv import load_dotenv
 
 # 1. Setup Configuration & Paths
 # ---------------------------------------------------------
@@ -11,6 +14,16 @@ vScriptDir = os.path.dirname(os.path.abspath(__file__))
 vDBPath = os.path.join(vScriptDir, '../data/journal.db')
 vImagesPath = os.path.join(vScriptDir, '../assets/images')
 vPostsPath = os.path.join(vScriptDir, '../posts')
+
+# Load the secret .env file
+load_dotenv(os.path.join(vScriptDir, '../.env'))
+
+# Configure Gemini
+vAPIKey = os.getenv("GEMINI_API_KEY")
+if vAPIKey:
+    genai.configure(api_key=vAPIKey)
+else:
+    print("WARNING: No API Key found in .env file. AI narrative will be disabled.")
 
 os.makedirs(os.path.dirname(vDBPath), exist_ok=True)
 os.makedirs(vImagesPath, exist_ok=True)
@@ -54,7 +67,7 @@ def save_to_db(vDate, vScores):
     vConn.close()
     print(f"Data saved to {vDBPath}")
 
-# 3. Visualization & Narrative Functions
+# 3. Visualization Function
 # ---------------------------------------------------------
 def generate_radar_chart(vDate, vScores):
     vN = len(vCategories)
@@ -76,29 +89,37 @@ def generate_radar_chart(vDate, vScores):
     plt.close()
     return vFilename
 
-def generate_narrative(vScores):
-    """Analyzes scores to produce a text summary."""
-    # Create a dictionary for easier sorting
-    vData = dict(zip(vCategories, vScores))
-    
-    # Filter based on thresholds
-    vHighs = [k.replace('_', ' ').title() for k, v in vData.items() if v >= 8]
-    vLows = [k.replace('_', ' ').title() for k, v in vData.items() if v <= 4]
-    
-    vText = ""
-    
-    if vHighs:
-        vText += f"**Wins:** Strong performance today in {', '.join(vHighs)}. "
-    
-    if vLows:
-        vText += f"**Focus Areas:** Need to give more attention to {', '.join(vLows)}. "
-        
-    if not vHighs and not vLows:
-        vText += "A balanced day with no major outliers."
-        
-    return vText
+# 4. AI Narrative Function
+# ---------------------------------------------------------
+def get_ai_narrative(vDate, vScores):
+    if not vAPIKey:
+        return "AI Narrative unavailable (No API Key)."
 
-# 4. Post Creation Function
+    vDataStr = ", ".join([f"{cat}: {score}" for cat, score in zip(vCategories, vScores)])
+    
+    # Updated model to your preferred choice
+    vModelName = 'gemini-2.5-flash-lite' 
+
+    vPrompt = f"""
+    Act as a high-performance athletic coach. 
+    Here are my tracking scores for {vDate} (out of 10):
+    {vDataStr}
+    
+    Write a concise, 2-3 sentence summary of my day. 
+    - If scores are high, be encouraging.
+    - If scores are low (especially sleep or recovery), be strict but helpful.
+    - Do not use markdown headers or bullet points, just a paragraph.
+    """
+
+    try:
+        model = genai.GenerativeModel(vModelName)
+        response = model.generate_content(vPrompt)
+        return response.text
+    except Exception as e:
+        print(f"AI Error ({vModelName}): {e}")
+        return "Could not generate AI narrative today."
+
+# 5. Post Creation Function
 # ---------------------------------------------------------
 def create_quarto_post(vDate, vImageFilename, vNarrative):
     vPostFilename = os.path.join(vPostsPath, f"{vDate}-journal.qmd")
@@ -115,7 +136,7 @@ image: {vRelativeImgPath}
 
 ![]({vRelativeImgPath})
 
-> {vNarrative}
+> **Coach's Notes:** {vNarrative}
 
 ## Notes
 
@@ -126,13 +147,47 @@ image: {vRelativeImgPath}
         f.write(vTemplate)
     print(f"Post created: {vPostFilename}")
 
-# 5. Main Execution
+# 6. Helper: Date Parsing
+# ---------------------------------------------------------
+def get_target_date():
+    """Asks user for date, defaults to Today, supports YYYYMMDD."""
+    while True:
+        vInput = input(f"\nDate (YYYYMMDD) [Press Enter for Today]: ").strip()
+        
+        # Option A: User just hit Enter (Today)
+        if not vInput:
+            return datetime.now().strftime("%Y-%m-%d")
+        
+        # Option B: User typed "20251225"
+        if len(vInput) == 8 and vInput.isdigit():
+            try:
+                # Convert to datetime then back to string with hyphens
+                dt = datetime.strptime(vInput, "%Y%m%d")
+                return dt.strftime("%Y-%m-%d")
+            except ValueError:
+                print("Invalid date. Please use YYYYMMDD (e.g., 20251225).")
+                continue
+        
+        # Option C: User typed "2025-12-25"
+        if "-" in vInput:
+             try:
+                dt = datetime.strptime(vInput, "%Y-%m-%d")
+                return dt.strftime("%Y-%m-%d")
+             except ValueError:
+                pass
+        
+        print("Invalid format. Try 20251225.")
+
+# 7. Main Execution
 # ---------------------------------------------------------
 if __name__ == "__main__":
     init_db()
-    vDateToday = datetime.now().strftime("%Y-%m-%d")
-    print(f"\n--- Journal Entry for {vDateToday} ---")
     
+    # STEP 1: Determine the Date
+    vTargetDate = get_target_date()
+    print(f"\n--- Creating Journal Entry for {vTargetDate} ---")
+    
+    # STEP 2: Collect Scores
     vDailyScores = []
     for vCat in vCategories:
         while True:
@@ -147,9 +202,15 @@ if __name__ == "__main__":
             except ValueError:
                 print("Invalid number.")
 
-    save_to_db(vDateToday, vDailyScores)
-    vImgFile = generate_radar_chart(vDateToday, vDailyScores)
-    vNarrativeText = generate_narrative(vDailyScores) # Generate the text
-    create_quarto_post(vDateToday, vImgFile, vNarrativeText) # Pass it to the template
+    # STEP 3: Execute Workflow
+    save_to_db(vTargetDate, vDailyScores)
     
-    print("\nDone! Narrative and Graph generated.")
+    print("Generating Graph...")
+    vImgFile = generate_radar_chart(vTargetDate, vDailyScores)
+    
+    print("Asking Gemini for analysis...")
+    vAiText = get_ai_narrative(vTargetDate, vDailyScores)
+    
+    create_quarto_post(vTargetDate, vImgFile, vAiText)
+    
+    print(f"\nSUCCESS! Entry for {vTargetDate} created.")
