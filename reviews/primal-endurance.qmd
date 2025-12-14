@@ -1,0 +1,42 @@
+---
+title: "Primal Endurance"
+author: "Mark Sisson, Brad Kearns"
+date: "2025-12-14"
+categories: [health, running, fitness, barefoot, strength]
+image: "http://books.google.com/books/content?id=wMixEAAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+rating: "⭐⭐⭐⭐⭐"
+description: "A blueprint for peak performance embracing ancestral health principles."
+format:
+  html:
+    toc: true
+    toc-location: left
+---
+
+## The Verdict
+
+> **"Health leads to performance."**
+
+**Primal Endurance** aims to be a ground-breaking guide that revolutionizes the way we approach endurance training. This book was the original inspiration for changing my training methodology after a few years of constant injuries.
+
+::: {.callout-tip title="Key Takeaways"}
+🏃‍♂️ **Stay Slow:** Focus on aerobic development via MAF training.  
+💪 **Do Strength Work:** Essential for durability.  
+🦶 **Go Barefoot:** Drills to recover foot strength.
+:::
+
+## My Review
+
+Authored by Mark Sisson and Brad Kearns, the book presents a comprehensive blueprint for achieving peak performance while embracing the primal principles of ancestral health.
+
+Sisson and Kearns skilfully marry their expertise in endurance training with the ancestral wisdom of our hunter-gatherer ancestors. The result is a holistic approach that prioritizes **intuitive training**, emphasizing the importance of aerobic development through **MAF training** and metabolic efficiency over traditionally high-stress, "chronic cardio" routines. 
+
+### Accessibility & Science
+The authors provide a wealth of practical advice, backed by scientific research, to guide readers on the journey to becoming **fat-adapted athletes**. 
+
+One of the book's standout features is its accessibility. They break down complex concepts into easily digestible information, making it suitable for both seasoned athletes and those new to the world of endurance sports. The inclusion of real-life success stories adds a motivational layer to the narrative.
+
+### The Barefoot Component
+It is also great to see **barefoot shoes and drills** being encouraged. We evolved to be barefoot and whilst our feet are too weak from years of cushioning and at risk from modern paths, there is no reason some barefoot walking can't be used to improve technique and stave off injury.
+
+### Conclusion
+"Primal Endurance" doesn't just stop at training methodologies; it also explores the importance of nutrition, sleep, and stress management in achieving optimal performance. The emphasis on a holistic lifestyle approach ensures that readers walk away with a comprehensive understanding of how to thrive in all aspects of life.

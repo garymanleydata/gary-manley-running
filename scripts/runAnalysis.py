@@ -4,6 +4,8 @@ import pandas as pd
 import folium
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import os
 import numpy as np
 from tcxreader.tcxreader import TCXReader
@@ -16,24 +18,25 @@ vScriptDir = os.path.dirname(os.path.abspath(__file__))
 
 # === USER SETTINGS ===
 vRunFilename = 'Gary_Manley_2025-12-13.tcx'  # <--- The run you did TODAY
-vGhostFilename = None                         # <--- (Optional) The PB file to battle against
-vMaxHR = 185                                  # <--- Your Max HR for Zone calc
+vGhostFilename = 'Gary_Manley_2025-12-06.tcx'                         # <--- (Optional) 'Gary_PB.tcx'
+vMaxHR = 185                                  # <--- Your Max HR
 # =====================
 
 # Paths
-vDataPath = os.path.join(vScriptDir, '../data/runs')
+vInputPath = os.path.join(vScriptDir, f'../data/runs/{vRunFilename}')
 vImagesPath = os.path.join(vScriptDir, '../assets/images')
+vGraphsPath = os.path.join(vScriptDir, '../assets/graphs') # NEW: For interactive HTML graphs
 vMapPath = os.path.join(vScriptDir, '../assets/maps')
 vTablesPath = os.path.join(vScriptDir, '../assets/tables')
 vPostsPath = os.path.join(vScriptDir, '../posts')
 
-for path in [vImagesPath, vMapPath, vTablesPath, vPostsPath]:
+for path in [vImagesPath, vGraphsPath, vMapPath, vTablesPath, vPostsPath]:
     os.makedirs(path, exist_ok=True)
 
 # 2. Universal Parser
 # ---------------------------------------------------------
 def parse_run_file(vFilename):
-    vFilePath = os.path.join(vDataPath, vFilename)
+    vFilePath = os.path.join(vScriptDir, f'../data/runs/{vFilename}')
     if not os.path.exists(vFilePath):
         print(f"ERROR: File not found: {vFilePath}")
         sys.exit(1)
@@ -83,7 +86,6 @@ def parse_run_file(vFilename):
         df['total_dist_m'] = df['dist_m'].cumsum()
         df['time_diff'] = (df['time'] - df['prev_time']).dt.total_seconds()
         
-        # Filter valid movement
         df = df[df['time_diff'] > 0]
         df['speed_mps'] = df['dist_m'] / df['time_diff']
         
@@ -98,12 +100,11 @@ def parse_run_file(vFilename):
             df['stride_len'] = 0
 
         return df
-    
     except Exception as e:
         print(f"CRITICAL ERROR parsing {vFilename}: {e}")
         sys.exit(1)
 
-# 3. Create Map
+# 3. Create Map (Folium)
 # ---------------------------------------------------------
 def create_map(df, vDateStr):
     try:
@@ -131,7 +132,6 @@ def create_map(df, vDateStr):
 def create_segment_table(df, vDateStr):
     has_hr = df['hr'].sum() > 0
     has_cad = df['cadence'].sum() > 0
-    # FIX: Use simple existence check like graph
     has_stride = 'stride_len' in df.columns and df['stride_len'].mean() > 0
 
     df['segment_100m'] = (df['total_dist_m'] // 100).astype(int) + 1
@@ -157,9 +157,7 @@ def create_segment_table(df, vDateStr):
     if has_cad:
         df_agg['avg_cad'] = pd.to_numeric(df_agg['cadence'], errors='coerce').fillna(0).astype(int)
         cols.append('avg_cad'); headers.append('Cadence')
-        
     if has_stride:
-        # FIX: Ensure proper rounding and numeric conversion
         df_agg['avg_stride'] = pd.to_numeric(df_agg['stride_len'], errors='coerce').fillna(0).round(2)
         cols.append('avg_stride'); headers.append('Stride (m)')
 
@@ -169,135 +167,165 @@ def create_segment_table(df, vDateStr):
     vTableDF.to_markdown(os.path.join(vTablesPath, vTableName), index=False)
     print(f"  > Table saved: {vTableName}")
 
-# 5. Advanced Analysis Graph
+# 5. NEW: Interactive Analysis Dashboard (Plotly)
 # ---------------------------------------------------------
-def create_analysis_graph(df, vDateStr):
+def create_interactive_dashboard(df, vDateStr):
+    # Aggregate data
     df['segment_100m'] = (df['total_dist_m'] // 100).astype(int) + 1
     agg_dict = {'time_diff': 'sum'}
     if 'stride_len' in df.columns: agg_dict['stride_len'] = 'mean'
     if 'cadence' in df.columns: agg_dict['cadence'] = 'mean'
+    if 'hr' in df.columns: agg_dict['hr'] = 'mean'
+    
     df_agg = df.groupby('segment_100m').agg(agg_dict).reset_index()
     df_agg = df_agg[df_agg['time_diff'] > 0]
     
-    fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(10, 8), sharex=True)
-    
-    avg_seg_time = df_agg['time_diff'].mean()
-    df_agg['variance'] = df_agg['time_diff'] - avg_seg_time
-    colors = ['#d62728' if v > 0 else '#2ca02c' for v in df_agg['variance']]
-    ax1.bar(df_agg['segment_100m'], df_agg['variance'], color=colors, alpha=0.8)
-    ax1.axhline(0, color='black', linewidth=1)
-    ax1.set_title("Pace Discipline (Seconds deviation from Average)", fontsize=12)
-    ax1.set_ylabel("Seconds (+ Slower / - Faster)")
+    # Calculate Variance
+    avg_time = df_agg['time_diff'].mean()
+    df_agg['variance'] = df_agg['time_diff'] - avg_time
+    # Color logic: Green = Fast (Negative variance), Red = Slow (Positive variance)
+    colors = ['#2ca02c' if v <= 0 else '#d62728' for v in df_agg['variance']]
 
+    # Create Subplots
+    fig = make_subplots(
+        rows=2, cols=1, 
+        shared_xaxes=True, 
+        vertical_spacing=0.1,
+        subplot_titles=("Pacing Discipline (vs Average)", "Mechanics: Stride & Cadence"),
+        specs=[[{"secondary_y": False}], [{"secondary_y": True}]]
+    )
+
+    # 1. Pace Variance Bar Chart
+    fig.add_trace(go.Bar(
+        x=df_agg['segment_100m'],
+        y=df_agg['variance'],
+        marker_color=colors,
+        name='Pace Variance (s)',
+        hovertemplate='Segment: %{x}<br>Variance: %{y:.1f}s<extra></extra>'
+    ), row=1, col=1)
+
+    # 2. Stride Length (Left Axis)
     if 'stride_len' in df_agg.columns and df_agg['stride_len'].mean() > 0:
-        color = 'tab:blue'
-        ax2.set_ylabel('Stride Length (m)', color=color)
-        ax2.plot(df_agg['segment_100m'], df_agg['stride_len'], color=color, linewidth=2)
-        ax2.tick_params(axis='y', labelcolor=color)
-        ax3 = ax2.twinx()
-        color = 'tab:orange'
-        ax3.set_ylabel('Cadence (spm)', color=color)
-        ax3.plot(df_agg['segment_100m'], df_agg['cadence'], color=color, linestyle='--', linewidth=2)
-        ax3.tick_params(axis='y', labelcolor=color)
-    else:
-        ax2.text(0.5, 0.5, "No Cadence/Stride Data", ha='center', va='center')
-    
-    plt.tight_layout()
-    vImgName = f"analysis_{vDateStr}.png"
-    plt.savefig(os.path.join(vImagesPath, vImgName))
-    plt.close()
-    print(f"  > Analysis graph saved: {vImgName}")
+        fig.add_trace(go.Scatter(
+            x=df_agg['segment_100m'],
+            y=df_agg['stride_len'],
+            mode='lines',
+            name='Stride Length (m)',
+            line=dict(color='blue', width=3),
+            hovertemplate='Stride: %{y:.2f}m<extra></extra>'
+        ), row=2, col=1, secondary_y=False)
 
-# 6. HR Zones
+    # 3. Cadence (Right Axis)
+    if 'cadence' in df_agg.columns and df_agg['cadence'].mean() > 0:
+        fig.add_trace(go.Scatter(
+            x=df_agg['segment_100m'],
+            y=df_agg['cadence'],
+            mode='lines',
+            name='Cadence (spm)',
+            line=dict(color='orange', width=2, dash='dot'),
+            hovertemplate='Cadence: %{y:.0f} spm<extra></extra>'
+        ), row=2, col=1, secondary_y=True)
+
+    # Layout Updates
+    fig.update_layout(height=700, title_text=f"Run Analysis Dashboard: {vDateStr}", hovermode="x unified")
+    fig.update_yaxes(title_text="Seconds (+ Slower / - Faster)", row=1, col=1)
+    fig.update_yaxes(title_text="Stride Length (m)", row=2, col=1, secondary_y=False)
+    fig.update_yaxes(title_text="Cadence (spm)", row=2, col=1, secondary_y=True)
+    fig.update_xaxes(title_text="Distance (x100m)", row=2, col=1)
+
+    # Save
+    vHtmlName = f"dashboard_{vDateStr}.html"
+    fig.write_html(os.path.join(vGraphsPath, vHtmlName))
+    print(f"  > Interactive Dashboard saved: {vHtmlName}")
+    
+    # --- STATIC THUMBNAIL (For Blog Cover) ---
+    # We create a simple Matplotlib version just for the cover image
+    plt.figure(figsize=(10, 5))
+    plt.bar(df_agg['segment_100m'], df_agg['time_diff'], color='#1f77b4', alpha=0.8)
+    plt.title(f"Run Summary: {vDateStr}")
+    plt.ylabel("Seconds")
+    plt.xlabel("Segment #")
+    vThumbName = f"thumb_{vDateStr}.png"
+    plt.savefig(os.path.join(vImagesPath, vThumbName))
+    plt.close()
+    
+    return vHtmlName, vThumbName
+
+# 6. HR Zones (Calculated Only)
 # ---------------------------------------------------------
-def create_hr_analysis(df, vDateStr):
-    if df['hr'].sum() == 0:
-        return None
+def create_hr_analysis(df):
+    if df['hr'].sum() == 0: return None
     
-    zones = [
-        (0.5 * vMaxHR, 0.6 * vMaxHR, 'Z1'),
-        (0.6 * vMaxHR, 0.7 * vMaxHR, 'Z2'),
-        (0.7 * vMaxHR, 0.8 * vMaxHR, 'Z3'),
-        (0.8 * vMaxHR, 0.9 * vMaxHR, 'Z4'),
-        (0.9 * vMaxHR, 2.0 * vMaxHR, 'Z5')
-    ]
-    zone_times = []
-    zone_labels = []
     weighted_score = 0
+    zones = [(0.5,0.6,1),(0.6,0.7,2),(0.7,0.8,3),(0.8,0.9,4),(0.9,2.0,5)]
     
-    for i, (low, high, label) in enumerate(zones):
-        mask = (df['hr'] >= low) & (df['hr'] < high)
+    for (low, high, score) in zones:
+        mask = (df['hr'] >= (low*vMaxHR)) & (df['hr'] < (high*vMaxHR))
         minutes = df.loc[mask, 'time_diff'].sum() / 60
-        zone_times.append(minutes)
-        zone_labels.append(label)
-        weighted_score += (i+1) * minutes
+        weighted_score += score * minutes
+        
+    return int(weighted_score)
 
-    plt.figure(figsize=(8, 4))
-    plt.bar(zone_labels, zone_times, color=['grey', 'blue', 'green', 'orange', 'red'])
-    plt.title(f"Heart Rate Zones (Effort Score: {int(weighted_score)})")
-    plt.ylabel("Minutes")
-    
-    vImgName = f"hr_{vDateStr}.png"
-    plt.savefig(os.path.join(vImagesPath, vImgName))
-    plt.close()
-    print(f"  > HR graph saved: {vImgName}")
-    return int(weighted_score), vImgName
-
-# 7. OPTION 1: Ghost Runner Comparison
+# 7. Interactive Ghost Battle
 # ---------------------------------------------------------
 def create_ghost_comparison(dfMain, dfGhost, vDateStr):
-    print("  > Generating Ghost Runner Battle...")
+    print("  > Generating Interactive Ghost Battle...")
     
-    # Create a clean distance grid (e.g. every 50m)
     max_dist = min(dfMain['total_dist_m'].max(), dfGhost['total_dist_m'].max())
     grid = np.arange(0, max_dist, 50)
     
-    # Interpolate time for both runs onto this grid
-    # FIX: Use .astype(np.int64) instead of .view(np.int64) for updated Pandas compatibility
     time_main = np.interp(grid, dfMain['total_dist_m'], dfMain['time'].astype(np.int64) // 10**9)
     time_ghost = np.interp(grid, dfGhost['total_dist_m'], dfGhost['time'].astype(np.int64) // 10**9)
     
-    # Normalize start times to 0
-    time_main = time_main - time_main[0]
-    time_ghost = time_ghost - time_ghost[0]
-    
-    # Calculate Gap (Negative = Ahead of Ghost, Positive = Behind)
+    time_main -= time_main[0]
+    time_ghost -= time_ghost[0]
     gap = time_main - time_ghost
     
-    plt.figure(figsize=(10, 6))
+    # Plotly Graph
+    fig = go.Figure()
     
-    # Fill logic
-    plt.plot(grid, gap, color='black', linewidth=1)
-    plt.fill_between(grid, gap, 0, where=(gap < 0), color='green', alpha=0.3, label='Ahead of Ghost')
-    plt.fill_between(grid, gap, 0, where=(gap > 0), color='red', alpha=0.3, label='Behind Ghost')
+    # Main Gap Line
+    fig.add_trace(go.Scatter(
+        x=grid, y=gap,
+        mode='lines',
+        name='Gap to Ghost',
+        line=dict(color='black', width=1),
+        fill='tozeroy',
+        fillcolor='rgba(0, 255, 0, 0.2)' # Default green
+    ))
     
-    plt.axhline(0, color='black', linestyle='--')
-    plt.title("Ghost Battle: Time Gap vs. Comparison Run")
-    plt.ylabel("Time Gap (Seconds)")
-    plt.xlabel("Distance (m)")
-    plt.legend()
+    # Add colored regions logic requires complex Plotly shapes, 
+    # simpler is just one fill with conditional color which Plotly doesn't support easily on one trace.
+    # Instead we rely on the line + hover to tell the story.
     
-    vImgName = f"battle_{vDateStr}.png"
-    plt.savefig(os.path.join(vImagesPath, vImgName))
-    plt.close()
-    print(f"  > Battle graph saved: {vImgName}")
-    return vImgName
+    fig.update_layout(
+        title="Ghost Battle: Time Gap (Seconds)",
+        xaxis_title="Distance (m)",
+        yaxis_title="Gap (Seconds) [Neg=Ahead, Pos=Behind]",
+        hovermode="x unified"
+    )
+    
+    vHtmlName = f"battle_{vDateStr}.html"
+    fig.write_html(os.path.join(vGraphsPath, vHtmlName))
+    print(f"  > Battle Dashboard saved: {vHtmlName}")
+    return vHtmlName
 
 # 8. Create Blog Post
 # ---------------------------------------------------------
-def create_blog_post(vDateStr, hr_data, battle_img=None):
+def create_blog_post(vDateStr, hr_score, dashboard_file, thumb_file, battle_file=None):
     vRelMap = f"../assets/maps/map_{vDateStr}.html"
-    vRelGraph = f"../assets/images/analysis_{vDateStr}.png"
+    vRelDash = f"../assets/graphs/{dashboard_file}"
+    vRelThumb = f"../assets/images/{thumb_file}"
     vRelTable = f"../assets/tables/table_{vDateStr}.md"
     
-    hr_section = ""
-    if hr_data:
-        score, img_name = hr_data
-        hr_section = f"## Physiology\n**Effort Score:** {score}\n\n![](/assets/images/{img_name})"
-
+    hr_text = f"\n**Effort Score:** {hr_score}\n" if hr_score else ""
+    
     battle_section = ""
-    if battle_img:
-        battle_section = f"## The Ghost Battle\nComparing today's run against the ghost file.\n\n![](/assets/images/{battle_img})"
+    if battle_file:
+        battle_section = f"""
+## The Ghost Battle
+<iframe src="../assets/graphs/{battle_file}" width="100%" height="500px" style="border:none;"></iframe>
+"""
 
     vPostFilename = f"{vDateStr}-run.qmd"
     vFullPath = os.path.join(vPostsPath, vPostFilename)
@@ -306,7 +334,7 @@ def create_blog_post(vDateStr, hr_data, battle_img=None):
 title: "Run Analysis: {vDateStr}"
 date: "{vDateStr}"
 categories: [running, analysis]
-image: {vRelGraph}
+image: {vRelThumb}
 format:
   html:
     toc: true
@@ -315,14 +343,15 @@ format:
 ## Route Map
 <iframe src="{vRelMap}" width="100%" height="500px" style="border:none;"></iframe>
 
+{hr_text}
+
 {battle_section}
 
-{hr_section}
+## Performance Dashboard
+Interactive: Hover to see details.
+<iframe src="{vRelDash}" width="100%" height="700px" style="border:none;"></iframe>
 
-## Mechanics & Discipline
-![]({vRelGraph})
-
-## The Data Table
+## Detailed Splits
 {{{{< include {vRelTable} >}}}}
 """
     with open(vFullPath, 'w') as f:
@@ -342,18 +371,18 @@ if __name__ == "__main__":
     print("[3/6] Generating Table...")
     create_segment_table(dfRun, vRunDate)
     
-    print("[4/6] Generating Mechanics Analysis...")
-    create_analysis_graph(dfRun, vRunDate)
+    print("[4/6] Generating Interactive Dashboards...")
+    dash_html, thumb_png = create_interactive_dashboard(dfRun, vRunDate)
     
-    print("[5/6] Generating HR Analysis...")
-    hr_result = create_hr_analysis(dfRun, vRunDate)
+    print("[5/6] Calculating Effort...")
+    hr_score = create_hr_analysis(dfRun)
     
-    battle_result = None
+    battle_html = None
     if vGhostFilename:
         print("[OPTIONAL] Ghost Runner Detected...")
         dfGhost = parse_run_file(vGhostFilename)
-        battle_result = create_ghost_comparison(dfRun, dfGhost, vRunDate)
+        battle_html = create_ghost_comparison(dfRun, dfGhost, vRunDate)
 
     print("[6/6] Writing Blog Post...")
-    create_blog_post(vRunDate, hr_result, battle_result)
+    create_blog_post(vRunDate, hr_score, dash_html, thumb_png, battle_html)
     print("--- Done ---")

@@ -1,5 +1,12 @@
 ---
 title: "My Library"
+listing:
+  id: book-reviews       # <--- THIS IS THE KEY
+  contents: reviews
+  sort: "rating desc"
+  type: grid
+  categories: true
+  fields: [image, title, rating]
 ---
 
 Below is a list of books I own or have read as part of my aim to become the best coach I can be. I intend to write reviews and key points on all these books.
@@ -81,3 +88,10 @@ The books highlighted with a ⭐ are my **top recommendations** in each section.
 * **Programmed to Run** by Thomas Miller
 * **Running Form** by Owen Anderson
 * **Barefoot Running Step by Step** by Ken Bob Saxton
+
+---
+
+## In-Depth Reviews
+
+:::{#book-reviews}
+:::
