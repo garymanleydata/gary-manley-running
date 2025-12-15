@@ -39,7 +39,9 @@ website:
             text: "Other Stuff"
       - href: library.qmd     
         text: Library
-      - href: blog.qmd        # <--- ADD THIS LINE
+      - href: tools.qmd       
+        text: Tools           
+      - href: blog.qmd        
         text: Blog
 
   # FIX: Indented 2 spaces so it belongs to 'website'

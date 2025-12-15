@@ -1,0 +1,36 @@
+---
+title: "Tools"
+page-layout: full
+title-block-banner: true
+---
+
+## Run Analytics Engine
+
+I built this tool to provide professional-grade analysis for runners. It focuses on structure, discipline, and recovery—metrics that standard platforms often overlook.
+
+**Features:**
+* **Norwegian Intervals:** Analyze pace and heart rate discipline for structured work.
+* **Ghost Battle:** Compare two run files to visualize where you gained or lost time.
+* **Recovery Check:** strict verification of heart rate caps.
+
+::: {.callout-note}
+**Privacy Note:** Your data is processed entirely in memory and is not stored permanently.
+:::
+
+<div style="border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
+  <iframe 
+    src="https://gary-manley-running.streamlit.app/?embed=true" 
+    height="900" 
+    width="100%" 
+    style="border:none;"
+    title="Run Analytics App">
+  </iframe>
+</div>
+
+<br>
+
+<div style="text-align: center;">
+  <a href="https://gary-manley-running.streamlit.app/" target="_blank" class="btn btn-primary btn-lg">
+    Open Full Screen ↗
+  </a>
+</div>

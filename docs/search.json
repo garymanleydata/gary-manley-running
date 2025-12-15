@@ -1,185 +1,367 @@
 [
   {
-    "objectID": "strength.html",
-    "href": "strength.html",
-    "title": "Strength Training",
+    "objectID": "tools.html",
+    "href": "tools.html",
+    "title": "Tools",
     "section": "",
-    "text": "Strength training is non-negotiable for runners. It boosts economy, increases fatigue resistance, and keeps you injury-free."
+    "text": "I built this tool to provide professional-grade analysis for runners. It focuses on structure, discipline, and recovery—metrics that standard platforms often overlook.\nFeatures: * Norwegian Intervals: Analyze pace and heart rate discipline for structured work. * Ghost Battle: Compare two run files to visualize where you gained or lost time. * Recovery Check: strict verification of heart rate caps.\n\n\n\n\n\n\nNote\n\n\n\nPrivacy Note: Your data is processed entirely in memory and is not stored permanently.\n\n\n\n \n\n\n\n Open Full Screen ↗"
   },
   {
-    "objectID": "strength.html#the-routine",
-    "href": "strength.html#the-routine",
-    "title": "Strength Training",
-    "section": "The Routine",
-    "text": "The Routine\nYou don’t need a gym membership. A simple bodyweight routine performed consistently is better than a complex heavy-lifting routine performed sporadically.\n\n\n\n\n\n\nNoteCore Exercises\n\n\n\n\nSquat Jumps\n\nWhy: Boosts explosive power.\nTip: Keep chest up; extend hips completely.\n\nBulgarian Split Squat\n\nWhy: Fixes imbalances; generates single-leg stability.\nTip: Don’t let your front knee collapse inward.\n\nSingle Leg Squat (Pistol Prep)\n\nWhy: Ultimate stability and core control.\nTip: Use a chair for balance initially.\n\nGlute Bridge\n\nWhy: Wakes up the posterior chain (often asleep in runners).\nTip: Drive through your heels."
-  },
-  {
-    "objectID": "strength.html#upper-body-core",
-    "href": "strength.html#upper-body-core",
-    "title": "Strength Training",
-    "section": "Upper Body & Core",
-    "text": "Upper Body & Core\nRunning is a full-body movement. Your arms drive your legs.\n\nPush Ups: Strengthens core and chest for driving power.\nPlank / Side Plank: Promotes core stability to hold form when tired.\nBent Over Row: Strengthens back for postural endurance on long runs.\n\n\nGuideline: Aim for 2 sessions per week. Keep it simple, keep it consistent."
-  },
-  {
-    "objectID": "reviews/primal-endurance.html",
-    "href": "reviews/primal-endurance.html",
-    "title": "Primal Endurance",
+    "objectID": "tools.html#run-analytics-engine",
+    "href": "tools.html#run-analytics-engine",
+    "title": "Tools",
     "section": "",
-    "text": "“Health leads to performance.”\n\nPrimal Endurance aims to be a ground-breaking guide that revolutionizes the way we approach endurance training. This book was the original inspiration for changing my training methodology after a few years of constant injuries.\n\n\n\n\n\n\nTipKey Takeaways\n\n\n\n🏃‍♂️ Stay Slow: Focus on aerobic development via MAF training.\n💪 Do Strength Work: Essential for durability.\n🦶 Go Barefoot: Drills to recover foot strength."
+    "text": "I built this tool to provide professional-grade analysis for runners. It focuses on structure, discipline, and recovery—metrics that standard platforms often overlook.\nFeatures: * Norwegian Intervals: Analyze pace and heart rate discipline for structured work. * Ghost Battle: Compare two run files to visualize where you gained or lost time. * Recovery Check: strict verification of heart rate caps.\n\n\n\n\n\n\nNote\n\n\n\nPrivacy Note: Your data is processed entirely in memory and is not stored permanently.\n\n\n\n \n\n\n\n Open Full Screen ↗"
   },
   {
-    "objectID": "reviews/primal-endurance.html#the-verdict",
-    "href": "reviews/primal-endurance.html#the-verdict",
-    "title": "Primal Endurance",
+    "objectID": "speed.html",
+    "href": "speed.html",
+    "title": "Speed Work",
     "section": "",
-    "text": "“Health leads to performance.”\n\nPrimal Endurance aims to be a ground-breaking guide that revolutionizes the way we approach endurance training. This book was the original inspiration for changing my training methodology after a few years of constant injuries.\n\n\n\n\n\n\nTipKey Takeaways\n\n\n\n🏃‍♂️ Stay Slow: Focus on aerobic development via MAF training.\n💪 Do Strength Work: Essential for durability.\n🦶 Go Barefoot: Drills to recover foot strength."
+    "text": "Speed work is not just for elite athletes. It improves efficiency and makes your “easy” pace feel even easier.\nHowever, we do not train until we vomit. We train to stimulate, not annihilate."
   },
   {
-    "objectID": "reviews/primal-endurance.html#my-review",
-    "href": "reviews/primal-endurance.html#my-review",
-    "title": "Primal Endurance",
-    "section": "My Review",
-    "text": "My Review\nAuthored by Mark Sisson and Brad Kearns, the book presents a comprehensive blueprint for achieving peak performance while embracing the primal principles of ancestral health.\nSisson and Kearns skilfully marry their expertise in endurance training with the ancestral wisdom of our hunter-gatherer ancestors. The result is a holistic approach that prioritizes intuitive training, emphasizing the importance of aerobic development through MAF training and metabolic efficiency over traditionally high-stress, “chronic cardio” routines.\n\nAccessibility & Science\nThe authors provide a wealth of practical advice, backed by scientific research, to guide readers on the journey to becoming fat-adapted athletes.\nOne of the book’s standout features is its accessibility. They break down complex concepts into easily digestible information, making it suitable for both seasoned athletes and those new to the world of endurance sports. The inclusion of real-life success stories adds a motivational layer to the narrative.\n\n\nThe Barefoot Component\nIt is also great to see barefoot shoes and drills being encouraged. We evolved to be barefoot and whilst our feet are too weak from years of cushioning and at risk from modern paths, there is no reason some barefoot walking can’t be used to improve technique and stave off injury.\n\n\nConclusion\n“Primal Endurance” doesn’t just stop at training methodologies; it also explores the importance of nutrition, sleep, and stress management in achieving optimal performance. The emphasis on a holistic lifestyle approach ensures that readers walk away with a comprehensive understanding of how to thrive in all aspects of life."
+    "objectID": "speed.html#the-classics",
+    "href": "speed.html#the-classics",
+    "title": "Speed Work",
+    "section": "The Classics",
+    "text": "The Classics\n\nStrides: 4-6 x 20 second accelerations at the end of an easy run.\nHill Sprints: Short, max effort bursts up a steep hill (great for power, low impact risk)."
   },
   {
-    "objectID": "posts/welcome/index.html",
-    "href": "posts/welcome/index.html",
-    "title": "Welcome to My Blog",
+    "objectID": "speed.html#norwegian-singles-double-threshold",
+    "href": "speed.html#norwegian-singles-double-threshold",
+    "title": "Speed Work",
+    "section": "Norwegian Singles (Double Threshold)",
+    "text": "Norwegian Singles (Double Threshold)\nThis method, popularized by the Ingebrigtsen brothers, has revolutionized endurance training. While elites do this twice a day, we can adapt the principles for normal life.\n\nThe Concept\nInstead of running continuous hard tempos (e.g., 20 mins hard), you break the work into short intervals with very short rest. * The Goal: Keep your lactate levels controlled. You should not be gasping for air. You should feel like you could go faster, but you don’t. * The Magic: You get more volume at “threshold” pace without the fatigue of a continuous run.\n\n\nThe Workout\nTry this “Norwegian” style session: 1. Warm up: 10-15 mins easy. 2. The Work: 10 x 3 minutes at Threshold Pace. * Recovery: Only 60 seconds (standing or walking). * Intensity: 7/10. Comfortably hard. NOT sprint pace. 3. Cool down: 10 mins easy.\n\n\n\n\n\n\nTipWhy it works\n\n\n\nBy taking a 60-second break every 3 minutes, you clear the lactate before it builds up. This allows you to do 30 minutes of quality work, whereas a continuous run might force you to stop after 15 minutes."
+  },
+  {
+    "objectID": "reviews/born-to-run.html",
+    "href": "reviews/born-to-run.html",
+    "title": "Born to Run",
     "section": "",
-    "text": "This is my first blog post.\nI will use this space to share race reports, training updates, and random thoughts on the running world."
+    "text": "Book: Born to Run by Christopher McDougall\nDifficulty: Easy Jog (Extremely Readable)\nThe Gist: High-octane adventure meets evolutionary biology.\n\n\n\n\n\n\nTipTL;DR Verdict\n\n\n\nEssential reading. It reframes running from a chore into a biological necessity and a joy. Warning: Do not read this and immediately throw away your shoes; transition slowly.\n\n\n\n\n\nChristopher McDougall was a broken runner. At 6’4” and 230 pounds, every doctor told him the same thing: “The human body isn’t designed for running; stop before you destroy your knees.”\nRefusing to accept that humans are destined to break, he trekked into the deadly Copper Canyons of Mexico to find the Tarahumara (the Rarámuri), a reclusive tribe who run hundreds of miles at a time without injury, without rest, and—most maddeningly of all—with a smile on their faces.\nThis isn’t just a story about a race; it is a forensic investigation into why modern runners get hurt while ancient runners are still logging ultra-marathons in their 80s.\n\n\n\n\nI’ve broken the book down into three non-negotiable pillars.\n\n\nMcDougall argues that the modern Western runner is fueled by stress, calorie-counting, and “no pain, no gain” suffering. The Tarahumara are fueled by korima (a culture of sharing) and pure joy.\n\nThe Lesson: Tension causes inefficiency. If you treat running like a chore or a battle, your muscles tighten, your form breaks, and you get injured. The Tarahumara run loose and laugh because relaxation = endurance.\n\n\n\n\nThis is the scientific backbone of the book. Referencing Harvard biologist Daniel Lieberman, McDougall argues that humans are the ultimate endurance machine. We aren’t fast, but we are the only animal that can shed heat while moving (sweating) and breathe independently of our stride.\nThe Data: We didn’t evolve to run to get away from predators; we evolved to run after prey until they collapsed from heat exhaustion. You were quite literally “born to run.”\n\n\n\nThe most controversial “split” in the book. McDougall wages war on the modern running shoe industry, arguing that cushioned heels encourage a high-impact “heel strike” that sends shockwaves through the joints.\n\nHe suggests that adding cushioning to a shoe is like putting a cast on a healthy limb—it causes the foot muscles to atrophy.\n\n\n\n\n\n\nYou don’t need to move to the Copper Canyons to run like a Tarahumara. Here is how to apply the book to your training tomorrow:\n\n\n\n\n\n\nNote🏃 Practical Application\n\n\n\n\nThe “Easy, Light, Smooth” Mantra Caballo Blanco (the book’s mysterious coach figure) offers the ultimate form cue. Do not try to be fast.\n\nFirst, focus on being Easy (relaxed).\nNext, focus on being Light (quiet feet).\nThen, focus on being Smooth.\nFast happens on its own as a result of the first three.\n\nCadence is King McDougall emphasizes a quick turnover (~180 steps per minute). This prevents over-striding (landing with your foot too far in front of you), which is the primary cause of knee, hip, and shin injuries.\nFuel Like a Minimalist The characters survive on Pinole (toasted corn flour) and Chia seeds (the “runner’s caviar”). The lesson is to focus on whole, simple foods rather than processed gels that spike and crash your blood sugar.\n\n\n\n\n\n\n\nIs it a PR or a DNF?\nVerdict: PR (Personal Record)\nThis book launched the “barefoot running” craze of 2010. While that led to some injuries for the unprepared, the core message remains untouched. Read it for the spirit. It successfully reframes running from a “punishment for eating pizza” into a celebration of human history. If you take nothing else away from this book take away that humans have evolved to move and the closer to we stick the our origins the better things are likely to work out in the long run.\nFinal Score: ⭐⭐⭐⭐"
   },
   {
-    "objectID": "posts/welcome/index.html#why-i-am-blogging",
-    "href": "posts/welcome/index.html#why-i-am-blogging",
-    "title": "Welcome to My Blog",
-    "section": "Why I am blogging",
-    "text": "Why I am blogging\nBecause running is more than just miles; it’s about the journey. I wanted a method to try and get me to start journalling and keeping a track of things and lets see if this works."
-  },
-  {
-    "objectID": "posts/2025-12-15-journal.html",
-    "href": "posts/2025-12-15-journal.html",
-    "title": "Journal: 2025-12-15",
+    "objectID": "reviews/born-to-run.html#the-warm-up-the-premise",
+    "href": "reviews/born-to-run.html#the-warm-up-the-premise",
+    "title": "Born to Run",
     "section": "",
-    "text": "Coach’s Notes: Fantastic work yesterday, you absolutely crushed it across the board! Your dedication to recovery and training is evident in those near-perfect scores, setting a powerful foundation for continued progress. Keep this incredible momentum going!"
+    "text": "Christopher McDougall was a broken runner. At 6’4” and 230 pounds, every doctor told him the same thing: “The human body isn’t designed for running; stop before you destroy your knees.”\nRefusing to accept that humans are destined to break, he trekked into the deadly Copper Canyons of Mexico to find the Tarahumara (the Rarámuri), a reclusive tribe who run hundreds of miles at a time without injury, without rest, and—most maddeningly of all—with a smile on their faces.\nThis isn’t just a story about a race; it is a forensic investigation into why modern runners get hurt while ancient runners are still logging ultra-marathons in their 80s."
   },
   {
-    "objectID": "posts/2025-12-15-journal.html#daily-snapshot",
-    "href": "posts/2025-12-15-journal.html#daily-snapshot",
-    "title": "Journal: 2025-12-15",
+    "objectID": "reviews/born-to-run.html#the-key-splits-core-concepts",
+    "href": "reviews/born-to-run.html#the-key-splits-core-concepts",
+    "title": "Born to Run",
     "section": "",
-    "text": "Coach’s Notes: Fantastic work yesterday, you absolutely crushed it across the board! Your dedication to recovery and training is evident in those near-perfect scores, setting a powerful foundation for continued progress. Keep this incredible momentum going!"
+    "text": "I’ve broken the book down into three non-negotiable pillars.\n\n\nMcDougall argues that the modern Western runner is fueled by stress, calorie-counting, and “no pain, no gain” suffering. The Tarahumara are fueled by korima (a culture of sharing) and pure joy.\n\nThe Lesson: Tension causes inefficiency. If you treat running like a chore or a battle, your muscles tighten, your form breaks, and you get injured. The Tarahumara run loose and laugh because relaxation = endurance.\n\n\n\n\nThis is the scientific backbone of the book. Referencing Harvard biologist Daniel Lieberman, McDougall argues that humans are the ultimate endurance machine. We aren’t fast, but we are the only animal that can shed heat while moving (sweating) and breathe independently of our stride.\nThe Data: We didn’t evolve to run to get away from predators; we evolved to run after prey until they collapsed from heat exhaustion. You were quite literally “born to run.”\n\n\n\nThe most controversial “split” in the book. McDougall wages war on the modern running shoe industry, arguing that cushioned heels encourage a high-impact “heel strike” that sends shockwaves through the joints.\n\nHe suggests that adding cushioning to a shoe is like putting a cast on a healthy limb—it causes the foot muscles to atrophy."
   },
   {
-    "objectID": "posts/2025-12-15-journal.html#notes",
-    "href": "posts/2025-12-15-journal.html#notes",
-    "title": "Journal: 2025-12-15",
+    "objectID": "reviews/born-to-run.html#the-stride-analysis-actionable-takeaways",
+    "href": "reviews/born-to-run.html#the-stride-analysis-actionable-takeaways",
+    "title": "Born to Run",
+    "section": "",
+    "text": "You don’t need to move to the Copper Canyons to run like a Tarahumara. Here is how to apply the book to your training tomorrow:\n\n\n\n\n\n\nNote🏃 Practical Application\n\n\n\n\nThe “Easy, Light, Smooth” Mantra Caballo Blanco (the book’s mysterious coach figure) offers the ultimate form cue. Do not try to be fast.\n\nFirst, focus on being Easy (relaxed).\nNext, focus on being Light (quiet feet).\nThen, focus on being Smooth.\nFast happens on its own as a result of the first three.\n\nCadence is King McDougall emphasizes a quick turnover (~180 steps per minute). This prevents over-striding (landing with your foot too far in front of you), which is the primary cause of knee, hip, and shin injuries.\nFuel Like a Minimalist The characters survive on Pinole (toasted corn flour) and Chia seeds (the “runner’s caviar”). The lesson is to focus on whole, simple foods rather than processed gels that spike and crash your blood sugar."
+  },
+  {
+    "objectID": "reviews/born-to-run.html#the-finish-line-the-verdict",
+    "href": "reviews/born-to-run.html#the-finish-line-the-verdict",
+    "title": "Born to Run",
+    "section": "",
+    "text": "Is it a PR or a DNF?\nVerdict: PR (Personal Record)\nThis book launched the “barefoot running” craze of 2010. While that led to some injuries for the unprepared, the core message remains untouched. Read it for the spirit. It successfully reframes running from a “punishment for eating pizza” into a celebration of human history. If you take nothing else away from this book take away that humans have evolved to move and the closer to we stick the our origins the better things are likely to work out in the long run.\nFinal Score: ⭐⭐⭐⭐"
+  },
+  {
+    "objectID": "posts/2025-12-15-run.html",
+    "href": "posts/2025-12-15-run.html",
+    "title": "Norwegian Singles: 2025-12-15",
+    "section": "",
+    "text": "Pace Score: 41/50 (Avg pace vs Target +/- 5s, 10s, 15s)\nHR Score: 50/50 (Avg 100% compliance)\n\nTarget: 4:05/km | HR Cap: 170 bpm\n\n\n\n\n\n\n\n\n\n\n\nRep\nAvg HR\nMax HR\nPace\nHR Compliance %\nPace Rating\n\n\n\n\n1\n154\n157\n4:08\n100%\nTarget (+/- 5s)\n\n\n2\n157\n160\n4:16\n100%\nOkay (+/- 15s)\n\n\n3\n157\n161\n4:12\n100%\nClose (+/- 10s)\n\n\n4\n159\n161\n4:04\n100%\nTarget (+/- 5s)\n\n\n5\n163\n167\n4:13\n100%\nClose (+/- 10s)\n\n\n6\n163\n166\n4:12\n100%\nClose (+/- 10s)\n\n\n7\n164\n166\n4:04\n100%\nTarget (+/- 5s)\n\n\n8\n164\n166\n4:00\n100%\nTarget (+/- 5s)\n\n\n9\n164\n167\n4:06\n100%\nTarget (+/- 5s)\n\n\n10\n163\n167\n4:03\n100%\nTarget (+/- 5s)\n\n\n\n\n\nGreen Band = +/- 10s. Blue Line = Rep Average."
+  },
+  {
+    "objectID": "posts/2025-12-15-run.html#session-score-91100",
+    "href": "posts/2025-12-15-run.html#session-score-91100",
+    "title": "Norwegian Singles: 2025-12-15",
+    "section": "",
+    "text": "Pace Score: 41/50 (Avg pace vs Target +/- 5s, 10s, 15s)\nHR Score: 50/50 (Avg 100% compliance)\n\nTarget: 4:05/km | HR Cap: 170 bpm\n\n\n\n\n\n\n\n\n\n\n\nRep\nAvg HR\nMax HR\nPace\nHR Compliance %\nPace Rating\n\n\n\n\n1\n154\n157\n4:08\n100%\nTarget (+/- 5s)\n\n\n2\n157\n160\n4:16\n100%\nOkay (+/- 15s)\n\n\n3\n157\n161\n4:12\n100%\nClose (+/- 10s)\n\n\n4\n159\n161\n4:04\n100%\nTarget (+/- 5s)\n\n\n5\n163\n167\n4:13\n100%\nClose (+/- 10s)\n\n\n6\n163\n166\n4:12\n100%\nClose (+/- 10s)\n\n\n7\n164\n166\n4:04\n100%\nTarget (+/- 5s)\n\n\n8\n164\n166\n4:00\n100%\nTarget (+/- 5s)\n\n\n9\n164\n167\n4:06\n100%\nTarget (+/- 5s)\n\n\n10\n163\n167\n4:03\n100%\nTarget (+/- 5s)\n\n\n\n\n\nGreen Band = +/- 10s. Blue Line = Rep Average."
+  },
+  {
+    "objectID": "posts/2025-12-15-run.html#deep-dive-dashboard",
+    "href": "posts/2025-12-15-run.html#deep-dive-dashboard",
+    "title": "Norwegian Singles: 2025-12-15",
+    "section": "Deep Dive Dashboard",
+    "text": "Deep Dive Dashboard"
+  },
+  {
+    "objectID": "posts/2025-12-14-journal.html",
+    "href": "posts/2025-12-14-journal.html",
+    "title": "Journal: 2025-12-14",
+    "section": "",
+    "text": "Coach’s Notes: Exceptional performance today across the board! Your perfect scores in sleep, cardio, prehab, eating window, and mental training are exactly what we’re aiming for, and the slight dips in cardio 2, cardio 3, strength training, and visualisation show you’re pushing boundaries while still maintaining incredible consistency. Keep this intensity and focus, and we’ll continue to crush our goals."
+  },
+  {
+    "objectID": "posts/2025-12-14-journal.html#daily-snapshot",
+    "href": "posts/2025-12-14-journal.html#daily-snapshot",
+    "title": "Journal: 2025-12-14",
+    "section": "",
+    "text": "Coach’s Notes: Exceptional performance today across the board! Your perfect scores in sleep, cardio, prehab, eating window, and mental training are exactly what we’re aiming for, and the slight dips in cardio 2, cardio 3, strength training, and visualisation show you’re pushing boundaries while still maintaining incredible consistency. Keep this intensity and focus, and we’ll continue to crush our goals."
+  },
+  {
+    "objectID": "posts/2025-12-14-journal.html#notes",
+    "href": "posts/2025-12-14-journal.html#notes",
+    "title": "Journal: 2025-12-14",
     "section": "Notes",
-    "text": "Notes\nToday I ran my first Norwegian single session, it went well but will be interesting to see how tired I feel tomorrow. The rest of the day was ok with lots of recovery walking and prehab. Worked a lot on visualisation and hoping that helps me in lots of different ways."
+    "text": "Notes\nToday was rest day with lots of walking and that was actually the best sleep I have had in month, sleeping before 10pm and didn’t wake until 5:30! Which is super late for me"
   },
   {
-    "objectID": "posts/2025-12-13-run.html",
-    "href": "posts/2025-12-13-run.html",
-    "title": "Run Analysis: 2025-12-13",
+    "objectID": "posts/2025-12-13-journal.html",
+    "href": "posts/2025-12-13-journal.html",
+    "title": "Journal: 2025-12-13",
     "section": "",
-    "text": "Effort Score: 87"
+    "text": "Wins: Strong performance today in Sleep, Cardio 1, Cardio 2, Cardio 3, Prehab, Eating Window, Mental Training."
   },
   {
-    "objectID": "posts/2025-12-13-run.html#route-map",
-    "href": "posts/2025-12-13-run.html#route-map",
-    "title": "Run Analysis: 2025-12-13",
+    "objectID": "posts/2025-12-13-journal.html#daily-snapshot",
+    "href": "posts/2025-12-13-journal.html#daily-snapshot",
+    "title": "Journal: 2025-12-13",
     "section": "",
-    "text": "Effort Score: 87"
+    "text": "Wins: Strong performance today in Sleep, Cardio 1, Cardio 2, Cardio 3, Prehab, Eating Window, Mental Training."
   },
   {
-    "objectID": "posts/2025-12-13-run.html#the-ghost-battle",
-    "href": "posts/2025-12-13-run.html#the-ghost-battle",
-    "title": "Run Analysis: 2025-12-13",
-    "section": "The Ghost Battle",
-    "text": "The Ghost Battle"
+    "objectID": "posts/2025-12-13-journal.html#notes",
+    "href": "posts/2025-12-13-journal.html#notes",
+    "title": "Journal: 2025-12-13",
+    "section": "Notes",
+    "text": "Notes\nEnter your written journal notes here…"
   },
   {
-    "objectID": "posts/2025-12-13-run.html#performance-dashboard",
-    "href": "posts/2025-12-13-run.html#performance-dashboard",
-    "title": "Run Analysis: 2025-12-13",
-    "section": "Performance Dashboard",
-    "text": "Performance Dashboard\nInteractive: Hover to see details."
-  },
-  {
-    "objectID": "posts/2025-12-13-run.html#detailed-splits",
-    "href": "posts/2025-12-13-run.html#detailed-splits",
-    "title": "Run Analysis: 2025-12-13",
-    "section": "Detailed Splits",
-    "text": "Detailed Splits\n\n\n\nDist (100m)\nTime\nPace\nHR\nCadence\nStride (m)\n\n\n\n\n1\n0:24\n4:02\n128\n162\n1.51\n\n\n2\n0:20\n3:19\n158\n183\n1.64\n\n\n3\n0:21\n3:30\n163\n186\n1.53\n\n\n4\n0:22\n3:40\n165\n186\n1.46\n\n\n5\n0:22\n3:42\n166\n182\n1.48\n\n\n6\n0:22\n3:39\n168\n180\n1.51\n\n\n7\n0:22\n3:40\n169\n177\n1.54\n\n\n8\n0:21\n3:33\n168\n176\n1.6\n\n\n9\n0:22\n3:37\n169\n180\n1.54\n\n\n10\n0:22\n3:35\n170\n178\n1.56\n\n\n11\n0:21\n3:32\n171\n179\n1.57\n\n\n12\n0:20\n3:24\n172\n180\n1.63\n\n\n13\n0:21\n3:28\n173\n179\n1.6\n\n\n14\n0:21\n3:32\n173\n178\n1.58\n\n\n15\n0:21\n3:29\n174\n177\n1.61\n\n\n16\n0:22\n3:37\n175\n176\n1.57\n\n\n17\n0:22\n3:44\n174\n176\n1.52\n\n\n18\n0:22\n3:32\n175\n176\n1.6\n\n\n19\n0:22\n3:38\n176\n177\n1.54\n\n\n20\n0:21\n3:27\n176\n178\n1.62\n\n\n21\n0:21\n3:33\n176\n178\n1.61\n\n\n22\n0:22\n3:41\n175\n177\n1.53\n\n\n23\n0:21\n3:30\n174\n176\n1.62\n\n\n24\n0:22\n3:38\n176\n179\n1.53\n\n\n25\n0:22\n3:40\n176\n182\n1.5\n\n\n26\n0:22\n3:46\n175\n189\n1.4\n\n\n27\n0:24\n3:49\n178\n185\n1.41\n\n\n28\n0:21\n3:37\n179\n180\n1.52\n\n\n29\n0:22\n3:33\n177\n180\n1.56\n\n\n30\n0:22\n3:40\n178\n178\n1.79\n\n\n31\n0:22\n3:43\n176\n179\n1.5\n\n\n32\n0:23\n3:53\n178\n180\n1.42\n\n\n33\n0:21\n3:31\n179\n181\n1.57\n\n\n34\n0:22\n3:32\n179\n179\n1.58\n\n\n35\n0:21\n3:31\n180\n177\n1.6\n\n\n36\n0:21\n3:34\n180\n176\n1.58\n\n\n37\n0:21\n3:31\n180\n176\n1.61\n\n\n38\n0:22\n3:32\n181\n176\n1.6\n\n\n39\n0:22\n3:45\n180\n177\n1.5\n\n\n40\n0:21\n3:26\n180\n177\n1.63\n\n\n41\n0:20\n3:22\n180\n179\n1.65\n\n\n42\n0:22\n3:39\n179\n180\n1.51\n\n\n43\n0:21\n5:23\n180\n182\n1.35\n\n\n44\n0:21\n2:34\n179\n182\n2.12\n\n\n45\n0:23\n3:52\n179\n183\n1.4\n\n\n46\n0:22\n3:34\n179\n186\n1.5\n\n\n47\n0:22\n3:46\n180\n186\n1.42\n\n\n48\n0:22\n3:36\n180\n186\n1.48\n\n\n49\n0:23\n3:49\n182\n183\n1.42\n\n\n50\n0:18\n3:12\n182\n189\n1.65"
-  },
-  {
-    "objectID": "other.html",
-    "href": "other.html",
-    "title": "Other Methods & Resources",
+    "objectID": "nutrition.html",
+    "href": "nutrition.html",
+    "title": "Nutrition & Fasting",
     "section": "",
-    "text": "A collection of training methods, recovery protocols, and resources that are essential to the holistic runner."
+    "text": "WarningDisclaimer\n\n\n\nI am not a qualified nutritionist. The following is based on 10 years of personal research and investigation since being obese myself. Depending on your dedication, gut health, and metabolic flexibility, there are many approaches you can take. Take from this what you want."
   },
   {
-    "objectID": "other.html#cross-training",
-    "href": "other.html#cross-training",
-    "title": "Other Methods & Resources",
-    "section": "Cross Training",
-    "text": "Cross Training\nWhen I say cross training, I am referring to everything from walking and rucking to the elliptical, swimming, and cycling.\nSee Mental Training to fully appreciate how much this kind of training can help you.\nKey Benefits: * Cardio & Recovery: If you are finding the running volume too high but want to improve, cross training increases aerobic load while reducing impact. * Active Recovery: There is a growing body of evidence showing that a gentle walk is more beneficial for recovery than sitting on the sofa. * The “Ruck” Hack: Going for a recovery walk? Add a backpack with a little weight. It increases strength and cardio load. So long as you stay under your desired heart rate, it is awesome training (even better on hills)."
+    "objectID": "nutrition.html#the-hierarchy-of-diet",
+    "href": "nutrition.html#the-hierarchy-of-diet",
+    "title": "Nutrition & Fasting",
+    "section": "The Hierarchy of Diet",
+    "text": "The Hierarchy of Diet\nTo start with, the priority is running slow. If you then want to ease into healthier eating, that is the next step. You don’t need to do everything at once.\nHere is the progression I recommend, depending on how “strict” you want to be:\n\nLevel 1: The Basics\n\nRemove or minimize alcohol.\nRemove processed garbage (cakes, biscuits, sweets, etc.).\n\nLevel 2: The “Paleo” Approach\n\nReduce foods that were not available 10,000 years ago.\nCut out: Pasta, rice, flour, bread.\nEat: Meat, dairy, fruit, and vegetables.\n\nLevel 3: The Keto Diet\n\nRemove vegetables grown below ground (potatoes, carrots, etc.).\nLimit berries and high-sugar fruits.\n\n\n\n\n\n\n\n\nTipGut Health\n\n\n\nIf you are struggling with digestion or inflammation, I find that Kefir really helps where other methods haven’t."
   },
   {
-    "objectID": "other.html#recovery-protocols",
-    "href": "other.html#recovery-protocols",
-    "title": "Other Methods & Resources",
-    "section": "Recovery Protocols",
-    "text": "Recovery Protocols\n\n1. Massage\nMassage has numerous reported benefits. The odd session with a sports masseuse is a good investment, and for day-to-day use, a massage gun can really help.\nReported Benefits: * Blood Flow: Flushes waste products (like lactate) and delivers oxygen/nutrients for repair. * Flexibility: Breaks up adhesions and releases tight muscles, improving range of motion. * Mental State: Reduces cortisol (stress hormone) and improves sleep quality.\n\n\n\n\n\n\nWarningImportant Considerations\n\n\n\n\nTiming: Some athletes prefer massage before competition to relax, others after for recovery.\nCaution: A deep sports massage is not advised shortly before an all-out performance (it can leave legs feeling “heavy”).\n\n\n\n\n\n2. Compression\nI have had mixed results myself, but there are many reported benefits for compression clothing. * The Theory: It supports blood flow and reduces muscle oscillation. * The Reality: Even if the physical benefit is marginal, the Expectation Effect (see Mental Training) makes it worth trying. It is unlikely to hinder recovery.\n\n\n3. Breathing\nFor a deep dive, read Breath: The New Science of a Lost Art.\n\nNasal Breathing: Try to adopt nasal breathing during most of the day and even on walks.\nTools: Devices like the AiroFit have limited evidence, but if you can get one second-hand, it can be a useful tool for respiratory strength.\n\n\n\n4. Bio-Hacks\n\nStanding Desks: Essential for flexibility. If you sit for 8 hours, your hip flexors shorten, which ruins your running gait. Stand where you can.\nPower Poses: Based on the TED Talk by Amy Cuddy. Performing “power poses” (standing tall, arms open) can increase testosterone and improve performance. Consider integrating this into your pre-race routine."
+    "objectID": "nutrition.html#the-eating-schedule-fasting",
+    "href": "nutrition.html#the-eating-schedule-fasting",
+    "title": "Nutrition & Fasting",
+    "section": "The Eating Schedule (Fasting)",
+    "text": "The Eating Schedule (Fasting)\n“Diet” is what you eat; “Fasting” is when you eat.\nThis approach takes advantage of the fact that humans naturally fast overnight. Extending this window allows insulin to drop and fat cells to be mobilized. This pairs perfectly with slow running (MAF).\nWork by scientists like Tim Noakes has shown that becoming “fat-adapted” increases the energy you can derive from body fat during intense exercise, significantly reducing the chance of “bonking” (running out of energy).\n\nMy Protocols\n\nThe Morning Window: Don’t eat for 2-3 hours after waking up.\nFasted Training: Do some morning runs before eating anything.\n\nReference: I regularly do parkrun fasted (approx. 21 hours without food).\n\nThe Evening Gap: Do not eat for at least 3 hours before bed.\n\n\n\nAdvanced Adaptation\nIf you take well to fat adaptation, you can push this further. It is routine for me to:\n\nRun 10 miles first thing in the morning.\nNot eat until lunchtime.\nFit in strength training or cross-training later.\nEat only one meal a day (OMAD) or within a 1-hour window.\n\n\nNote: This level of fasting is for metabolically flexible runners. Don’t force it if you feel dizzy or weak."
   },
   {
-    "objectID": "other.html#my-library",
-    "href": "other.html#my-library",
-    "title": "Other Methods & Resources",
-    "section": "My Library",
-    "text": "My Library\nI am constantly reading and researching. If you only read three books this year, make it these:\n\nThe Big Book of Endurance Training - Phil Maffetone\nBorn to Run - Christopher McDougall\nWhy We Sleep - Matthew Walker"
+    "objectID": "nutrition.html#additional-resources",
+    "href": "nutrition.html#additional-resources",
+    "title": "Nutrition & Fasting",
+    "section": "Additional Resources",
+    "text": "Additional Resources\nHere are the key resources that have shaped my understanding of nutrition and performance.\n\nDr. Tim Noakes & Low Carb\n\nThe Noakes Foundation: Challenging the dogma around carbohydrates and performance.\nPublic Health Collaboration UK: A charity dedicated to improving public health through lifestyle changes (Real Food/Low Carb).\nDiet Doctor: The world’s largest low-carb site with visual guides on what to eat.\n\n\n\nGut Health & Fasting\n\nMark’s Daily Apple: The definitive guide to the “Primal” (Paleo) lifestyle.\nDr. Jason Fung: The leading expert on Intermittent Fasting and insulin control.\n\n\n\nRecommended Reading\n\nThe Real Meal Revolution by Tim Noakes\nThe Obesity Code by Dr. Jason Fung\nPrimal Endurance by Mark Sisson"
   },
   {
-    "objectID": "other.html#references",
-    "href": "other.html#references",
-    "title": "Other Methods & Resources",
+    "objectID": "maf.html",
+    "href": "maf.html",
+    "title": "The MAF Method",
+    "section": "",
+    "text": "Running shouldn’t dictate your life, and you shouldn’t always be stressing about a plan. I prefer to call them schedules or guidelines.\nListen to your body. Enjoy running as part of a healthy life."
+  },
+  {
+    "objectID": "maf.html#the-core-philosophy",
+    "href": "maf.html#the-core-philosophy",
+    "title": "The MAF Method",
+    "section": "The Core Philosophy",
+    "text": "The Core Philosophy\nA key feature of my training is running slow. To go fast, we must first build the engine to go far without stress.\nIn an ideal world, you will use a chest-strap heart rate monitor, but a wrist-based one or even “running by feel” can work if you are honest with yourself.\n\n\n\n\n\n\nNoteThe 180 Formula (MAF)\n\n\n\nThe basic approach is to perform your cardio at 180 minus your age.\n\nExample: If you are 40 years old, most of your running should be below 140 beats per minute (bpm).\nThe Limit: 140 bpm is the maximum, not the average.\n\nTo start with, this can be frustrating. It will likely include walking, especially uphill. I suggest a Base Phase where almost all your running is done at this heart rate. It builds a massive aerobic base without the cortisol stress of high-intensity training."
+  },
+  {
+    "objectID": "maf.html#the-8020-rule",
+    "href": "maf.html#the-8020-rule",
+    "title": "The MAF Method",
+    "section": "The 80/20 Rule",
+    "text": "The 80/20 Rule\nAnother popular philosophy I use is 80/20 Running.\n\n\n\n\n\n\nTipThe Balance\n\n\n\n\n80% of your training should be very easy (like the MAF pace above).\n20% of your training is speedwork.\n\nWhy this matters: If you run 30 miles a week and run a hard parkrun (3 miles), you have done your 10% speedwork right there. If you do the rest of your runs “kind of hard,” you are training in the grey zone—too hard to recover, too easy to get fast.\n\n\nI favour a conservative approach: start at 100/0 (all easy), then move to 90/10, and finally 80/20 only when your body is ready."
+  },
+  {
+    "objectID": "maf.html#additional-resources",
+    "href": "maf.html#additional-resources",
+    "title": "The MAF Method",
+    "section": "Additional Resources",
+    "text": "Additional Resources\n\nEssential Viewing\n Run for your life! At a comfortable pace, and not too far: James O’Keefe at TEDx\n\n\nRecommended Reading\n\nBook: The Big Book of Endurance Training and Racing (Phil Maffetone)\nArticle: Want Speed? Slow Down\nArticle: Overcoming Frustrations with MAF\nGuide: What is 80/20 Running?"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Gary Manley Running",
+    "section": "",
+    "text": "I am a running coach with a unique philosophy. I believe that running should enhance your life, not dominate it. Whether you are chasing a parkrun PB or training for your first Ultra, the biology remains the same.\nRead My Philosophy"
+  },
+  {
+    "objectID": "index.html#run-healthy.-burn-fat.-go-further.",
+    "href": "index.html#run-healthy.-burn-fat.-go-further.",
+    "title": "Gary Manley Running",
+    "section": "",
+    "text": "I am a running coach with a unique philosophy. I believe that running should enhance your life, not dominate it. Whether you are chasing a parkrun PB or training for your first Ultra, the biology remains the same.\nRead My Philosophy"
+  },
+  {
+    "objectID": "coaching.html",
+    "href": "coaching.html",
+    "title": "Personal Coaching",
+    "section": "",
+    "text": "I believe that everyone is unique. You deserve a dynamic training guide, not a rigid spreadsheet."
+  },
+  {
+    "objectID": "coaching.html#my-philosophy",
+    "href": "coaching.html#my-philosophy",
+    "title": "Personal Coaching",
+    "section": "My Philosophy",
+    "text": "My Philosophy\nMost training plans fail because life gets in the way. A static PDF cannot adjust when you get sick, work gets stressful, or you just feel tired.\nI work differently. I limit myself to a small number of runners at a time so I can provide true personalization. We will build a flexible training guide together. We remain dynamic—adjusting the structure as your life changes—so you can focus on the running while I focus on the planning.\n\nWho I Coach\nWhether your goal is getting off the couch, smashing a parkrun PB, or completing your first Half Marathon, I can help.\n\nImportant Note: I put your health first. I do not coach for distances longer than a Half Marathon (21km), as I believe the training volume required for ultra-endurance events is often contrary to long-term health."
+  },
+  {
+    "objectID": "coaching.html#how-it-works",
+    "href": "coaching.html#how-it-works",
+    "title": "Personal Coaching",
+    "section": "How It Works",
+    "text": "How It Works\n\n1. The Onboarding\nBefore we run a single mile, we need to ensure we are a good match. * The Portfolio: You will complete a “Getting to Know You” portfolio covering your history, injuries, and wildest goals. * The Consultation: We will have a virtual or face-to-face meeting to dig into the details. * The Strategy: We align your target races with a realistic roadmap.\n\n\n2. The Training\nHumans are complex systems. Running performance is not just about miles; it is about health. * Holistic Guidance: I provide advice on strength training, mental resilience, technique, and nutrition (including low-carb/keto adaptations if that is your goal). * Regular Feedback: We stay in touch regularly. You share how you feel; I adjust the guide."
+  },
+  {
+    "objectID": "coaching.html#what-is-included",
+    "href": "coaching.html#what-is-included",
+    "title": "Personal Coaching",
+    "section": "What Is Included",
+    "text": "What Is Included\nWhen you sign up, you get a fully comprehensive package:\n\nInitial Consultation: Deep dive into fitness, aspirations, and lifestyle constraints.\nHealth Audit: Review of injury history and relevant health markers.\nPersonalized Guide: A dynamic training structure built for you.\nFeedback Loop: Regular support via email and scheduled calls.\nResource Library: Access to my advice on nutrition, mental performance, and strength conditioning."
+  },
+  {
+    "objectID": "coaching.html#investment",
+    "href": "coaching.html#investment",
+    "title": "Personal Coaching",
+    "section": "Investment",
+    "text": "Investment\n\n\n\n\n\n\nNoteSetup & Onboarding\n\n\n\n£50 (One-off) Includes initial portfolio analysis, health history review, and strategy consultation.\n\n\n\n\n\n\n\n\nTipMonthly Coaching\n\n\n\n£45 / month Includes dynamic planning, regular feedback, and ongoing support.\n\n\n\n\n\n\n\n\nImportant1-on-1 Sessions\n\n\n\n£50 / hour Optional face-to-face coaching for technique analysis or in-person support.\n\n\nGet in Touch to Start"
+  },
+  {
+    "objectID": "barefoot.html",
+    "href": "barefoot.html",
+    "title": "Barefoot Running",
+    "section": "",
+    "text": "ImportantMedical Disclaimer\n\n\n\nThis content is based on my experience and research. If you have any injuries at any point, you should consult with a medical professional before continuing.\nBarefoot walking and running (or using minimalist footwear) has numerous health benefits. It is not just a trend; it is about restoring natural function."
+  },
+  {
+    "objectID": "barefoot.html#improved-foot-strength-function",
+    "href": "barefoot.html#improved-foot-strength-function",
+    "title": "Barefoot Running",
+    "section": "Improved Foot Strength & Function",
+    "text": "Improved Foot Strength & Function\n1. Enhanced Proprioception Walking and running barefoot stimulate the sensory receptors in the feet, improving proprioception (awareness of your body’s position in space). This leads to better balance, coordination, and a reduced risk of falls, especially in older adults.\n2. Strengthened Foot Muscles Without the “crutch” of supportive shoes, your foot muscles are forced to work harder to stabilize the foot and absorb impact. This leads to increased strength and improved mechanical function.\n3. Reduced Risk of Injury While counterintuitive, studies suggest that barefoot running may reduce the risk of certain injuries—such as stress fractures and plantar fasciitis—by promoting a more natural gait and reducing high-impact heel strikes."
+  },
+  {
+    "objectID": "barefoot.html#posture-gait",
+    "href": "barefoot.html#posture-gait",
+    "title": "Barefoot Running",
+    "section": "Posture & Gait",
+    "text": "Posture & Gait\n\nNatural Gait: Minimalist movement encourages a midfoot or forefoot strike, which reduces stress on the joints and improves efficiency.\nImproved Posture: By strengthening the foot and ankle complex, barefoot movement contributes to better overall posture, reducing strain on the knees, hips, and back."
+  },
+  {
+    "objectID": "barefoot.html#other-potential-benefits",
+    "href": "barefoot.html#other-potential-benefits",
+    "title": "Barefoot Running",
+    "section": "Other Potential Benefits",
+    "text": "Other Potential Benefits\n\nReduced Stress: Stimulating the nervous system through the soles of the feet may promote relaxation and reduce anxiety.\nImproved Circulation: The mechanical stimulation of the feet may help improve blood flow.\nEarthing (Grounding): Walking barefoot on the earth’s surface allows for the transfer of electrons from the earth to the body. Proponents believe this can reduce inflammation and improve sleep.\n\n\n\n\n\n\n\n\nWarningImportant Considerations\n\n\n\n1. Transition Gradually This is the most critical rule. If you are new to barefoot movement, your calves and Achilles are likely tight and weak. Start with laughably short distances and gradually increase duration over months, not weeks.\n2. Choose Appropriate Surfaces Avoid rough or hazardous surfaces initially. Opt for soft, natural surfaces like grass or sand until your skin and muscles adapt.\n3. Listen to Your Body If you experience pain, stop immediately. Rest is part of the process.\n4. Consult a Professional If you have existing foot concerns, consult a qualified podiatrist (preferably one who understands functional movement) before starting."
+  },
+  {
+    "objectID": "barefoot.html#recommended-reading",
+    "href": "barefoot.html#recommended-reading",
+    "title": "Barefoot Running",
+    "section": "Recommended Reading",
+    "text": "Recommended Reading\n\nBorn to Run by Christopher McDougall\nBorn to Run 2 by Christopher McDougall"
+  },
+  {
+    "objectID": "barefoot.html#references",
+    "href": "barefoot.html#references",
+    "title": "Barefoot Running",
     "section": "References",
-    "text": "References\n\nMassage & Recovery: Rapaport et al., 2010 (NCBI)\nPower Poses: Amy Cuddy TED Talk"
+    "text": "References\n\nHarvard: Biomechanics of Foot Strikes\nRed Bull: Benefits of Barefoot Running\nHealthline: Walking Barefoot\nMIT: Staying Grounded"
   },
   {
-    "objectID": "mental.html",
-    "href": "mental.html",
-    "title": "Mental Training",
+    "objectID": "assets/tables/table_Gary_Manley_2025-12-13_09-03-50.GPX.html",
+    "href": "assets/tables/table_Gary_Manley_2025-12-13_09-03-50.GPX.html",
+    "title": "Gary Manley Running",
     "section": "",
-    "text": "Mental training is an untapped performance enhancer for almost everyone. Athletes like Keely Hodgkinson have attributed 90% of their performance to the mental side of things.\nIf it works for Olympians, it is worth working on.\nI 100% recommend the book The Confident Mind by Dr. Nate Zinsser. The following strategies are heavily influenced by his work on practical sports psychology."
+    "text": "Dist (100m)\nTime\nPace (min/km)\nAvg HR\nCadence\n\n\n\n\n1\n0:24\n4:02\n0\n0\n\n\n2\n0:20\n3:19\n0\n0\n\n\n3\n0:20\n3:30\n0\n0\n\n\n4\n0:22\n3:40\n0\n0\n\n\n5\n0:22\n3:42\n0\n0\n\n\n6\n0:22\n3:39\n0\n0\n\n\n7\n0:22\n3:40\n0\n0\n\n\n8\n0:21\n3:43\n0\n0\n\n\n9\n0:22\n3:37\n0\n0\n\n\n10\n0:22\n3:35\n0\n0\n\n\n11\n0:20\n3:32\n0\n0\n\n\n12\n0:20\n3:24\n0\n0\n\n\n13\n0:20\n3:28\n0\n0\n\n\n14\n0:21\n3:32\n0\n0\n\n\n15\n0:21\n3:29\n0\n0\n\n\n16\n0:22\n3:37\n0\n0\n\n\n17\n0:22\n3:44\n0\n0\n\n\n18\n0:22\n3:32\n0\n0\n\n\n19\n0:22\n3:38\n0\n0\n\n\n20\n0:21\n3:27\n0\n0\n\n\n21\n0:21\n3:33\n0\n0\n\n\n22\n0:21\n3:41\n0\n0\n\n\n23\n0:21\n3:30\n0\n0\n\n\n24\n0:22\n3:38\n0\n0\n\n\n25\n0:22\n3:40\n0\n0\n\n\n26\n0:22\n3:46\n0\n0\n\n\n27\n0:24\n3:49\n0\n0\n\n\n28\n0:20\n3:37\n0\n0\n\n\n29\n0:22\n3:33\n0\n0\n\n\n30\n0:21\n3:40\n0\n0\n\n\n31\n0:22\n3:43\n0\n0\n\n\n32\n0:23\n3:53\n0\n0\n\n\n33\n0:21\n3:31\n0\n0\n\n\n34\n0:22\n3:32\n0\n0\n\n\n35\n0:21\n3:31\n0\n0\n\n\n36\n0:20\n3:34\n0\n0\n\n\n37\n0:21\n3:31\n0\n0\n\n\n38\n0:22\n3:32\n0\n0\n\n\n39\n0:21\n3:45\n0\n0\n\n\n40\n0:21\n3:26\n0\n0\n\n\n41\n0:20\n3:22\n0\n0\n\n\n42\n0:22\n3:39\n0\n0\n\n\n43\n0:14\n3:50\n0\n0\n\n\n44\n0:27\n3:19\n0\n0\n\n\n45\n0:23\n3:52\n0\n0\n\n\n46\n0:21\n3:34\n0\n0\n\n\n47\n0:22\n3:46\n0\n0\n\n\n48\n0:22\n3:36\n0\n0\n\n\n49\n0:22\n3:49\n0\n0\n\n\n50\n0:18\n3:12\n0\n0"
   },
   {
-    "objectID": "mental.html#the-7-key-steps",
-    "href": "mental.html#the-7-key-steps",
-    "title": "Mental Training",
-    "section": "The 7 Key Steps",
-    "text": "The 7 Key Steps\n\n\n\n\n\n\n1. Set Ambitious Goals Goals should be scary. Once set, work consistently towards believing that you can achieve them.\n2. Use Affirmations Come up with “I am” statements that you can read, think of throughout the day, or record and listen to while running. (See below for examples).\n3. Focus on the Positives * Past: Focus on races and training that went well. * Present: In a session, focus on the single rep that felt good. * Future: Focus on what you can control.\n4. Create a Confidence Board Combine your mental cues into a single view. See my example here.\n5. Visualization Using all your senses, imagine yourself achieving your next goal. Be as detailed as possible.\n6. Reframe the Day If you are having a bad day, simply change your mind and decide to have a good day.\n7. Manage Expectations Understand the power of the “Expectation Effect” (see below) for both training and racing."
+    "objectID": "assets/tables/intervals_2025-12-15.html",
+    "href": "assets/tables/intervals_2025-12-15.html",
+    "title": "Gary Manley Running",
+    "section": "",
+    "text": "Rep\nAvg HR\nMax HR\nPace\nHR Compliance %\nPace Rating\n\n\n\n\n1\n154\n157\n4:08\n100%\nTarget (+/- 5s)\n\n\n2\n157\n160\n4:16\n100%\nOkay (+/- 15s)\n\n\n3\n157\n161\n4:12\n100%\nClose (+/- 10s)\n\n\n4\n159\n161\n4:04\n100%\nTarget (+/- 5s)\n\n\n5\n163\n167\n4:13\n100%\nClose (+/- 10s)\n\n\n6\n163\n166\n4:12\n100%\nClose (+/- 10s)\n\n\n7\n164\n166\n4:04\n100%\nTarget (+/- 5s)\n\n\n8\n164\n166\n4:00\n100%\nTarget (+/- 5s)\n\n\n9\n164\n167\n4:06\n100%\nTarget (+/- 5s)\n\n\n10\n163\n167\n4:03\n100%\nTarget (+/- 5s)"
   },
   {
-    "objectID": "mental.html#affirmations",
-    "href": "mental.html#affirmations",
-    "title": "Mental Training",
-    "section": "Affirmations",
-    "text": "Affirmations\nThese don’t require cardio, so you can do them even when your legs are dead.\n\n\n\n\n\n\nTipMy Daily Affirmations\n\n\n\n\n“I am fit, I am fast, I am strong.”\n“I am light, I am recovered, I feel good.”\n“I am confident. I have self-belief. I run well in all conditions.”\n“I am the healthiest and most consistent I can be.”\n“I do the little things well. My strength training powers my running.”\n“I focus on the controllables and do not worry about what I cannot control.”\n“I am unstoppable. I am capable of great things.”"
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About Me",
+    "section": "",
+    "text": "I am a qualified running coach, but my real education comes from experience.\nSince 2014, I have spent years researching and experimenting to find out what truly works. I aim to train in a way that prioritises health to achieve performance, whereas many traditional plans chase performance at the expense of health.\nI have researched running, nutrition, mental training, strength training, and went down every rabbit hole I can find. I remain open-minded, largely due to my own transformative experience with diet and lifestyle."
   },
   {
-    "objectID": "mental.html#visualization",
-    "href": "mental.html#visualization",
-    "title": "Mental Training",
-    "section": "Visualization",
-    "text": "Visualization\nThe goal is to create a script for you to listen to or read out loud that details you crushing your next goal. You should use as much detail and as many senses as possible—smells, sights, the feel of your clothes, your thought patterns.\nHere is a script based on my local parkrun winter route:\n\n“I arrive at the event in good time… I feel confident, recovered and have belief that my training will power me through.\nI perform my strides and warm up drills, noticing how my legs and arms feel strong and powerful. My shoes feel springy. I arrive back at the start line and move to the front. I undertake my CBA routine and prepare my convictions: ‘It is my time to shine, I have done the work, today is my day.’\nAs the RD says go, I get up to speed quickly. I am confident and do not let others’ performances deter me. My breathing becomes deep and the breeze starts to cool my skin… I pass through the 1km point onto the long back straight… I can feel my legs are still feeling strong…\nI drive over the bridge, through the underpass and onto the final straight. I kick going past the final bench and bolt through the finishing funnel.\nI have just had the run of my life. I feel elated and exhausted and in disbelief of my time. I smile as I head home to share the news.”"
+    "objectID": "about.html#my-qualifications",
+    "href": "about.html#my-qualifications",
+    "title": "About Me",
+    "section": "My Qualifications",
+    "text": "My Qualifications\nI hold the official coaching certifications from England Athletics:\n\nLiRF (Leader in Running Fitness)\nCiRF (Coach in Running Fitness)"
   },
   {
-    "objectID": "mental.html#the-expectation-effect",
-    "href": "mental.html#the-expectation-effect",
-    "title": "Mental Training",
-    "section": "The Expectation Effect",
-    "text": "The Expectation Effect\nResearch by Alia Crum shows the true link between the brain and the body. She demonstrated that simply believing a food was filling made it more filling, and cleaners who were taught that cleaning is good exercise actually became fitter.\nApply this to running: * If you believe caffeine gives you a boost, it will have a larger impact. * If you believe running slow makes you fast, you will likely see faster improvements. * Researching your training methods increases your belief in them, which physically enhances their effectiveness.\n\nRecommended Viewing\n Change your mindset, change the game: Dr. Alia Crum at TEDxTraverseCity\n The Expectation Effect: David Robson at TEDx\n\n\nRecommended Books\n\nThe Confident Mind by Dr. Nate Zinsser\nThe Expectation Effect by David Robson\nBeyond Grit by Cindra Kamphoff"
+    "objectID": "about.html#my-journey",
+    "href": "about.html#my-journey",
+    "title": "About Me",
+    "section": "My Journey",
+    "text": "My Journey\nIf I can do it, anyone can.\nMy journey into running started from a place of struggle. I used to weigh 20 stone and relied on a walking stick due to a crippling foot condition (Ledderhose disease).\nI reversed my health through the very methods I now teach—nutrition, barefoot movement, and patience.\nRead more about my journey with Plantar Fibroma"
+  },
+  {
+    "objectID": "assets/tables/table_2025-12-13.html",
+    "href": "assets/tables/table_2025-12-13.html",
+    "title": "Gary Manley Running",
+    "section": "",
+    "text": "Dist (100m)\nTime\nPace\nHR\nCadence\nStride (m)\n\n\n\n\n1\n0:24\n4:02\n128\n162\n1.51\n\n\n2\n0:20\n3:19\n158\n183\n1.64\n\n\n3\n0:21\n3:30\n163\n186\n1.53\n\n\n4\n0:22\n3:40\n165\n186\n1.46\n\n\n5\n0:22\n3:42\n166\n182\n1.48\n\n\n6\n0:22\n3:39\n168\n180\n1.51\n\n\n7\n0:22\n3:40\n169\n177\n1.54\n\n\n8\n0:21\n3:33\n168\n176\n1.6\n\n\n9\n0:22\n3:37\n169\n180\n1.54\n\n\n10\n0:22\n3:35\n170\n178\n1.56\n\n\n11\n0:21\n3:32\n171\n179\n1.57\n\n\n12\n0:20\n3:24\n172\n180\n1.63\n\n\n13\n0:21\n3:28\n173\n179\n1.6\n\n\n14\n0:21\n3:32\n173\n178\n1.58\n\n\n15\n0:21\n3:29\n174\n177\n1.61\n\n\n16\n0:22\n3:37\n175\n176\n1.57\n\n\n17\n0:22\n3:44\n174\n176\n1.52\n\n\n18\n0:22\n3:32\n175\n176\n1.6\n\n\n19\n0:22\n3:38\n176\n177\n1.54\n\n\n20\n0:21\n3:27\n176\n178\n1.62\n\n\n21\n0:21\n3:33\n176\n178\n1.61\n\n\n22\n0:22\n3:41\n175\n177\n1.53\n\n\n23\n0:21\n3:30\n174\n176\n1.62\n\n\n24\n0:22\n3:38\n176\n179\n1.53\n\n\n25\n0:22\n3:40\n176\n182\n1.5\n\n\n26\n0:22\n3:46\n175\n189\n1.4\n\n\n27\n0:24\n3:49\n178\n185\n1.41\n\n\n28\n0:21\n3:37\n179\n180\n1.52\n\n\n29\n0:22\n3:33\n177\n180\n1.56\n\n\n30\n0:22\n3:40\n178\n178\n1.79\n\n\n31\n0:22\n3:43\n176\n179\n1.5\n\n\n32\n0:23\n3:53\n178\n180\n1.42\n\n\n33\n0:21\n3:31\n179\n181\n1.57\n\n\n34\n0:22\n3:32\n179\n179\n1.58\n\n\n35\n0:21\n3:31\n180\n177\n1.6\n\n\n36\n0:21\n3:34\n180\n176\n1.58\n\n\n37\n0:21\n3:31\n180\n176\n1.61\n\n\n38\n0:22\n3:32\n181\n176\n1.6\n\n\n39\n0:22\n3:45\n180\n177\n1.5\n\n\n40\n0:21\n3:26\n180\n177\n1.63\n\n\n41\n0:20\n3:22\n180\n179\n1.65\n\n\n42\n0:22\n3:39\n179\n180\n1.51\n\n\n43\n0:21\n5:23\n180\n182\n1.35\n\n\n44\n0:21\n2:34\n179\n182\n2.12\n\n\n45\n0:23\n3:52\n179\n183\n1.4\n\n\n46\n0:22\n3:34\n179\n186\n1.5\n\n\n47\n0:22\n3:46\n180\n186\n1.42\n\n\n48\n0:22\n3:36\n180\n186\n1.48\n\n\n49\n0:23\n3:49\n182\n183\n1.42\n\n\n50\n0:18\n3:12\n182\n189\n1.65"
+  },
+  {
+    "objectID": "assets/tables/table_Gary_Manley_2025-12-13_09-03-50.html",
+    "href": "assets/tables/table_Gary_Manley_2025-12-13_09-03-50.html",
+    "title": "Gary Manley Running",
+    "section": "",
+    "text": "Dist (100m)\nTime\nPace (min/km)\nAvg HR\nCadence\n\n\n\n\n1\n0:24\n4:02\n128\n81\n\n\n2\n0:20\n3:19\n158\n91\n\n\n3\n0:21\n3:30\n163\n93\n\n\n4\n0:22\n3:40\n165\n93\n\n\n5\n0:22\n3:42\n166\n91\n\n\n6\n0:22\n3:39\n168\n90\n\n\n7\n0:22\n3:40\n169\n88\n\n\n8\n0:21\n3:33\n168\n88\n\n\n9\n0:22\n3:37\n169\n90\n\n\n10\n0:22\n3:35\n170\n89\n\n\n11\n0:21\n3:32\n171\n89\n\n\n12\n0:20\n3:24\n172\n90\n\n\n13\n0:21\n3:28\n173\n89\n\n\n14\n0:21\n3:32\n173\n89\n\n\n15\n0:21\n3:29\n174\n88\n\n\n16\n0:22\n3:37\n175\n88\n\n\n17\n0:22\n3:44\n174\n88\n\n\n18\n0:22\n3:32\n175\n88\n\n\n19\n0:22\n3:38\n176\n88\n\n\n20\n0:21\n3:27\n176\n89\n\n\n21\n0:21\n3:33\n176\n89\n\n\n22\n0:22\n3:41\n175\n88\n\n\n23\n0:21\n3:30\n174\n88\n\n\n24\n0:22\n3:38\n176\n89\n\n\n25\n0:22\n3:40\n176\n91\n\n\n26\n0:22\n3:46\n175\n94\n\n\n27\n0:24\n3:49\n178\n92\n\n\n28\n0:21\n3:37\n179\n90\n\n\n29\n0:22\n3:33\n177\n90\n\n\n30\n0:22\n3:40\n178\n89\n\n\n31\n0:22\n3:43\n176\n89\n\n\n32\n0:23\n3:53\n178\n90\n\n\n33\n0:21\n3:31\n179\n90\n\n\n34\n0:22\n3:32\n179\n89\n\n\n35\n0:21\n3:31\n180\n88\n\n\n36\n0:21\n3:34\n180\n88\n\n\n37\n0:21\n3:31\n180\n88\n\n\n38\n0:22\n3:32\n181\n88\n\n\n39\n0:22\n3:45\n180\n88\n\n\n40\n0:21\n3:26\n180\n88\n\n\n41\n0:20\n3:22\n180\n89\n\n\n42\n0:22\n3:39\n179\n90\n\n\n43\n0:21\n5:23\n180\n91\n\n\n44\n0:21\n2:34\n179\n91\n\n\n45\n0:23\n3:52\n179\n91\n\n\n46\n0:22\n3:34\n179\n93\n\n\n47\n0:22\n3:46\n180\n93\n\n\n48\n0:22\n3:36\n180\n93\n\n\n49\n0:23\n3:49\n182\n91\n\n\n50\n0:18\n3:12\n182\n94"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "The Running Blog",
+    "section": "",
+    "text": "Journal: 2025-12-15\n\n\n\njournal\n\ndata\n\n\n\n\n\n\n\n\n\nDec 15, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nNorwegian Singles: 2025-12-15\n\n\n\nrunning\n\ndata\n\n\n\n\n\n\n\n\n\nDec 15, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nJournal: 2025-12-14\n\n\n\njournal\n\ndata\n\n\n\n\n\n\n\n\n\nDec 14, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nJournal: 2025-12-13\n\n\n\njournal\n\ndata\n\n\n\n\n\n\n\n\n\nDec 13, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nRun Analysis: 2025-12-13\n\n\n\nrunning\n\nanalysis\n\n\n\n\n\n\n\n\n\nDec 13, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to My Blog\n\n\n\nnews\n\ngeneral\n\n\n\n\n\n\n\n\n\nDec 13, 2025\n\n\nGary Manley\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "happy.html",
+    "href": "happy.html",
+    "title": "Be Happy & Healthy",
+    "section": "",
+    "text": "First and foremost, I want you to enjoy your life. Running should be a source of happiness, not stress. My golden rule is simple: Fit running around your life, do not fit your life around your running.\nMost people struggle to sustain habits that require constant discipline. Think about how hard it is to force yourself to lose weight or run in conditions you hate. If you rely on willpower alone, you will eventually burn out.\nInstead, we focus on enjoyment. Prioritize your sleep, your recovery, and your family (well, assuming you enjoy your family!). When you enjoy the process, consistency happens automatically."
+  },
+  {
+    "objectID": "happy.html#enjoy-your-training",
+    "href": "happy.html#enjoy-your-training",
+    "title": "Be Happy & Healthy",
+    "section": "",
+    "text": "First and foremost, I want you to enjoy your life. Running should be a source of happiness, not stress. My golden rule is simple: Fit running around your life, do not fit your life around your running.\nMost people struggle to sustain habits that require constant discipline. Think about how hard it is to force yourself to lose weight or run in conditions you hate. If you rely on willpower alone, you will eventually burn out.\nInstead, we focus on enjoyment. Prioritize your sleep, your recovery, and your family (well, assuming you enjoy your family!). When you enjoy the process, consistency happens automatically."
+  },
+  {
+    "objectID": "happy.html#prioritise-sleep",
+    "href": "happy.html#prioritise-sleep",
+    "title": "Be Happy & Healthy",
+    "section": "Prioritise Sleep",
+    "text": "Prioritise Sleep\nSleep is the single most effective performance enhancer available. If you have a choice between an extra hour of sleep or setting an early alarm to squeeze in a run, choose the sleep.\nHere are the key protocols I recommend for maximizing recovery:\n\nMind the Gap: Stop eating at least 3 hours before bed. Digestion interferes with deep sleep.\nTraining Timing: Try to leave a 3-hour gap between exercise and sleep. I know this is difficult with evening running clubs, but do your best to wind down.\nLight Control: Use blue light filters on your devices or wear blue light blocking glasses in the evening.\nEnvironment: Keep your bedroom cool, dark, and comfortable.\nThe “Light Sleeper” Hack: If you wake up easily, try sound blockers. I personally use ear buds playing an audiobook with a calm narrator. It blocks out noise and stops my brain from racing."
+  },
+  {
+    "objectID": "happy.html#integrating-family-life",
+    "href": "happy.html#integrating-family-life",
+    "title": "Be Happy & Healthy",
+    "section": "Integrating Family & Life",
+    "text": "Integrating Family & Life\nFinding time to train is often the biggest hurdle. The solution is not to ignore your family, but to integrate them into your movement.\nEverything depends on your personal circumstances, but here is how I have made it work:\n\n1. The “Social” Run\nRun with a slower partner, or if you have kids, let them ride a scooter or bike alongside you while you run. You get your training done, and you get quality time together.\n\n\n2. The “Errand” Run\nTurn chores into training. Run to the shops, run the dog, or run to commute. It kills two birds with one stone.\n\n\n3. The “Split” Run\nDon’t be afraid to break a long run into bite-sized chunks.\n\nMy Experience: I have previously replaced a single long run with four mini-runs:\n\n2 miles on the morning school run\n2 miles walking the dog at lunch\n2 miles on the afternoon school run\n3 miles with my wife in the evening\n\nWas a single 9-mile run better physiologically? Probably. But I couldn’t fit a continuous 90 minutes into that day. 9 miles broken up is infinitely better than 0 miles perfectly planned."
   },
   {
     "objectID": "library.html",
@@ -252,353 +434,185 @@
     "text": "In-Depth Reviews\n\n\n\n\n\n\n\n\n\n\nPrimal Endurance\n\n\n\n\n\nrating\n\n\n⭐⭐⭐⭐⭐\n\n\n\n\n\n\n\n\n\n\n\n\n\nBorn to Run\n\n\n\n\n\nrating\n\n\n⭐⭐⭐⭐\n\n\n\n\n\n\n\n\nNo matching items"
   },
   {
-    "objectID": "happy.html",
-    "href": "happy.html",
-    "title": "Be Happy & Healthy",
+    "objectID": "mental.html",
+    "href": "mental.html",
+    "title": "Mental Training",
     "section": "",
-    "text": "First and foremost, I want you to enjoy your life. Running should be a source of happiness, not stress. My golden rule is simple: Fit running around your life, do not fit your life around your running.\nMost people struggle to sustain habits that require constant discipline. Think about how hard it is to force yourself to lose weight or run in conditions you hate. If you rely on willpower alone, you will eventually burn out.\nInstead, we focus on enjoyment. Prioritize your sleep, your recovery, and your family (well, assuming you enjoy your family!). When you enjoy the process, consistency happens automatically."
+    "text": "Mental training is an untapped performance enhancer for almost everyone. Athletes like Keely Hodgkinson have attributed 90% of their performance to the mental side of things.\nIf it works for Olympians, it is worth working on.\nI 100% recommend the book The Confident Mind by Dr. Nate Zinsser. The following strategies are heavily influenced by his work on practical sports psychology."
   },
   {
-    "objectID": "happy.html#enjoy-your-training",
-    "href": "happy.html#enjoy-your-training",
-    "title": "Be Happy & Healthy",
+    "objectID": "mental.html#the-7-key-steps",
+    "href": "mental.html#the-7-key-steps",
+    "title": "Mental Training",
+    "section": "The 7 Key Steps",
+    "text": "The 7 Key Steps\n\n\n\n\n\n\n1. Set Ambitious Goals Goals should be scary. Once set, work consistently towards believing that you can achieve them.\n2. Use Affirmations Come up with “I am” statements that you can read, think of throughout the day, or record and listen to while running. (See below for examples).\n3. Focus on the Positives * Past: Focus on races and training that went well. * Present: In a session, focus on the single rep that felt good. * Future: Focus on what you can control.\n4. Create a Confidence Board Combine your mental cues into a single view. See my example here.\n5. Visualization Using all your senses, imagine yourself achieving your next goal. Be as detailed as possible.\n6. Reframe the Day If you are having a bad day, simply change your mind and decide to have a good day.\n7. Manage Expectations Understand the power of the “Expectation Effect” (see below) for both training and racing."
+  },
+  {
+    "objectID": "mental.html#affirmations",
+    "href": "mental.html#affirmations",
+    "title": "Mental Training",
+    "section": "Affirmations",
+    "text": "Affirmations\nThese don’t require cardio, so you can do them even when your legs are dead.\n\n\n\n\n\n\nTipMy Daily Affirmations\n\n\n\n\n“I am fit, I am fast, I am strong.”\n“I am light, I am recovered, I feel good.”\n“I am confident. I have self-belief. I run well in all conditions.”\n“I am the healthiest and most consistent I can be.”\n“I do the little things well. My strength training powers my running.”\n“I focus on the controllables and do not worry about what I cannot control.”\n“I am unstoppable. I am capable of great things.”"
+  },
+  {
+    "objectID": "mental.html#visualization",
+    "href": "mental.html#visualization",
+    "title": "Mental Training",
+    "section": "Visualization",
+    "text": "Visualization\nThe goal is to create a script for you to listen to or read out loud that details you crushing your next goal. You should use as much detail and as many senses as possible—smells, sights, the feel of your clothes, your thought patterns.\nHere is a script based on my local parkrun winter route:\n\n“I arrive at the event in good time… I feel confident, recovered and have belief that my training will power me through.\nI perform my strides and warm up drills, noticing how my legs and arms feel strong and powerful. My shoes feel springy. I arrive back at the start line and move to the front. I undertake my CBA routine and prepare my convictions: ‘It is my time to shine, I have done the work, today is my day.’\nAs the RD says go, I get up to speed quickly. I am confident and do not let others’ performances deter me. My breathing becomes deep and the breeze starts to cool my skin… I pass through the 1km point onto the long back straight… I can feel my legs are still feeling strong…\nI drive over the bridge, through the underpass and onto the final straight. I kick going past the final bench and bolt through the finishing funnel.\nI have just had the run of my life. I feel elated and exhausted and in disbelief of my time. I smile as I head home to share the news.”"
+  },
+  {
+    "objectID": "mental.html#the-expectation-effect",
+    "href": "mental.html#the-expectation-effect",
+    "title": "Mental Training",
+    "section": "The Expectation Effect",
+    "text": "The Expectation Effect\nResearch by Alia Crum shows the true link between the brain and the body. She demonstrated that simply believing a food was filling made it more filling, and cleaners who were taught that cleaning is good exercise actually became fitter.\nApply this to running: * If you believe caffeine gives you a boost, it will have a larger impact. * If you believe running slow makes you fast, you will likely see faster improvements. * Researching your training methods increases your belief in them, which physically enhances their effectiveness.\n\nRecommended Viewing\n Change your mindset, change the game: Dr. Alia Crum at TEDxTraverseCity\n The Expectation Effect: David Robson at TEDx\n\n\nRecommended Books\n\nThe Confident Mind by Dr. Nate Zinsser\nThe Expectation Effect by David Robson\nBeyond Grit by Cindra Kamphoff"
+  },
+  {
+    "objectID": "other.html",
+    "href": "other.html",
+    "title": "Other Methods & Resources",
     "section": "",
-    "text": "First and foremost, I want you to enjoy your life. Running should be a source of happiness, not stress. My golden rule is simple: Fit running around your life, do not fit your life around your running.\nMost people struggle to sustain habits that require constant discipline. Think about how hard it is to force yourself to lose weight or run in conditions you hate. If you rely on willpower alone, you will eventually burn out.\nInstead, we focus on enjoyment. Prioritize your sleep, your recovery, and your family (well, assuming you enjoy your family!). When you enjoy the process, consistency happens automatically."
+    "text": "A collection of training methods, recovery protocols, and resources that are essential to the holistic runner."
   },
   {
-    "objectID": "happy.html#prioritise-sleep",
-    "href": "happy.html#prioritise-sleep",
-    "title": "Be Happy & Healthy",
-    "section": "Prioritise Sleep",
-    "text": "Prioritise Sleep\nSleep is the single most effective performance enhancer available. If you have a choice between an extra hour of sleep or setting an early alarm to squeeze in a run, choose the sleep.\nHere are the key protocols I recommend for maximizing recovery:\n\nMind the Gap: Stop eating at least 3 hours before bed. Digestion interferes with deep sleep.\nTraining Timing: Try to leave a 3-hour gap between exercise and sleep. I know this is difficult with evening running clubs, but do your best to wind down.\nLight Control: Use blue light filters on your devices or wear blue light blocking glasses in the evening.\nEnvironment: Keep your bedroom cool, dark, and comfortable.\nThe “Light Sleeper” Hack: If you wake up easily, try sound blockers. I personally use ear buds playing an audiobook with a calm narrator. It blocks out noise and stops my brain from racing."
+    "objectID": "other.html#cross-training",
+    "href": "other.html#cross-training",
+    "title": "Other Methods & Resources",
+    "section": "Cross Training",
+    "text": "Cross Training\nWhen I say cross training, I am referring to everything from walking and rucking to the elliptical, swimming, and cycling.\nSee Mental Training to fully appreciate how much this kind of training can help you.\nKey Benefits: * Cardio & Recovery: If you are finding the running volume too high but want to improve, cross training increases aerobic load while reducing impact. * Active Recovery: There is a growing body of evidence showing that a gentle walk is more beneficial for recovery than sitting on the sofa. * The “Ruck” Hack: Going for a recovery walk? Add a backpack with a little weight. It increases strength and cardio load. So long as you stay under your desired heart rate, it is awesome training (even better on hills)."
   },
   {
-    "objectID": "happy.html#integrating-family-life",
-    "href": "happy.html#integrating-family-life",
-    "title": "Be Happy & Healthy",
-    "section": "Integrating Family & Life",
-    "text": "Integrating Family & Life\nFinding time to train is often the biggest hurdle. The solution is not to ignore your family, but to integrate them into your movement.\nEverything depends on your personal circumstances, but here is how I have made it work:\n\n1. The “Social” Run\nRun with a slower partner, or if you have kids, let them ride a scooter or bike alongside you while you run. You get your training done, and you get quality time together.\n\n\n2. The “Errand” Run\nTurn chores into training. Run to the shops, run the dog, or run to commute. It kills two birds with one stone.\n\n\n3. The “Split” Run\nDon’t be afraid to break a long run into bite-sized chunks.\n\nMy Experience: I have previously replaced a single long run with four mini-runs:\n\n2 miles on the morning school run\n2 miles walking the dog at lunch\n2 miles on the afternoon school run\n3 miles with my wife in the evening\n\nWas a single 9-mile run better physiologically? Probably. But I couldn’t fit a continuous 90 minutes into that day. 9 miles broken up is infinitely better than 0 miles perfectly planned."
+    "objectID": "other.html#recovery-protocols",
+    "href": "other.html#recovery-protocols",
+    "title": "Other Methods & Resources",
+    "section": "Recovery Protocols",
+    "text": "Recovery Protocols\n\n1. Massage\nMassage has numerous reported benefits. The odd session with a sports masseuse is a good investment, and for day-to-day use, a massage gun can really help.\nReported Benefits: * Blood Flow: Flushes waste products (like lactate) and delivers oxygen/nutrients for repair. * Flexibility: Breaks up adhesions and releases tight muscles, improving range of motion. * Mental State: Reduces cortisol (stress hormone) and improves sleep quality.\n\n\n\n\n\n\nWarningImportant Considerations\n\n\n\n\nTiming: Some athletes prefer massage before competition to relax, others after for recovery.\nCaution: A deep sports massage is not advised shortly before an all-out performance (it can leave legs feeling “heavy”).\n\n\n\n\n\n2. Compression\nI have had mixed results myself, but there are many reported benefits for compression clothing. * The Theory: It supports blood flow and reduces muscle oscillation. * The Reality: Even if the physical benefit is marginal, the Expectation Effect (see Mental Training) makes it worth trying. It is unlikely to hinder recovery.\n\n\n3. Breathing\nFor a deep dive, read Breath: The New Science of a Lost Art.\n\nNasal Breathing: Try to adopt nasal breathing during most of the day and even on walks.\nTools: Devices like the AiroFit have limited evidence, but if you can get one second-hand, it can be a useful tool for respiratory strength.\n\n\n\n4. Bio-Hacks\n\nStanding Desks: Essential for flexibility. If you sit for 8 hours, your hip flexors shorten, which ruins your running gait. Stand where you can.\nPower Poses: Based on the TED Talk by Amy Cuddy. Performing “power poses” (standing tall, arms open) can increase testosterone and improve performance. Consider integrating this into your pre-race routine."
   },
   {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "The Running Blog",
-    "section": "",
-    "text": "Journal: 2025-12-15\n\n\n\njournal\n\ndata\n\n\n\n\n\n\n\n\n\nDec 15, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nNorwegian Singles: 2025-12-15\n\n\n\nrunning\n\ndata\n\n\n\n\n\n\n\n\n\nDec 15, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nJournal: 2025-12-14\n\n\n\njournal\n\ndata\n\n\n\n\n\n\n\n\n\nDec 14, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nJournal: 2025-12-13\n\n\n\njournal\n\ndata\n\n\n\n\n\n\n\n\n\nDec 13, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nRun Analysis: 2025-12-13\n\n\n\nrunning\n\nanalysis\n\n\n\n\n\n\n\n\n\nDec 13, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nWelcome to My Blog\n\n\n\nnews\n\ngeneral\n\n\n\n\n\n\n\n\n\nDec 13, 2025\n\n\nGary Manley\n\n\n\n\n\nNo matching items"
+    "objectID": "other.html#my-library",
+    "href": "other.html#my-library",
+    "title": "Other Methods & Resources",
+    "section": "My Library",
+    "text": "My Library\nI am constantly reading and researching. If you only read three books this year, make it these:\n\nThe Big Book of Endurance Training - Phil Maffetone\nBorn to Run - Christopher McDougall\nWhy We Sleep - Matthew Walker"
   },
   {
-    "objectID": "assets/tables/table_Gary_Manley_2025-12-13_09-03-50.html",
-    "href": "assets/tables/table_Gary_Manley_2025-12-13_09-03-50.html",
-    "title": "Gary Manley Running",
-    "section": "",
-    "text": "Dist (100m)\nTime\nPace (min/km)\nAvg HR\nCadence\n\n\n\n\n1\n0:24\n4:02\n128\n81\n\n\n2\n0:20\n3:19\n158\n91\n\n\n3\n0:21\n3:30\n163\n93\n\n\n4\n0:22\n3:40\n165\n93\n\n\n5\n0:22\n3:42\n166\n91\n\n\n6\n0:22\n3:39\n168\n90\n\n\n7\n0:22\n3:40\n169\n88\n\n\n8\n0:21\n3:33\n168\n88\n\n\n9\n0:22\n3:37\n169\n90\n\n\n10\n0:22\n3:35\n170\n89\n\n\n11\n0:21\n3:32\n171\n89\n\n\n12\n0:20\n3:24\n172\n90\n\n\n13\n0:21\n3:28\n173\n89\n\n\n14\n0:21\n3:32\n173\n89\n\n\n15\n0:21\n3:29\n174\n88\n\n\n16\n0:22\n3:37\n175\n88\n\n\n17\n0:22\n3:44\n174\n88\n\n\n18\n0:22\n3:32\n175\n88\n\n\n19\n0:22\n3:38\n176\n88\n\n\n20\n0:21\n3:27\n176\n89\n\n\n21\n0:21\n3:33\n176\n89\n\n\n22\n0:22\n3:41\n175\n88\n\n\n23\n0:21\n3:30\n174\n88\n\n\n24\n0:22\n3:38\n176\n89\n\n\n25\n0:22\n3:40\n176\n91\n\n\n26\n0:22\n3:46\n175\n94\n\n\n27\n0:24\n3:49\n178\n92\n\n\n28\n0:21\n3:37\n179\n90\n\n\n29\n0:22\n3:33\n177\n90\n\n\n30\n0:22\n3:40\n178\n89\n\n\n31\n0:22\n3:43\n176\n89\n\n\n32\n0:23\n3:53\n178\n90\n\n\n33\n0:21\n3:31\n179\n90\n\n\n34\n0:22\n3:32\n179\n89\n\n\n35\n0:21\n3:31\n180\n88\n\n\n36\n0:21\n3:34\n180\n88\n\n\n37\n0:21\n3:31\n180\n88\n\n\n38\n0:22\n3:32\n181\n88\n\n\n39\n0:22\n3:45\n180\n88\n\n\n40\n0:21\n3:26\n180\n88\n\n\n41\n0:20\n3:22\n180\n89\n\n\n42\n0:22\n3:39\n179\n90\n\n\n43\n0:21\n5:23\n180\n91\n\n\n44\n0:21\n2:34\n179\n91\n\n\n45\n0:23\n3:52\n179\n91\n\n\n46\n0:22\n3:34\n179\n93\n\n\n47\n0:22\n3:46\n180\n93\n\n\n48\n0:22\n3:36\n180\n93\n\n\n49\n0:23\n3:49\n182\n91\n\n\n50\n0:18\n3:12\n182\n94"
-  },
-  {
-    "objectID": "assets/tables/table_2025-12-13.html",
-    "href": "assets/tables/table_2025-12-13.html",
-    "title": "Gary Manley Running",
-    "section": "",
-    "text": "Dist (100m)\nTime\nPace\nHR\nCadence\nStride (m)\n\n\n\n\n1\n0:24\n4:02\n128\n162\n1.51\n\n\n2\n0:20\n3:19\n158\n183\n1.64\n\n\n3\n0:21\n3:30\n163\n186\n1.53\n\n\n4\n0:22\n3:40\n165\n186\n1.46\n\n\n5\n0:22\n3:42\n166\n182\n1.48\n\n\n6\n0:22\n3:39\n168\n180\n1.51\n\n\n7\n0:22\n3:40\n169\n177\n1.54\n\n\n8\n0:21\n3:33\n168\n176\n1.6\n\n\n9\n0:22\n3:37\n169\n180\n1.54\n\n\n10\n0:22\n3:35\n170\n178\n1.56\n\n\n11\n0:21\n3:32\n171\n179\n1.57\n\n\n12\n0:20\n3:24\n172\n180\n1.63\n\n\n13\n0:21\n3:28\n173\n179\n1.6\n\n\n14\n0:21\n3:32\n173\n178\n1.58\n\n\n15\n0:21\n3:29\n174\n177\n1.61\n\n\n16\n0:22\n3:37\n175\n176\n1.57\n\n\n17\n0:22\n3:44\n174\n176\n1.52\n\n\n18\n0:22\n3:32\n175\n176\n1.6\n\n\n19\n0:22\n3:38\n176\n177\n1.54\n\n\n20\n0:21\n3:27\n176\n178\n1.62\n\n\n21\n0:21\n3:33\n176\n178\n1.61\n\n\n22\n0:22\n3:41\n175\n177\n1.53\n\n\n23\n0:21\n3:30\n174\n176\n1.62\n\n\n24\n0:22\n3:38\n176\n179\n1.53\n\n\n25\n0:22\n3:40\n176\n182\n1.5\n\n\n26\n0:22\n3:46\n175\n189\n1.4\n\n\n27\n0:24\n3:49\n178\n185\n1.41\n\n\n28\n0:21\n3:37\n179\n180\n1.52\n\n\n29\n0:22\n3:33\n177\n180\n1.56\n\n\n30\n0:22\n3:40\n178\n178\n1.79\n\n\n31\n0:22\n3:43\n176\n179\n1.5\n\n\n32\n0:23\n3:53\n178\n180\n1.42\n\n\n33\n0:21\n3:31\n179\n181\n1.57\n\n\n34\n0:22\n3:32\n179\n179\n1.58\n\n\n35\n0:21\n3:31\n180\n177\n1.6\n\n\n36\n0:21\n3:34\n180\n176\n1.58\n\n\n37\n0:21\n3:31\n180\n176\n1.61\n\n\n38\n0:22\n3:32\n181\n176\n1.6\n\n\n39\n0:22\n3:45\n180\n177\n1.5\n\n\n40\n0:21\n3:26\n180\n177\n1.63\n\n\n41\n0:20\n3:22\n180\n179\n1.65\n\n\n42\n0:22\n3:39\n179\n180\n1.51\n\n\n43\n0:21\n5:23\n180\n182\n1.35\n\n\n44\n0:21\n2:34\n179\n182\n2.12\n\n\n45\n0:23\n3:52\n179\n183\n1.4\n\n\n46\n0:22\n3:34\n179\n186\n1.5\n\n\n47\n0:22\n3:46\n180\n186\n1.42\n\n\n48\n0:22\n3:36\n180\n186\n1.48\n\n\n49\n0:23\n3:49\n182\n183\n1.42\n\n\n50\n0:18\n3:12\n182\n189\n1.65"
-  },
-  {
-    "objectID": "about.html",
-    "href": "about.html",
-    "title": "About Me",
-    "section": "",
-    "text": "I am a qualified running coach, but my real education comes from experience.\nSince 2014, I have spent years researching and experimenting to find out what truly works. I aim to train in a way that prioritises health to achieve performance, whereas many traditional plans chase performance at the expense of health.\nI have researched running, nutrition, mental training, strength training, and went down every rabbit hole I can find. I remain open-minded, largely due to my own transformative experience with diet and lifestyle."
-  },
-  {
-    "objectID": "about.html#my-qualifications",
-    "href": "about.html#my-qualifications",
-    "title": "About Me",
-    "section": "My Qualifications",
-    "text": "My Qualifications\nI hold the official coaching certifications from England Athletics:\n\nLiRF (Leader in Running Fitness)\nCiRF (Coach in Running Fitness)"
-  },
-  {
-    "objectID": "about.html#my-journey",
-    "href": "about.html#my-journey",
-    "title": "About Me",
-    "section": "My Journey",
-    "text": "My Journey\nIf I can do it, anyone can.\nMy journey into running started from a place of struggle. I used to weigh 20 stone and relied on a walking stick due to a crippling foot condition (Ledderhose disease).\nI reversed my health through the very methods I now teach—nutrition, barefoot movement, and patience.\nRead more about my journey with Plantar Fibroma"
-  },
-  {
-    "objectID": "assets/tables/intervals_2025-12-15.html",
-    "href": "assets/tables/intervals_2025-12-15.html",
-    "title": "Gary Manley Running",
-    "section": "",
-    "text": "Rep\nAvg HR\nMax HR\nPace\nHR Compliance %\nPace Rating\n\n\n\n\n1\n154\n157\n4:08\n100%\nTarget (+/- 5s)\n\n\n2\n157\n160\n4:16\n100%\nOkay (+/- 15s)\n\n\n3\n157\n161\n4:12\n100%\nClose (+/- 10s)\n\n\n4\n159\n161\n4:04\n100%\nTarget (+/- 5s)\n\n\n5\n163\n167\n4:13\n100%\nClose (+/- 10s)\n\n\n6\n163\n166\n4:12\n100%\nClose (+/- 10s)\n\n\n7\n164\n166\n4:04\n100%\nTarget (+/- 5s)\n\n\n8\n164\n166\n4:00\n100%\nTarget (+/- 5s)\n\n\n9\n164\n167\n4:06\n100%\nTarget (+/- 5s)\n\n\n10\n163\n167\n4:03\n100%\nTarget (+/- 5s)"
-  },
-  {
-    "objectID": "assets/tables/table_Gary_Manley_2025-12-13_09-03-50.GPX.html",
-    "href": "assets/tables/table_Gary_Manley_2025-12-13_09-03-50.GPX.html",
-    "title": "Gary Manley Running",
-    "section": "",
-    "text": "Dist (100m)\nTime\nPace (min/km)\nAvg HR\nCadence\n\n\n\n\n1\n0:24\n4:02\n0\n0\n\n\n2\n0:20\n3:19\n0\n0\n\n\n3\n0:20\n3:30\n0\n0\n\n\n4\n0:22\n3:40\n0\n0\n\n\n5\n0:22\n3:42\n0\n0\n\n\n6\n0:22\n3:39\n0\n0\n\n\n7\n0:22\n3:40\n0\n0\n\n\n8\n0:21\n3:43\n0\n0\n\n\n9\n0:22\n3:37\n0\n0\n\n\n10\n0:22\n3:35\n0\n0\n\n\n11\n0:20\n3:32\n0\n0\n\n\n12\n0:20\n3:24\n0\n0\n\n\n13\n0:20\n3:28\n0\n0\n\n\n14\n0:21\n3:32\n0\n0\n\n\n15\n0:21\n3:29\n0\n0\n\n\n16\n0:22\n3:37\n0\n0\n\n\n17\n0:22\n3:44\n0\n0\n\n\n18\n0:22\n3:32\n0\n0\n\n\n19\n0:22\n3:38\n0\n0\n\n\n20\n0:21\n3:27\n0\n0\n\n\n21\n0:21\n3:33\n0\n0\n\n\n22\n0:21\n3:41\n0\n0\n\n\n23\n0:21\n3:30\n0\n0\n\n\n24\n0:22\n3:38\n0\n0\n\n\n25\n0:22\n3:40\n0\n0\n\n\n26\n0:22\n3:46\n0\n0\n\n\n27\n0:24\n3:49\n0\n0\n\n\n28\n0:20\n3:37\n0\n0\n\n\n29\n0:22\n3:33\n0\n0\n\n\n30\n0:21\n3:40\n0\n0\n\n\n31\n0:22\n3:43\n0\n0\n\n\n32\n0:23\n3:53\n0\n0\n\n\n33\n0:21\n3:31\n0\n0\n\n\n34\n0:22\n3:32\n0\n0\n\n\n35\n0:21\n3:31\n0\n0\n\n\n36\n0:20\n3:34\n0\n0\n\n\n37\n0:21\n3:31\n0\n0\n\n\n38\n0:22\n3:32\n0\n0\n\n\n39\n0:21\n3:45\n0\n0\n\n\n40\n0:21\n3:26\n0\n0\n\n\n41\n0:20\n3:22\n0\n0\n\n\n42\n0:22\n3:39\n0\n0\n\n\n43\n0:14\n3:50\n0\n0\n\n\n44\n0:27\n3:19\n0\n0\n\n\n45\n0:23\n3:52\n0\n0\n\n\n46\n0:21\n3:34\n0\n0\n\n\n47\n0:22\n3:46\n0\n0\n\n\n48\n0:22\n3:36\n0\n0\n\n\n49\n0:22\n3:49\n0\n0\n\n\n50\n0:18\n3:12\n0\n0"
-  },
-  {
-    "objectID": "barefoot.html",
-    "href": "barefoot.html",
-    "title": "Barefoot Running",
-    "section": "",
-    "text": "ImportantMedical Disclaimer\n\n\n\nThis content is based on my experience and research. If you have any injuries at any point, you should consult with a medical professional before continuing.\nBarefoot walking and running (or using minimalist footwear) has numerous health benefits. It is not just a trend; it is about restoring natural function."
-  },
-  {
-    "objectID": "barefoot.html#improved-foot-strength-function",
-    "href": "barefoot.html#improved-foot-strength-function",
-    "title": "Barefoot Running",
-    "section": "Improved Foot Strength & Function",
-    "text": "Improved Foot Strength & Function\n1. Enhanced Proprioception Walking and running barefoot stimulate the sensory receptors in the feet, improving proprioception (awareness of your body’s position in space). This leads to better balance, coordination, and a reduced risk of falls, especially in older adults.\n2. Strengthened Foot Muscles Without the “crutch” of supportive shoes, your foot muscles are forced to work harder to stabilize the foot and absorb impact. This leads to increased strength and improved mechanical function.\n3. Reduced Risk of Injury While counterintuitive, studies suggest that barefoot running may reduce the risk of certain injuries—such as stress fractures and plantar fasciitis—by promoting a more natural gait and reducing high-impact heel strikes."
-  },
-  {
-    "objectID": "barefoot.html#posture-gait",
-    "href": "barefoot.html#posture-gait",
-    "title": "Barefoot Running",
-    "section": "Posture & Gait",
-    "text": "Posture & Gait\n\nNatural Gait: Minimalist movement encourages a midfoot or forefoot strike, which reduces stress on the joints and improves efficiency.\nImproved Posture: By strengthening the foot and ankle complex, barefoot movement contributes to better overall posture, reducing strain on the knees, hips, and back."
-  },
-  {
-    "objectID": "barefoot.html#other-potential-benefits",
-    "href": "barefoot.html#other-potential-benefits",
-    "title": "Barefoot Running",
-    "section": "Other Potential Benefits",
-    "text": "Other Potential Benefits\n\nReduced Stress: Stimulating the nervous system through the soles of the feet may promote relaxation and reduce anxiety.\nImproved Circulation: The mechanical stimulation of the feet may help improve blood flow.\nEarthing (Grounding): Walking barefoot on the earth’s surface allows for the transfer of electrons from the earth to the body. Proponents believe this can reduce inflammation and improve sleep.\n\n\n\n\n\n\n\n\nWarningImportant Considerations\n\n\n\n1. Transition Gradually This is the most critical rule. If you are new to barefoot movement, your calves and Achilles are likely tight and weak. Start with laughably short distances and gradually increase duration over months, not weeks.\n2. Choose Appropriate Surfaces Avoid rough or hazardous surfaces initially. Opt for soft, natural surfaces like grass or sand until your skin and muscles adapt.\n3. Listen to Your Body If you experience pain, stop immediately. Rest is part of the process.\n4. Consult a Professional If you have existing foot concerns, consult a qualified podiatrist (preferably one who understands functional movement) before starting."
-  },
-  {
-    "objectID": "barefoot.html#recommended-reading",
-    "href": "barefoot.html#recommended-reading",
-    "title": "Barefoot Running",
-    "section": "Recommended Reading",
-    "text": "Recommended Reading\n\nBorn to Run by Christopher McDougall\nBorn to Run 2 by Christopher McDougall"
-  },
-  {
-    "objectID": "barefoot.html#references",
-    "href": "barefoot.html#references",
-    "title": "Barefoot Running",
+    "objectID": "other.html#references",
+    "href": "other.html#references",
+    "title": "Other Methods & Resources",
     "section": "References",
-    "text": "References\n\nHarvard: Biomechanics of Foot Strikes\nRed Bull: Benefits of Barefoot Running\nHealthline: Walking Barefoot\nMIT: Staying Grounded"
+    "text": "References\n\nMassage & Recovery: Rapaport et al., 2010 (NCBI)\nPower Poses: Amy Cuddy TED Talk"
   },
   {
-    "objectID": "coaching.html",
-    "href": "coaching.html",
-    "title": "Personal Coaching",
+    "objectID": "posts/2025-12-13-run.html",
+    "href": "posts/2025-12-13-run.html",
+    "title": "Run Analysis: 2025-12-13",
     "section": "",
-    "text": "I believe that everyone is unique. You deserve a dynamic training guide, not a rigid spreadsheet."
+    "text": "Effort Score: 87"
   },
   {
-    "objectID": "coaching.html#my-philosophy",
-    "href": "coaching.html#my-philosophy",
-    "title": "Personal Coaching",
-    "section": "My Philosophy",
-    "text": "My Philosophy\nMost training plans fail because life gets in the way. A static PDF cannot adjust when you get sick, work gets stressful, or you just feel tired.\nI work differently. I limit myself to a small number of runners at a time so I can provide true personalization. We will build a flexible training guide together. We remain dynamic—adjusting the structure as your life changes—so you can focus on the running while I focus on the planning.\n\nWho I Coach\nWhether your goal is getting off the couch, smashing a parkrun PB, or completing your first Half Marathon, I can help.\n\nImportant Note: I put your health first. I do not coach for distances longer than a Half Marathon (21km), as I believe the training volume required for ultra-endurance events is often contrary to long-term health."
-  },
-  {
-    "objectID": "coaching.html#how-it-works",
-    "href": "coaching.html#how-it-works",
-    "title": "Personal Coaching",
-    "section": "How It Works",
-    "text": "How It Works\n\n1. The Onboarding\nBefore we run a single mile, we need to ensure we are a good match. * The Portfolio: You will complete a “Getting to Know You” portfolio covering your history, injuries, and wildest goals. * The Consultation: We will have a virtual or face-to-face meeting to dig into the details. * The Strategy: We align your target races with a realistic roadmap.\n\n\n2. The Training\nHumans are complex systems. Running performance is not just about miles; it is about health. * Holistic Guidance: I provide advice on strength training, mental resilience, technique, and nutrition (including low-carb/keto adaptations if that is your goal). * Regular Feedback: We stay in touch regularly. You share how you feel; I adjust the guide."
-  },
-  {
-    "objectID": "coaching.html#what-is-included",
-    "href": "coaching.html#what-is-included",
-    "title": "Personal Coaching",
-    "section": "What Is Included",
-    "text": "What Is Included\nWhen you sign up, you get a fully comprehensive package:\n\nInitial Consultation: Deep dive into fitness, aspirations, and lifestyle constraints.\nHealth Audit: Review of injury history and relevant health markers.\nPersonalized Guide: A dynamic training structure built for you.\nFeedback Loop: Regular support via email and scheduled calls.\nResource Library: Access to my advice on nutrition, mental performance, and strength conditioning."
-  },
-  {
-    "objectID": "coaching.html#investment",
-    "href": "coaching.html#investment",
-    "title": "Personal Coaching",
-    "section": "Investment",
-    "text": "Investment\n\n\n\n\n\n\nNoteSetup & Onboarding\n\n\n\n£50 (One-off) Includes initial portfolio analysis, health history review, and strategy consultation.\n\n\n\n\n\n\n\n\nTipMonthly Coaching\n\n\n\n£45 / month Includes dynamic planning, regular feedback, and ongoing support.\n\n\n\n\n\n\n\n\nImportant1-on-1 Sessions\n\n\n\n£50 / hour Optional face-to-face coaching for technique analysis or in-person support.\n\n\nGet in Touch to Start"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Gary Manley Running",
+    "objectID": "posts/2025-12-13-run.html#route-map",
+    "href": "posts/2025-12-13-run.html#route-map",
+    "title": "Run Analysis: 2025-12-13",
     "section": "",
-    "text": "I am a running coach with a unique philosophy. I believe that running should enhance your life, not dominate it. Whether you are chasing a parkrun PB or training for your first Ultra, the biology remains the same.\nRead My Philosophy"
+    "text": "Effort Score: 87"
   },
   {
-    "objectID": "index.html#run-healthy.-burn-fat.-go-further.",
-    "href": "index.html#run-healthy.-burn-fat.-go-further.",
-    "title": "Gary Manley Running",
+    "objectID": "posts/2025-12-13-run.html#the-ghost-battle",
+    "href": "posts/2025-12-13-run.html#the-ghost-battle",
+    "title": "Run Analysis: 2025-12-13",
+    "section": "The Ghost Battle",
+    "text": "The Ghost Battle"
+  },
+  {
+    "objectID": "posts/2025-12-13-run.html#performance-dashboard",
+    "href": "posts/2025-12-13-run.html#performance-dashboard",
+    "title": "Run Analysis: 2025-12-13",
+    "section": "Performance Dashboard",
+    "text": "Performance Dashboard\nInteractive: Hover to see details."
+  },
+  {
+    "objectID": "posts/2025-12-13-run.html#detailed-splits",
+    "href": "posts/2025-12-13-run.html#detailed-splits",
+    "title": "Run Analysis: 2025-12-13",
+    "section": "Detailed Splits",
+    "text": "Detailed Splits\n\n\n\nDist (100m)\nTime\nPace\nHR\nCadence\nStride (m)\n\n\n\n\n1\n0:24\n4:02\n128\n162\n1.51\n\n\n2\n0:20\n3:19\n158\n183\n1.64\n\n\n3\n0:21\n3:30\n163\n186\n1.53\n\n\n4\n0:22\n3:40\n165\n186\n1.46\n\n\n5\n0:22\n3:42\n166\n182\n1.48\n\n\n6\n0:22\n3:39\n168\n180\n1.51\n\n\n7\n0:22\n3:40\n169\n177\n1.54\n\n\n8\n0:21\n3:33\n168\n176\n1.6\n\n\n9\n0:22\n3:37\n169\n180\n1.54\n\n\n10\n0:22\n3:35\n170\n178\n1.56\n\n\n11\n0:21\n3:32\n171\n179\n1.57\n\n\n12\n0:20\n3:24\n172\n180\n1.63\n\n\n13\n0:21\n3:28\n173\n179\n1.6\n\n\n14\n0:21\n3:32\n173\n178\n1.58\n\n\n15\n0:21\n3:29\n174\n177\n1.61\n\n\n16\n0:22\n3:37\n175\n176\n1.57\n\n\n17\n0:22\n3:44\n174\n176\n1.52\n\n\n18\n0:22\n3:32\n175\n176\n1.6\n\n\n19\n0:22\n3:38\n176\n177\n1.54\n\n\n20\n0:21\n3:27\n176\n178\n1.62\n\n\n21\n0:21\n3:33\n176\n178\n1.61\n\n\n22\n0:22\n3:41\n175\n177\n1.53\n\n\n23\n0:21\n3:30\n174\n176\n1.62\n\n\n24\n0:22\n3:38\n176\n179\n1.53\n\n\n25\n0:22\n3:40\n176\n182\n1.5\n\n\n26\n0:22\n3:46\n175\n189\n1.4\n\n\n27\n0:24\n3:49\n178\n185\n1.41\n\n\n28\n0:21\n3:37\n179\n180\n1.52\n\n\n29\n0:22\n3:33\n177\n180\n1.56\n\n\n30\n0:22\n3:40\n178\n178\n1.79\n\n\n31\n0:22\n3:43\n176\n179\n1.5\n\n\n32\n0:23\n3:53\n178\n180\n1.42\n\n\n33\n0:21\n3:31\n179\n181\n1.57\n\n\n34\n0:22\n3:32\n179\n179\n1.58\n\n\n35\n0:21\n3:31\n180\n177\n1.6\n\n\n36\n0:21\n3:34\n180\n176\n1.58\n\n\n37\n0:21\n3:31\n180\n176\n1.61\n\n\n38\n0:22\n3:32\n181\n176\n1.6\n\n\n39\n0:22\n3:45\n180\n177\n1.5\n\n\n40\n0:21\n3:26\n180\n177\n1.63\n\n\n41\n0:20\n3:22\n180\n179\n1.65\n\n\n42\n0:22\n3:39\n179\n180\n1.51\n\n\n43\n0:21\n5:23\n180\n182\n1.35\n\n\n44\n0:21\n2:34\n179\n182\n2.12\n\n\n45\n0:23\n3:52\n179\n183\n1.4\n\n\n46\n0:22\n3:34\n179\n186\n1.5\n\n\n47\n0:22\n3:46\n180\n186\n1.42\n\n\n48\n0:22\n3:36\n180\n186\n1.48\n\n\n49\n0:23\n3:49\n182\n183\n1.42\n\n\n50\n0:18\n3:12\n182\n189\n1.65"
+  },
+  {
+    "objectID": "posts/2025-12-15-journal.html",
+    "href": "posts/2025-12-15-journal.html",
+    "title": "Journal: 2025-12-15",
     "section": "",
-    "text": "I am a running coach with a unique philosophy. I believe that running should enhance your life, not dominate it. Whether you are chasing a parkrun PB or training for your first Ultra, the biology remains the same.\nRead My Philosophy"
+    "text": "Coach’s Notes: Fantastic work yesterday, you absolutely crushed it across the board! Your dedication to recovery and training is evident in those near-perfect scores, setting a powerful foundation for continued progress. Keep this incredible momentum going!"
   },
   {
-    "objectID": "maf.html",
-    "href": "maf.html",
-    "title": "The MAF Method",
+    "objectID": "posts/2025-12-15-journal.html#daily-snapshot",
+    "href": "posts/2025-12-15-journal.html#daily-snapshot",
+    "title": "Journal: 2025-12-15",
     "section": "",
-    "text": "Running shouldn’t dictate your life, and you shouldn’t always be stressing about a plan. I prefer to call them schedules or guidelines.\nListen to your body. Enjoy running as part of a healthy life."
+    "text": "Coach’s Notes: Fantastic work yesterday, you absolutely crushed it across the board! Your dedication to recovery and training is evident in those near-perfect scores, setting a powerful foundation for continued progress. Keep this incredible momentum going!"
   },
   {
-    "objectID": "maf.html#the-core-philosophy",
-    "href": "maf.html#the-core-philosophy",
-    "title": "The MAF Method",
-    "section": "The Core Philosophy",
-    "text": "The Core Philosophy\nA key feature of my training is running slow. To go fast, we must first build the engine to go far without stress.\nIn an ideal world, you will use a chest-strap heart rate monitor, but a wrist-based one or even “running by feel” can work if you are honest with yourself.\n\n\n\n\n\n\nNoteThe 180 Formula (MAF)\n\n\n\nThe basic approach is to perform your cardio at 180 minus your age.\n\nExample: If you are 40 years old, most of your running should be below 140 beats per minute (bpm).\nThe Limit: 140 bpm is the maximum, not the average.\n\nTo start with, this can be frustrating. It will likely include walking, especially uphill. I suggest a Base Phase where almost all your running is done at this heart rate. It builds a massive aerobic base without the cortisol stress of high-intensity training."
-  },
-  {
-    "objectID": "maf.html#the-8020-rule",
-    "href": "maf.html#the-8020-rule",
-    "title": "The MAF Method",
-    "section": "The 80/20 Rule",
-    "text": "The 80/20 Rule\nAnother popular philosophy I use is 80/20 Running.\n\n\n\n\n\n\nTipThe Balance\n\n\n\n\n80% of your training should be very easy (like the MAF pace above).\n20% of your training is speedwork.\n\nWhy this matters: If you run 30 miles a week and run a hard parkrun (3 miles), you have done your 10% speedwork right there. If you do the rest of your runs “kind of hard,” you are training in the grey zone—too hard to recover, too easy to get fast.\n\n\nI favour a conservative approach: start at 100/0 (all easy), then move to 90/10, and finally 80/20 only when your body is ready."
-  },
-  {
-    "objectID": "maf.html#additional-resources",
-    "href": "maf.html#additional-resources",
-    "title": "The MAF Method",
-    "section": "Additional Resources",
-    "text": "Additional Resources\n\nEssential Viewing\n Run for your life! At a comfortable pace, and not too far: James O’Keefe at TEDx\n\n\nRecommended Reading\n\nBook: The Big Book of Endurance Training and Racing (Phil Maffetone)\nArticle: Want Speed? Slow Down\nArticle: Overcoming Frustrations with MAF\nGuide: What is 80/20 Running?"
-  },
-  {
-    "objectID": "nutrition.html",
-    "href": "nutrition.html",
-    "title": "Nutrition & Fasting",
-    "section": "",
-    "text": "WarningDisclaimer\n\n\n\nI am not a qualified nutritionist. The following is based on 10 years of personal research and investigation since being obese myself. Depending on your dedication, gut health, and metabolic flexibility, there are many approaches you can take. Take from this what you want."
-  },
-  {
-    "objectID": "nutrition.html#the-hierarchy-of-diet",
-    "href": "nutrition.html#the-hierarchy-of-diet",
-    "title": "Nutrition & Fasting",
-    "section": "The Hierarchy of Diet",
-    "text": "The Hierarchy of Diet\nTo start with, the priority is running slow. If you then want to ease into healthier eating, that is the next step. You don’t need to do everything at once.\nHere is the progression I recommend, depending on how “strict” you want to be:\n\nLevel 1: The Basics\n\nRemove or minimize alcohol.\nRemove processed garbage (cakes, biscuits, sweets, etc.).\n\nLevel 2: The “Paleo” Approach\n\nReduce foods that were not available 10,000 years ago.\nCut out: Pasta, rice, flour, bread.\nEat: Meat, dairy, fruit, and vegetables.\n\nLevel 3: The Keto Diet\n\nRemove vegetables grown below ground (potatoes, carrots, etc.).\nLimit berries and high-sugar fruits.\n\n\n\n\n\n\n\n\nTipGut Health\n\n\n\nIf you are struggling with digestion or inflammation, I find that Kefir really helps where other methods haven’t."
-  },
-  {
-    "objectID": "nutrition.html#the-eating-schedule-fasting",
-    "href": "nutrition.html#the-eating-schedule-fasting",
-    "title": "Nutrition & Fasting",
-    "section": "The Eating Schedule (Fasting)",
-    "text": "The Eating Schedule (Fasting)\n“Diet” is what you eat; “Fasting” is when you eat.\nThis approach takes advantage of the fact that humans naturally fast overnight. Extending this window allows insulin to drop and fat cells to be mobilized. This pairs perfectly with slow running (MAF).\nWork by scientists like Tim Noakes has shown that becoming “fat-adapted” increases the energy you can derive from body fat during intense exercise, significantly reducing the chance of “bonking” (running out of energy).\n\nMy Protocols\n\nThe Morning Window: Don’t eat for 2-3 hours after waking up.\nFasted Training: Do some morning runs before eating anything.\n\nReference: I regularly do parkrun fasted (approx. 21 hours without food).\n\nThe Evening Gap: Do not eat for at least 3 hours before bed.\n\n\n\nAdvanced Adaptation\nIf you take well to fat adaptation, you can push this further. It is routine for me to:\n\nRun 10 miles first thing in the morning.\nNot eat until lunchtime.\nFit in strength training or cross-training later.\nEat only one meal a day (OMAD) or within a 1-hour window.\n\n\nNote: This level of fasting is for metabolically flexible runners. Don’t force it if you feel dizzy or weak."
-  },
-  {
-    "objectID": "nutrition.html#additional-resources",
-    "href": "nutrition.html#additional-resources",
-    "title": "Nutrition & Fasting",
-    "section": "Additional Resources",
-    "text": "Additional Resources\nHere are the key resources that have shaped my understanding of nutrition and performance.\n\nDr. Tim Noakes & Low Carb\n\nThe Noakes Foundation: Challenging the dogma around carbohydrates and performance.\nPublic Health Collaboration UK: A charity dedicated to improving public health through lifestyle changes (Real Food/Low Carb).\nDiet Doctor: The world’s largest low-carb site with visual guides on what to eat.\n\n\n\nGut Health & Fasting\n\nMark’s Daily Apple: The definitive guide to the “Primal” (Paleo) lifestyle.\nDr. Jason Fung: The leading expert on Intermittent Fasting and insulin control.\n\n\n\nRecommended Reading\n\nThe Real Meal Revolution by Tim Noakes\nThe Obesity Code by Dr. Jason Fung\nPrimal Endurance by Mark Sisson"
-  },
-  {
-    "objectID": "posts/2025-12-13-journal.html",
-    "href": "posts/2025-12-13-journal.html",
-    "title": "Journal: 2025-12-13",
-    "section": "",
-    "text": "Wins: Strong performance today in Sleep, Cardio 1, Cardio 2, Cardio 3, Prehab, Eating Window, Mental Training."
-  },
-  {
-    "objectID": "posts/2025-12-13-journal.html#daily-snapshot",
-    "href": "posts/2025-12-13-journal.html#daily-snapshot",
-    "title": "Journal: 2025-12-13",
-    "section": "",
-    "text": "Wins: Strong performance today in Sleep, Cardio 1, Cardio 2, Cardio 3, Prehab, Eating Window, Mental Training."
-  },
-  {
-    "objectID": "posts/2025-12-13-journal.html#notes",
-    "href": "posts/2025-12-13-journal.html#notes",
-    "title": "Journal: 2025-12-13",
+    "objectID": "posts/2025-12-15-journal.html#notes",
+    "href": "posts/2025-12-15-journal.html#notes",
+    "title": "Journal: 2025-12-15",
     "section": "Notes",
-    "text": "Notes\nEnter your written journal notes here…"
+    "text": "Notes\nToday I ran my first Norwegian single session, it went well but will be interesting to see how tired I feel tomorrow. The rest of the day was ok with lots of recovery walking and prehab. Worked a lot on visualisation and hoping that helps me in lots of different ways."
   },
   {
-    "objectID": "posts/2025-12-14-journal.html",
-    "href": "posts/2025-12-14-journal.html",
-    "title": "Journal: 2025-12-14",
+    "objectID": "posts/welcome/index.html",
+    "href": "posts/welcome/index.html",
+    "title": "Welcome to My Blog",
     "section": "",
-    "text": "Coach’s Notes: Exceptional performance today across the board! Your perfect scores in sleep, cardio, prehab, eating window, and mental training are exactly what we’re aiming for, and the slight dips in cardio 2, cardio 3, strength training, and visualisation show you’re pushing boundaries while still maintaining incredible consistency. Keep this intensity and focus, and we’ll continue to crush our goals."
+    "text": "This is my first blog post.\nI will use this space to share race reports, training updates, and random thoughts on the running world."
   },
   {
-    "objectID": "posts/2025-12-14-journal.html#daily-snapshot",
-    "href": "posts/2025-12-14-journal.html#daily-snapshot",
-    "title": "Journal: 2025-12-14",
+    "objectID": "posts/welcome/index.html#why-i-am-blogging",
+    "href": "posts/welcome/index.html#why-i-am-blogging",
+    "title": "Welcome to My Blog",
+    "section": "Why I am blogging",
+    "text": "Why I am blogging\nBecause running is more than just miles; it’s about the journey. I wanted a method to try and get me to start journalling and keeping a track of things and lets see if this works."
+  },
+  {
+    "objectID": "reviews/primal-endurance.html",
+    "href": "reviews/primal-endurance.html",
+    "title": "Primal Endurance",
     "section": "",
-    "text": "Coach’s Notes: Exceptional performance today across the board! Your perfect scores in sleep, cardio, prehab, eating window, and mental training are exactly what we’re aiming for, and the slight dips in cardio 2, cardio 3, strength training, and visualisation show you’re pushing boundaries while still maintaining incredible consistency. Keep this intensity and focus, and we’ll continue to crush our goals."
+    "text": "“Health leads to performance.”\n\nPrimal Endurance aims to be a ground-breaking guide that revolutionizes the way we approach endurance training. This book was the original inspiration for changing my training methodology after a few years of constant injuries.\n\n\n\n\n\n\nTipKey Takeaways\n\n\n\n🏃‍♂️ Stay Slow: Focus on aerobic development via MAF training.\n💪 Do Strength Work: Essential for durability.\n🦶 Go Barefoot: Drills to recover foot strength."
   },
   {
-    "objectID": "posts/2025-12-14-journal.html#notes",
-    "href": "posts/2025-12-14-journal.html#notes",
-    "title": "Journal: 2025-12-14",
-    "section": "Notes",
-    "text": "Notes\nToday was rest day with lots of walking and that was actually the best sleep I have had in month, sleeping before 10pm and didn’t wake until 5:30! Which is super late for me"
-  },
-  {
-    "objectID": "posts/2025-12-15-run.html",
-    "href": "posts/2025-12-15-run.html",
-    "title": "Norwegian Singles: 2025-12-15",
+    "objectID": "reviews/primal-endurance.html#the-verdict",
+    "href": "reviews/primal-endurance.html#the-verdict",
+    "title": "Primal Endurance",
     "section": "",
-    "text": "Pace Score: 41/50 (Avg pace vs Target +/- 5s, 10s, 15s)\nHR Score: 50/50 (Avg 100% compliance)\n\nTarget: 4:05/km | HR Cap: 170 bpm\n\n\n\n\n\n\n\n\n\n\n\nRep\nAvg HR\nMax HR\nPace\nHR Compliance %\nPace Rating\n\n\n\n\n1\n154\n157\n4:08\n100%\nTarget (+/- 5s)\n\n\n2\n157\n160\n4:16\n100%\nOkay (+/- 15s)\n\n\n3\n157\n161\n4:12\n100%\nClose (+/- 10s)\n\n\n4\n159\n161\n4:04\n100%\nTarget (+/- 5s)\n\n\n5\n163\n167\n4:13\n100%\nClose (+/- 10s)\n\n\n6\n163\n166\n4:12\n100%\nClose (+/- 10s)\n\n\n7\n164\n166\n4:04\n100%\nTarget (+/- 5s)\n\n\n8\n164\n166\n4:00\n100%\nTarget (+/- 5s)\n\n\n9\n164\n167\n4:06\n100%\nTarget (+/- 5s)\n\n\n10\n163\n167\n4:03\n100%\nTarget (+/- 5s)\n\n\n\n\n\nGreen Band = +/- 10s. Blue Line = Rep Average."
+    "text": "“Health leads to performance.”\n\nPrimal Endurance aims to be a ground-breaking guide that revolutionizes the way we approach endurance training. This book was the original inspiration for changing my training methodology after a few years of constant injuries.\n\n\n\n\n\n\nTipKey Takeaways\n\n\n\n🏃‍♂️ Stay Slow: Focus on aerobic development via MAF training.\n💪 Do Strength Work: Essential for durability.\n🦶 Go Barefoot: Drills to recover foot strength."
   },
   {
-    "objectID": "posts/2025-12-15-run.html#session-score-91100",
-    "href": "posts/2025-12-15-run.html#session-score-91100",
-    "title": "Norwegian Singles: 2025-12-15",
+    "objectID": "reviews/primal-endurance.html#my-review",
+    "href": "reviews/primal-endurance.html#my-review",
+    "title": "Primal Endurance",
+    "section": "My Review",
+    "text": "My Review\nAuthored by Mark Sisson and Brad Kearns, the book presents a comprehensive blueprint for achieving peak performance while embracing the primal principles of ancestral health.\nSisson and Kearns skilfully marry their expertise in endurance training with the ancestral wisdom of our hunter-gatherer ancestors. The result is a holistic approach that prioritizes intuitive training, emphasizing the importance of aerobic development through MAF training and metabolic efficiency over traditionally high-stress, “chronic cardio” routines.\n\nAccessibility & Science\nThe authors provide a wealth of practical advice, backed by scientific research, to guide readers on the journey to becoming fat-adapted athletes.\nOne of the book’s standout features is its accessibility. They break down complex concepts into easily digestible information, making it suitable for both seasoned athletes and those new to the world of endurance sports. The inclusion of real-life success stories adds a motivational layer to the narrative.\n\n\nThe Barefoot Component\nIt is also great to see barefoot shoes and drills being encouraged. We evolved to be barefoot and whilst our feet are too weak from years of cushioning and at risk from modern paths, there is no reason some barefoot walking can’t be used to improve technique and stave off injury.\n\n\nConclusion\n“Primal Endurance” doesn’t just stop at training methodologies; it also explores the importance of nutrition, sleep, and stress management in achieving optimal performance. The emphasis on a holistic lifestyle approach ensures that readers walk away with a comprehensive understanding of how to thrive in all aspects of life."
+  },
+  {
+    "objectID": "strength.html",
+    "href": "strength.html",
+    "title": "Strength Training",
     "section": "",
-    "text": "Pace Score: 41/50 (Avg pace vs Target +/- 5s, 10s, 15s)\nHR Score: 50/50 (Avg 100% compliance)\n\nTarget: 4:05/km | HR Cap: 170 bpm\n\n\n\n\n\n\n\n\n\n\n\nRep\nAvg HR\nMax HR\nPace\nHR Compliance %\nPace Rating\n\n\n\n\n1\n154\n157\n4:08\n100%\nTarget (+/- 5s)\n\n\n2\n157\n160\n4:16\n100%\nOkay (+/- 15s)\n\n\n3\n157\n161\n4:12\n100%\nClose (+/- 10s)\n\n\n4\n159\n161\n4:04\n100%\nTarget (+/- 5s)\n\n\n5\n163\n167\n4:13\n100%\nClose (+/- 10s)\n\n\n6\n163\n166\n4:12\n100%\nClose (+/- 10s)\n\n\n7\n164\n166\n4:04\n100%\nTarget (+/- 5s)\n\n\n8\n164\n166\n4:00\n100%\nTarget (+/- 5s)\n\n\n9\n164\n167\n4:06\n100%\nTarget (+/- 5s)\n\n\n10\n163\n167\n4:03\n100%\nTarget (+/- 5s)\n\n\n\n\n\nGreen Band = +/- 10s. Blue Line = Rep Average."
+    "text": "Strength training is non-negotiable for runners. It boosts economy, increases fatigue resistance, and keeps you injury-free."
   },
   {
-    "objectID": "posts/2025-12-15-run.html#deep-dive-dashboard",
-    "href": "posts/2025-12-15-run.html#deep-dive-dashboard",
-    "title": "Norwegian Singles: 2025-12-15",
-    "section": "Deep Dive Dashboard",
-    "text": "Deep Dive Dashboard"
+    "objectID": "strength.html#the-routine",
+    "href": "strength.html#the-routine",
+    "title": "Strength Training",
+    "section": "The Routine",
+    "text": "The Routine\nYou don’t need a gym membership. A simple bodyweight routine performed consistently is better than a complex heavy-lifting routine performed sporadically.\n\n\n\n\n\n\nNoteCore Exercises\n\n\n\n\nSquat Jumps\n\nWhy: Boosts explosive power.\nTip: Keep chest up; extend hips completely.\n\nBulgarian Split Squat\n\nWhy: Fixes imbalances; generates single-leg stability.\nTip: Don’t let your front knee collapse inward.\n\nSingle Leg Squat (Pistol Prep)\n\nWhy: Ultimate stability and core control.\nTip: Use a chair for balance initially.\n\nGlute Bridge\n\nWhy: Wakes up the posterior chain (often asleep in runners).\nTip: Drive through your heels."
   },
   {
-    "objectID": "reviews/born-to-run.html",
-    "href": "reviews/born-to-run.html",
-    "title": "Born to Run",
-    "section": "",
-    "text": "Book: Born to Run by Christopher McDougall\nDifficulty: Easy Jog (Extremely Readable)\nThe Gist: High-octane adventure meets evolutionary biology.\n\n\n\n\n\n\nTipTL;DR Verdict\n\n\n\nEssential reading. It reframes running from a chore into a biological necessity and a joy. Warning: Do not read this and immediately throw away your shoes; transition slowly.\n\n\n\n\n\nChristopher McDougall was a broken runner. At 6’4” and 230 pounds, every doctor told him the same thing: “The human body isn’t designed for running; stop before you destroy your knees.”\nRefusing to accept that humans are destined to break, he trekked into the deadly Copper Canyons of Mexico to find the Tarahumara (the Rarámuri), a reclusive tribe who run hundreds of miles at a time without injury, without rest, and—most maddeningly of all—with a smile on their faces.\nThis isn’t just a story about a race; it is a forensic investigation into why modern runners get hurt while ancient runners are still logging ultra-marathons in their 80s.\n\n\n\n\nI’ve broken the book down into three non-negotiable pillars.\n\n\nMcDougall argues that the modern Western runner is fueled by stress, calorie-counting, and “no pain, no gain” suffering. The Tarahumara are fueled by korima (a culture of sharing) and pure joy.\n\nThe Lesson: Tension causes inefficiency. If you treat running like a chore or a battle, your muscles tighten, your form breaks, and you get injured. The Tarahumara run loose and laugh because relaxation = endurance.\n\n\n\n\nThis is the scientific backbone of the book. Referencing Harvard biologist Daniel Lieberman, McDougall argues that humans are the ultimate endurance machine. We aren’t fast, but we are the only animal that can shed heat while moving (sweating) and breathe independently of our stride.\nThe Data: We didn’t evolve to run to get away from predators; we evolved to run after prey until they collapsed from heat exhaustion. You were quite literally “born to run.”\n\n\n\nThe most controversial “split” in the book. McDougall wages war on the modern running shoe industry, arguing that cushioned heels encourage a high-impact “heel strike” that sends shockwaves through the joints.\n\nHe suggests that adding cushioning to a shoe is like putting a cast on a healthy limb—it causes the foot muscles to atrophy.\n\n\n\n\n\n\nYou don’t need to move to the Copper Canyons to run like a Tarahumara. Here is how to apply the book to your training tomorrow:\n\n\n\n\n\n\nNote🏃 Practical Application\n\n\n\n\nThe “Easy, Light, Smooth” Mantra Caballo Blanco (the book’s mysterious coach figure) offers the ultimate form cue. Do not try to be fast.\n\nFirst, focus on being Easy (relaxed).\nNext, focus on being Light (quiet feet).\nThen, focus on being Smooth.\nFast happens on its own as a result of the first three.\n\nCadence is King McDougall emphasizes a quick turnover (~180 steps per minute). This prevents over-striding (landing with your foot too far in front of you), which is the primary cause of knee, hip, and shin injuries.\nFuel Like a Minimalist The characters survive on Pinole (toasted corn flour) and Chia seeds (the “runner’s caviar”). The lesson is to focus on whole, simple foods rather than processed gels that spike and crash your blood sugar.\n\n\n\n\n\n\n\nIs it a PR or a DNF?\nVerdict: PR (Personal Record)\nThis book launched the “barefoot running” craze of 2010. While that led to some injuries for the unprepared, the core message remains untouched. Read it for the spirit. It successfully reframes running from a “punishment for eating pizza” into a celebration of human history. If you take nothing else away from this book take away that humans have evolved to move and the closer to we stick the our origins the better things are likely to work out in the long run.\nFinal Score: ⭐⭐⭐⭐"
-  },
-  {
-    "objectID": "reviews/born-to-run.html#the-warm-up-the-premise",
-    "href": "reviews/born-to-run.html#the-warm-up-the-premise",
-    "title": "Born to Run",
-    "section": "",
-    "text": "Christopher McDougall was a broken runner. At 6’4” and 230 pounds, every doctor told him the same thing: “The human body isn’t designed for running; stop before you destroy your knees.”\nRefusing to accept that humans are destined to break, he trekked into the deadly Copper Canyons of Mexico to find the Tarahumara (the Rarámuri), a reclusive tribe who run hundreds of miles at a time without injury, without rest, and—most maddeningly of all—with a smile on their faces.\nThis isn’t just a story about a race; it is a forensic investigation into why modern runners get hurt while ancient runners are still logging ultra-marathons in their 80s."
-  },
-  {
-    "objectID": "reviews/born-to-run.html#the-key-splits-core-concepts",
-    "href": "reviews/born-to-run.html#the-key-splits-core-concepts",
-    "title": "Born to Run",
-    "section": "",
-    "text": "I’ve broken the book down into three non-negotiable pillars.\n\n\nMcDougall argues that the modern Western runner is fueled by stress, calorie-counting, and “no pain, no gain” suffering. The Tarahumara are fueled by korima (a culture of sharing) and pure joy.\n\nThe Lesson: Tension causes inefficiency. If you treat running like a chore or a battle, your muscles tighten, your form breaks, and you get injured. The Tarahumara run loose and laugh because relaxation = endurance.\n\n\n\n\nThis is the scientific backbone of the book. Referencing Harvard biologist Daniel Lieberman, McDougall argues that humans are the ultimate endurance machine. We aren’t fast, but we are the only animal that can shed heat while moving (sweating) and breathe independently of our stride.\nThe Data: We didn’t evolve to run to get away from predators; we evolved to run after prey until they collapsed from heat exhaustion. You were quite literally “born to run.”\n\n\n\nThe most controversial “split” in the book. McDougall wages war on the modern running shoe industry, arguing that cushioned heels encourage a high-impact “heel strike” that sends shockwaves through the joints.\n\nHe suggests that adding cushioning to a shoe is like putting a cast on a healthy limb—it causes the foot muscles to atrophy."
-  },
-  {
-    "objectID": "reviews/born-to-run.html#the-stride-analysis-actionable-takeaways",
-    "href": "reviews/born-to-run.html#the-stride-analysis-actionable-takeaways",
-    "title": "Born to Run",
-    "section": "",
-    "text": "You don’t need to move to the Copper Canyons to run like a Tarahumara. Here is how to apply the book to your training tomorrow:\n\n\n\n\n\n\nNote🏃 Practical Application\n\n\n\n\nThe “Easy, Light, Smooth” Mantra Caballo Blanco (the book’s mysterious coach figure) offers the ultimate form cue. Do not try to be fast.\n\nFirst, focus on being Easy (relaxed).\nNext, focus on being Light (quiet feet).\nThen, focus on being Smooth.\nFast happens on its own as a result of the first three.\n\nCadence is King McDougall emphasizes a quick turnover (~180 steps per minute). This prevents over-striding (landing with your foot too far in front of you), which is the primary cause of knee, hip, and shin injuries.\nFuel Like a Minimalist The characters survive on Pinole (toasted corn flour) and Chia seeds (the “runner’s caviar”). The lesson is to focus on whole, simple foods rather than processed gels that spike and crash your blood sugar."
-  },
-  {
-    "objectID": "reviews/born-to-run.html#the-finish-line-the-verdict",
-    "href": "reviews/born-to-run.html#the-finish-line-the-verdict",
-    "title": "Born to Run",
-    "section": "",
-    "text": "Is it a PR or a DNF?\nVerdict: PR (Personal Record)\nThis book launched the “barefoot running” craze of 2010. While that led to some injuries for the unprepared, the core message remains untouched. Read it for the spirit. It successfully reframes running from a “punishment for eating pizza” into a celebration of human history. If you take nothing else away from this book take away that humans have evolved to move and the closer to we stick the our origins the better things are likely to work out in the long run.\nFinal Score: ⭐⭐⭐⭐"
-  },
-  {
-    "objectID": "speed.html",
-    "href": "speed.html",
-    "title": "Speed Work",
-    "section": "",
-    "text": "Speed work is not just for elite athletes. It improves efficiency and makes your “easy” pace feel even easier.\nHowever, we do not train until we vomit. We train to stimulate, not annihilate."
-  },
-  {
-    "objectID": "speed.html#the-classics",
-    "href": "speed.html#the-classics",
-    "title": "Speed Work",
-    "section": "The Classics",
-    "text": "The Classics\n\nStrides: 4-6 x 20 second accelerations at the end of an easy run.\nHill Sprints: Short, max effort bursts up a steep hill (great for power, low impact risk)."
-  },
-  {
-    "objectID": "speed.html#norwegian-singles-double-threshold",
-    "href": "speed.html#norwegian-singles-double-threshold",
-    "title": "Speed Work",
-    "section": "Norwegian Singles (Double Threshold)",
-    "text": "Norwegian Singles (Double Threshold)\nThis method, popularized by the Ingebrigtsen brothers, has revolutionized endurance training. While elites do this twice a day, we can adapt the principles for normal life.\n\nThe Concept\nInstead of running continuous hard tempos (e.g., 20 mins hard), you break the work into short intervals with very short rest. * The Goal: Keep your lactate levels controlled. You should not be gasping for air. You should feel like you could go faster, but you don’t. * The Magic: You get more volume at “threshold” pace without the fatigue of a continuous run.\n\n\nThe Workout\nTry this “Norwegian” style session: 1. Warm up: 10-15 mins easy. 2. The Work: 10 x 3 minutes at Threshold Pace. * Recovery: Only 60 seconds (standing or walking). * Intensity: 7/10. Comfortably hard. NOT sprint pace. 3. Cool down: 10 mins easy.\n\n\n\n\n\n\nTipWhy it works\n\n\n\nBy taking a 60-second break every 3 minutes, you clear the lactate before it builds up. This allows you to do 30 minutes of quality work, whereas a continuous run might force you to stop after 15 minutes."
+    "objectID": "strength.html#upper-body-core",
+    "href": "strength.html#upper-body-core",
+    "title": "Strength Training",
+    "section": "Upper Body & Core",
+    "text": "Upper Body & Core\nRunning is a full-body movement. Your arms drive your legs.\n\nPush Ups: Strengthens core and chest for driving power.\nPlank / Side Plank: Promotes core stability to hold form when tired.\nBent Over Row: Strengthens back for postural endurance on long runs.\n\n\nGuideline: Aim for 2 sessions per week. Keep it simple, keep it consistent."
   }
 ]
