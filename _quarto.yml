@@ -2,9 +2,14 @@ project:
   type: website
   output-dir: docs
 
+execute:
+  freeze: auto
+
 website:
   title: "Gary Manley Running"
-  
+  #favicon: "assets/images/my-logo.png"
+  google-analytics: "G-4VVC56Y394"
+
   # FIX: Indented 2 spaces so it belongs to 'website'
   navbar:
     left:
