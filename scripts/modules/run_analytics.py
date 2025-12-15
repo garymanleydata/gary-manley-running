@@ -139,22 +139,20 @@ def analyze_recovery(df, target_max_hr):
         "violation_time_min": round(violation_mins, 1)
     }
 
-# 4. GHOST BATTLE (Restored)
+# 4. GHOST BATTLE (Refactored for Web & Blog)
 # ---------------------------------------------------------
-def generate_ghost_plot(dfMain, dfGhost, output_path):
-    print("  [Engine] Generating Ghost Comparison...")
-    
+def create_ghost_figure(dfMain, dfGhost):
+    """Generates the Ghost Comparison Figure Object"""
     # Create Distance Grid
     max_dist = min(dfMain['total_dist_m'].max(), dfGhost['total_dist_m'].max())
-    grid = np.arange(0, max_dist, 50)
+    if max_dist == 0: return None
     
-    # Interpolate Times
-    time_main = np.interp(grid, dfMain['total_dist_m'], dfMain['time'].astype(np.int64) // 10**9)
-    time_ghost = np.interp(grid, dfGhost['total_dist_m'], dfGhost['time'].astype(np.int64) // 10**9)
+    # Create a grid every 10 meters for high resolution
+    grid = np.arange(0, max_dist, 10)
     
-    # Normalize start to 0
-    time_main -= time_main[0]
-    time_ghost -= time_ghost[0]
+    # Interpolate Times (Get time at exactly 10m, 20m, 30m...)
+    time_main = np.interp(grid, dfMain['total_dist_m'], dfMain['timer_sec'])
+    time_ghost = np.interp(grid, dfGhost['total_dist_m'], dfGhost['timer_sec'])
     
     # Gap: Negative = Ahead, Positive = Behind
     gap = time_main - time_ghost
@@ -167,9 +165,11 @@ def generate_ghost_plot(dfMain, dfGhost, output_path):
         mode='lines', name='Gap (sec)',
         line=dict(color='black', width=2),
         fill='tozeroy',
-        # Simple gradient trick not easy in simple Plotly, using static color for now
-        fillcolor='rgba(100, 100, 100, 0.2)'
+        fillcolor='rgba(100, 100, 100, 0.2)' # Grey fill
     ))
+    
+    # Add colored regions logic (Green for ahead, Red for behind) can be done with shapes
+    # but simple grey fill is cleaner for now.
     
     fig.update_layout(
         title="Ghost Battle: Gap to Comparison Run",
@@ -178,10 +178,16 @@ def generate_ghost_plot(dfMain, dfGhost, output_path):
         hovermode="x unified"
     )
     
-    # Add colored regions? Simple horizontal line
-    fig.add_shape(type="line", x0=0, x1=max_dist, y0=0, y1=0, line=dict(color="red", width=1))
+    # Zero Line (Red)
+    fig.add_shape(type="line", x0=0, x1=max_dist, y0=0, y1=0, line=dict(color="red", width=1, dash="dash"))
     
-    fig.write_html(output_path)
+    return fig
+
+def generate_ghost_plot(dfMain, dfGhost, output_path):
+    """Wrapper that saves the file (Used by the Blog Script)"""
+    fig = create_ghost_figure(dfMain, dfGhost)
+    if fig:
+        fig.write_html(output_path)
 
 # 5. ANALYSIS: INTERVALS
 # ---------------------------------------------------------
@@ -269,10 +275,11 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
 
     return pd.DataFrame(intervals), target_mps, scores
 
-# 6. DISCIPLINE GRAPH (Intervals)
+# 6. DISCIPLINE GRAPH (Refactored for Web & Blog)
 # ---------------------------------------------------------
-def generate_interval_graph(df, intervals_df, output_path, target_pace_str, target_mps, warm_min, work_min, rest_min, reps):
-    if not target_mps: return
+def create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_min, work_min, rest_min, reps):
+    """Generates the Plotly Figure Object (does not save file)"""
+    if not target_mps: return None
     
     mins, secs = map(int, target_pace_str.split(':'))
     base_sec_km = (mins * 60) + secs
@@ -286,6 +293,7 @@ def generate_interval_graph(df, intervals_df, output_path, target_pace_str, targ
     fig = go.Figure()
     max_time = df['timer_sec'].max()
     
+    # Bands
     fig.add_shape(type="rect", x0=0, x1=max_time, y0=speed_minus_15s, y1=speed_plus_15s,
                   fillcolor="rgba(255, 165, 0, 0.15)", line_width=0, layer="below", name="Orange Band")
     fig.add_shape(type="rect", x0=0, x1=max_time, y0=speed_minus_10s, y1=speed_plus_10s,
@@ -293,11 +301,13 @@ def generate_interval_graph(df, intervals_df, output_path, target_pace_str, targ
     fig.add_shape(type="line", x0=0, x1=max_time, y0=speed_target, y1=speed_target,
                   line=dict(color="green", width=2, dash="dash"), name="Target Pace")
 
+    # Actual Speed
     fig.add_trace(go.Scatter(x=df['timer_sec'], y=df['speed_smooth'], 
-                             mode='lines', name='Instant Pace (Smoothed)', 
+                             mode='lines', name='Instant Pace', 
                              line=dict(color='black', width=1.5, shape='spline'), 
                              hovertemplate='%{y:.2f} m/s <extra></extra>'))
 
+    # Intervals
     t_cursor = warm_min * 60
     for i, row in intervals_df.iterrows():
         rep_num = int(row['Rep'])
@@ -323,4 +333,10 @@ def generate_interval_graph(df, intervals_df, output_path, target_pace_str, targ
     fig.update_layout(title=f"Interval Discipline: Target {target_pace_str}", hovermode="x unified",
                       legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
     
-    fig.write_html(output_path)
+    return fig
+
+def generate_interval_graph(df, intervals_df, output_path, target_pace_str, target_mps, warm_min, work_min, rest_min, reps):
+    """Wrapper that saves the file (Used by the Blog Script)"""
+    fig = create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_min, work_min, rest_min, reps)
+    if fig:
+        fig.write_html(output_path)

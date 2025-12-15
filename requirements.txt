@@ -1,0 +1,8 @@
+streamlit
+pandas
+plotly
+matplotlib
+folium
+gpxpy
+tcxreader
+numpy
