@@ -13,6 +13,10 @@ from tcxreader.tcxreader import TCXReader
 # ---------------------------------------------------------
 def parse_file(file_path, smoothing_span=15):
     print(f"  [Engine] Parsing {os.path.basename(file_path)}...")
+    if not os.path.exists(file_path):
+        print("  ! Error: File does not exist.")
+        return None
+        
     ext = os.path.splitext(file_path)[1].lower()
     data = []
 
@@ -40,7 +44,6 @@ def parse_file(file_path, smoothing_span=15):
 
         df = pd.DataFrame(data)
         
-        # Standard Calcs
         df['prev_time'] = df['time'].shift(1)
         df['prev_lat'] = df['lat'].shift(1)
         
@@ -64,10 +67,10 @@ def parse_file(file_path, smoothing_span=15):
         df = df[df['time_diff'] > 0] 
         df['speed_mps'] = df['dist_m'] / df['time_diff']
         
-        # Aggressive Smoothing
+        # Smoothing
         df['speed_smooth'] = df['speed_mps'].ewm(span=smoothing_span, adjust=False).mean()
         
-        # Smart Cadence
+        # Cadence Fix
         df['cadence'] = df['cadence'].fillna(0)
         if df['cadence'].max() > 0 and df['cadence'].max() < 130:
             df['cadence'] = df['cadence'] * 2
@@ -80,7 +83,7 @@ def parse_file(file_path, smoothing_span=15):
         print(f"  ! Error parsing file: {e}")
         return None
 
-# 2. VISUALS
+# 2. STANDARD VISUALS
 # ---------------------------------------------------------
 def generate_map(df, output_path):
     m = folium.Map(location=[df.iloc[0]['lat'], df.iloc[0]['lon']], zoom_start=14, tiles='CartoDB positron')
@@ -114,20 +117,77 @@ def generate_dashboard(df, output_path, title="Run Analysis"):
     fig.update_layout(height=600, title_text=title, hovermode="x unified")
     fig.write_html(output_path)
 
-# 3. ANALYSIS: RECOVERY
+# 3. ANALYSIS: RECOVERY (Updated Scoring)
 # ---------------------------------------------------------
 def analyze_recovery(df, target_max_hr):
     max_hr_hit = df['hr'].max()
+    
+    # Calculate seconds spent ABOVE target
     violation_sec = df[df['hr'] > target_max_hr]['time_diff'].sum()
-    status = "SUCCESS" if violation_sec < 60 else "FAILED"
-    return {"status": status, "max_hit": max_hr_hit, "violation_time_min": round(violation_sec/60, 1)}
+    violation_mins = violation_sec / 60
+    
+    # Scoring: 100 - (Minutes Over)
+    # e.g. 5 mins over = 95/100
+    score = max(0, int(100 - violation_mins))
+    
+    status = "SUCCESS" if score == 100 else "WARNING" if score > 90 else "FAILED"
+    
+    return {
+        "status": status,
+        "score": score,
+        "max_hit": max_hr_hit,
+        "violation_time_min": round(violation_mins, 1)
+    }
 
-# 4. ANALYSIS: INTERVALS (Score Logic Added)
+# 4. GHOST BATTLE (Restored)
+# ---------------------------------------------------------
+def generate_ghost_plot(dfMain, dfGhost, output_path):
+    print("  [Engine] Generating Ghost Comparison...")
+    
+    # Create Distance Grid
+    max_dist = min(dfMain['total_dist_m'].max(), dfGhost['total_dist_m'].max())
+    grid = np.arange(0, max_dist, 50)
+    
+    # Interpolate Times
+    time_main = np.interp(grid, dfMain['total_dist_m'], dfMain['time'].astype(np.int64) // 10**9)
+    time_ghost = np.interp(grid, dfGhost['total_dist_m'], dfGhost['time'].astype(np.int64) // 10**9)
+    
+    # Normalize start to 0
+    time_main -= time_main[0]
+    time_ghost -= time_ghost[0]
+    
+    # Gap: Negative = Ahead, Positive = Behind
+    gap = time_main - time_ghost
+    
+    fig = go.Figure()
+    
+    # Main Line
+    fig.add_trace(go.Scatter(
+        x=grid, y=gap,
+        mode='lines', name='Gap (sec)',
+        line=dict(color='black', width=2),
+        fill='tozeroy',
+        # Simple gradient trick not easy in simple Plotly, using static color for now
+        fillcolor='rgba(100, 100, 100, 0.2)'
+    ))
+    
+    fig.update_layout(
+        title="Ghost Battle: Gap to Comparison Run",
+        xaxis_title="Distance (m)",
+        yaxis_title="Seconds (Neg=Ahead, Pos=Behind)",
+        hovermode="x unified"
+    )
+    
+    # Add colored regions? Simple horizontal line
+    fig.add_shape(type="line", x0=0, x1=max_dist, y0=0, y1=0, line=dict(color="red", width=1))
+    
+    fig.write_html(output_path)
+
+# 5. ANALYSIS: INTERVALS
 # ---------------------------------------------------------
 def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_sec=0, target_pace_str=None, target_hr=None):
     intervals = []
     
-    # Target Pace Calc
     target_mps = None
     target_sec_km = 0
     if target_pace_str:
@@ -135,10 +195,8 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
             mins, secs = map(int, target_pace_str.split(':'))
             target_sec_km = (mins * 60) + secs
             target_mps = 1000 / target_sec_km
-        except:
-            print("  [Error] Invalid target pace.")
+        except: pass
 
-    # Scoring Variables
     total_pace_points = 0
     total_hr_points = 0
     pace_points_per_rep = 50 / reps if reps > 0 else 0
@@ -164,10 +222,8 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
                 rep_sec_km = 1000 / avg_mps
                 pace_str = f"{int(rep_sec_km//60)}:{int(rep_sec_km%60):02d}"
             
-            # --- PACE SCORING ---
-            rep_pace_score = "N/A"
             pace_points_earned = 0
-            
+            rep_pace_score = "N/A"
             if target_mps and rep_sec_km > 0:
                 diff = abs(rep_sec_km - target_sec_km)
                 if diff <= 5:
@@ -180,17 +236,13 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
                     pace_points_earned = pace_points_per_rep * 0.33
                     rep_pace_score = "Okay (+/- 15s)"
                 else:
-                    pace_points_earned = 0
                     rep_pace_score = "Miss (> 15s)"
-                
                 total_pace_points += pace_points_earned
 
-            # --- HR SCORING ---
             hr_score_pct = 0
             if target_hr:
                 under_hr = df_int[df_int['hr'] <= target_hr]
                 hr_score_pct = (len(under_hr) / len(df_int)) * 100
-                # We accumulate the raw % here, will normalize to 50pts total later
                 total_hr_points += hr_score_pct 
 
             intervals.append({
@@ -204,24 +256,20 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
         
         t_cursor = rep_end_abs + (rest_min * 60)
     
-    # Final Score Calculation
-    # Pace is already sum of earned points (Max 50)
-    # HR is sum of % compliance. Need to average it, then map to 50 pts.
     avg_hr_compliance = total_hr_points / reps if reps > 0 else 0
     final_hr_score = (avg_hr_compliance / 100) * 50
-    
     final_total_score = int(total_pace_points + final_hr_score)
     
-    score_breakdown = {
+    scores = {
         "Total": final_total_score,
         "Pace Pts": int(total_pace_points),
         "HR Pts": int(final_hr_score),
         "Avg HR Compliance": int(avg_hr_compliance)
     }
 
-    return pd.DataFrame(intervals), target_mps, score_breakdown
+    return pd.DataFrame(intervals), target_mps, scores
 
-# 5. DISCIPLINE GRAPH (Unchanged)
+# 6. DISCIPLINE GRAPH (Intervals)
 # ---------------------------------------------------------
 def generate_interval_graph(df, intervals_df, output_path, target_pace_str, target_mps, warm_min, work_min, rest_min, reps):
     if not target_mps: return
