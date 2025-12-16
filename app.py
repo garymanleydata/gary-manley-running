@@ -110,7 +110,8 @@ if uploaded_file is not None:
                 sc2.metric("Pace Score", f"{scores['Pace Pts']}/50")
                 sc3.metric("HR Score", f"{scores['HR Pts']}/50")
                 
-                st.dataframe(df_ints, use_container_width=True)
+                # Set Rep as index to remove the 0,1,2 numbering
+                st.dataframe(df_ints.set_index('Rep'), use_container_width=True)
                 
                 fig = run_analytics.create_interval_figure(df, df_ints, target_pace, res['target_mps'], warm, work, rest, reps)
                 if fig: st.plotly_chart(fig, use_container_width=True)
@@ -129,7 +130,7 @@ if uploaded_file is not None:
                 
                 img_buf = run_analytics.create_infographic(
                     "Interval Session", stats, scores['Total'], "Session Score", 
-                    df_plot, 'speed_smooth', res['target_mps'], 
+                    df_plot, 'gap_speed_mps', res['target_mps'], 
                     # PASSING EXTRA ARGS FOR COMPLEX GRAPH
                     intervals_df=df_ints, warm_min=warm, work_min=work, rest_min=rest, reps=reps
                 )

@@ -1,5 +1,13 @@
 [
   {
+    "listing": "/library.html",
+    "items": [
+      "/reviews/primal-endurance.html",
+      "/reviews/born-to-run.html",
+      "/reviews/run-elite.html"
+    ]
+  },
+  {
     "listing": "/blog.html",
     "items": [
       "/posts/2025-12-16-journal.html",
@@ -10,13 +18,6 @@
       "/posts/2025-12-13-journal.html",
       "/posts/2025-12-13-run.html",
       "/posts/welcome/index.html"
-    ]
-  },
-  {
-    "listing": "/library.html",
-    "items": [
-      "/reviews/primal-endurance.html",
-      "/reviews/born-to-run.html"
     ]
   }
 ]

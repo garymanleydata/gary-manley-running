@@ -32,38 +32,49 @@ def select_file(prompt="Press ENTER to process, or type filename: "):
 def main():
     print("--- RUN PROCESSING ENGINE ---")
     
+    # 1. Select File
     target_file = select_file()
     if not target_file: return
     
     smoothing_input = input("GPS Smoothing Window (seconds) [Default 15]: ")
     smooth_sec = int(smoothing_input) if smoothing_input else 15
     
+    # 2. Parse Data
     df = run_analytics.parse_file(target_file, smooth_sec)
     if df is None: return
     
     vDate = df['time'].iloc[0].strftime('%Y-%m-%d')
     vDateStr = vDate 
     
-    # Map Toggle
+    # 3. Generate Baselines
+    
+    # Map Logic
     map_yn = input("Generate Route Map? (y/n) [Default n]: ").strip().lower()
     map_file = f"map_{vDateStr}.html"
     map_html_block = ""
+    
     if map_yn == 'y':
         print("Generating Map...")
         run_analytics.generate_map(df, os.path.join(vAssetDir, 'maps', map_file))
-        map_html_block = f'## Route\n<iframe src="../assets/maps/{map_file}" width="100%" height="400" style="border:none;"></iframe>'
+        map_html_block = f"""
+## Route
+<iframe src="../assets/maps/{map_file}" width="100%" height="400" style="border:none;"></iframe>
+"""
     
     print("Generating Dashboard...")
     dash_file = f"dashboard_{vDateStr}.html"
     run_analytics.generate_dashboard(df, os.path.join(vAssetDir, 'graphs', dash_file))
     
+    # 4. SESSION TYPE WORKFLOW
     print("\nSelect Session Type:")
     print("1. Standard / Parkrun (Ghost Mode Available)")
     print("2. Recovery Run")
     print("3. Norwegian Singles (Intervals)")
     
     choice = input("Enter choice (1-3): ").strip()
+    
     post_content = ""
+    header_image = "" # Initialize variable to prevent errors
     title = f"Run: {vDate}"
     
     # === PATH 1: STANDARD ===
@@ -75,7 +86,6 @@ def main():
         ghost_yn = input("Compare against a Ghost file? (y/n): ").strip().lower()
         if ghost_yn == 'y':
             print("Select GHOST file (The file to compare AGAINST):")
-            # We assume user might type a specific filename here
             ghost_file = select_file("Type filename for GHOST (or Enter for latest): ")
             
             if ghost_file:
@@ -98,10 +108,29 @@ Comparison against {os.path.basename(ghost_file)}.
         
         score_color = "green" if res['score'] == 100 else "orange" if res['score'] > 80 else "red"
         
-        # Save the Minute Graph for the blog
+        # Save Interactive Graph
         rec_fig = run_analytics.create_recovery_figure(res['minute_data'], target_hr)
         rec_file = f"recovery_{vDateStr}.html"
         rec_fig.write_html(os.path.join(vAssetDir, 'graphs', rec_file))
+        
+        # Save Static Thumbnail (Fixes 404)
+        stats = {
+            "Avg HR": f"{res['avg_hr']} bpm",
+            "Max HR": f"{res['max_hit']} bpm",
+            "Time Over": f"{res['violation_time_min']} mins"
+        }
+        df_plot = df.set_index('timer_sec')
+        img_buf = run_analytics.create_infographic(
+            "Recovery Run", stats, res['score'], "Discipline Score",
+            df_plot, 'hr', target_hr
+        )
+        
+        thumb_name = f"recovery_card_{vDateStr}.png"
+        thumb_path = os.path.join(vAssetDir, 'images', thumb_name)
+        with open(thumb_path, "wb") as f:
+            f.write(img_buf.getbuffer())
+            
+        header_image = f'image: "../assets/images/{thumb_name}"'
         
         post_content = f"""
 ## Recovery Discipline: <span style="color:{score_color}">{res['score']}/100</span>
@@ -135,10 +164,12 @@ Comparison against {os.path.basename(ghost_file)}.
         target_pace = get_str_input("Target Pace (MM:SS)", "3:45")
         target_hr = int(get_input("Target Max HR cap", 170))
         
+        # Analysis
         df_ints, target_mps, scores = run_analytics.analyze_intervals(
             df, warm, work, rest, reps, cool, buffer, target_pace, target_hr
         )
         
+        # Graphs
         disc_file = f"discipline_{vDateStr}.html"
         run_analytics.generate_interval_graph(
             df, df_ints, os.path.join(vAssetDir, 'graphs', disc_file),
@@ -150,6 +181,26 @@ Comparison against {os.path.basename(ghost_file)}.
         
         score = scores['Total']
         score_color = "green" if score >= 80 else "orange" if score >= 50 else "red"
+        
+        # Save Static Thumbnail for Intervals too!
+        stats = {
+            "Reps": f"{reps} x {work} min",
+            "Target Pace": target_pace,
+            "Target HR": f"<{target_hr} bpm"
+        }
+        df_plot = df.set_index('timer_sec')
+        img_buf = run_analytics.create_infographic(
+            "Interval Session", stats, scores['Total'], "Session Score", 
+            df_plot, 'speed_smooth', target_mps, 
+            intervals_df=df_ints, warm_min=warm, work_min=work, rest_min=rest, reps=reps
+        )
+        
+        thumb_name = f"interval_card_{vDateStr}.png"
+        thumb_path = os.path.join(vAssetDir, 'images', thumb_name)
+        with open(thumb_path, "wb") as f:
+            f.write(img_buf.getbuffer())
+            
+        header_image = f'image: "../assets/images/{thumb_name}"'
         
         post_content = f"""
 ## Session Score: <span style="color:{score_color}">{score}/100</span>
@@ -165,13 +216,15 @@ Green Band = +/- 10s. Blue Line = **Rep Average**.
 <iframe src="../assets/graphs/{disc_file}" width="100%" height="600" style="border:none;"></iframe>
 """
 
-    # WRITE POST
+    # 5. WRITE POST
     full_path = os.path.join(vPostDir, f"{vDateStr}-run.qmd")
+    
     template = f"""---
 title: "{title}"
 date: "{vDate}"
 categories: [running, data]
 format: html
+{header_image}
 ---
 
 {map_html_block}
@@ -181,6 +234,7 @@ format: html
 ## Deep Dive Dashboard
 <iframe src="../assets/graphs/{dash_file}" width="100%" height="600" style="border:none;"></iframe>
 """
+    
     with open(full_path, 'w') as f:
         f.write(template)
         

@@ -8,7 +8,28 @@ from plotly.subplots import make_subplots
 import os
 import numpy as np
 import io
+import math
 from tcxreader.tcxreader import TCXReader
+
+# 0. PHYSICS ENGINE (Minetti Formula)
+# ---------------------------------------------------------
+def calculate_gap_factor(gradient_pct):
+    """
+    Returns the Energy Cost Multiplier based on Minetti (2002).
+    Input: Gradient in % (e.g. 5.0 for 5% slope).
+    Logic: Uphill requires more energy (Factor > 1). Downhill saves energy (Factor < 1), 
+    but effectively 'costs' more at steep downhills due to braking.
+    """
+    i = gradient_pct / 100.0
+    # Minetti Polynomial for Energy Cost (J/kg/m)
+    cost = 155.4*(i**5) - 30.4*(i**4) - 43.3*(i**3) + 46.3*(i**2) + 19.5*i + 3.6
+    
+    # Cost of flat running is approx 3.6 J/kg/m
+    flat_cost = 3.6
+    
+    # Factor = Actual Cost / Flat Cost
+    factor = cost / flat_cost
+    return factor
 
 # 1. PARSING
 # ---------------------------------------------------------
@@ -41,8 +62,11 @@ def parse_file(file_path, smoothing_span=15):
         df = pd.DataFrame(data)
         if df.empty: return None
 
+        # --- BASIC CALCS ---
         df['prev_time'] = df['time'].shift(1)
         df['prev_lat'] = df['lat'].shift(1)
+        df['prev_ele'] = df['ele'].shift(1) # New: Previous Elevation
+        
         R = 6371000 
         phi1 = np.radians(df['lat'])
         phi2 = np.radians(df['prev_lat'])
@@ -53,21 +77,56 @@ def parse_file(file_path, smoothing_span=15):
         df['dist_m'] = R * c
         df['dist_m'] = df['dist_m'].fillna(0)
         df['total_dist_m'] = df['dist_m'].cumsum()
+        
         df['time_diff'] = (df['time'] - df['prev_time']).dt.total_seconds()
         df['adjusted_diff'] = np.where(df['time_diff'] > 10, 0, df['time_diff'])
         df['timer_sec'] = df['adjusted_diff'].cumsum().fillna(0)
-        df = df[df['time_diff'] > 0] 
+        
+        # Filter static points
+        df = df[df['time_diff'] > 0]
+        
+        # --- SPEED & SMOOTHING ---
         df['speed_mps'] = df['dist_m'] / df['time_diff']
+        # Apply smoothing to SPEED
         df['speed_smooth'] = df['speed_mps'].ewm(span=smoothing_span, adjust=False).mean()
+        
+        # --- ELEVATION & GRADIENT ---
+        # Elevation data is notoriously noisy (jumping +/- 1m constantly). 
+        # We must smooth elevation BEFORE calculating gradient.
+        df['ele_smooth'] = df['ele'].rolling(window=smoothing_span, min_periods=1, center=True).mean()
+        
+        # Calculate Rise (Elevation Change)
+        df['ele_change'] = df['ele_smooth'].diff()
+        
+        # Calculate Gradient (Rise / Run)
+        # Avoid division by zero
+        df['gradient_pct'] = (df['ele_change'] / df['dist_m']) * 100
+        df['gradient_pct'] = df['gradient_pct'].fillna(0)
+        
+        # Cap gradient at realistic values (e.g., +/- 25%) to kill GPS glitches
+        df['gradient_pct'] = df['gradient_pct'].clip(-25, 25)
+        
+        # Apply Smoothing to Gradient (It needs to be very stable)
+        df['gradient_smooth'] = df['gradient_pct'].ewm(span=smoothing_span*2, adjust=False).mean()
+
+        # --- GAP CALCULATION ---
+        # 1. Get Factor
+        df['gap_factor'] = df['gradient_smooth'].apply(calculate_gap_factor)
+        # 2. GAP Speed = Actual Speed * Factor
+        # (e.g. if factor is 1.1 (uphill), GAP speed is 10% faster than actual)
+        df['gap_speed_mps'] = df['speed_smooth'] * df['gap_factor']
+        
+        # --- CADENCE/STRIDE ---
         df['cadence'] = df['cadence'].fillna(0)
         if df['cadence'].max() > 0 and df['cadence'].max() < 130: df['cadence'] = df['cadence'] * 2
         df['stride_len'] = np.where((df['cadence'] > 60) & (df['speed_smooth'] > 0.5), df['speed_smooth'] / (df['cadence'] / 60), np.nan)
+        
         return df
     except Exception as e:
         print(f"Error: {e}")
         return None
 
-# 2. VISUALS (Standard)
+# 2. VISUALS (Standard) - Unchanged
 # ---------------------------------------------------------
 def generate_map(df, output_path):
     m = folium.Map(location=[df.iloc[0]['lat'], df.iloc[0]['lon']], zoom_start=14, tiles='CartoDB positron')
@@ -82,16 +141,23 @@ def generate_map(df, output_path):
 
 def generate_dashboard(df, output_path, title="Run Analysis"):
     df['segment_100m'] = (df['total_dist_m'] // 100).astype(int)
-    agg_dict = {'time_diff': 'sum', 'stride_len': 'mean', 'cadence': 'mean'}
+    agg_dict = {'time_diff': 'sum', 'stride_len': 'mean', 'cadence': 'mean', 'ele_change': 'sum'}
     df_agg = df.groupby('segment_100m').agg(agg_dict).reset_index()
     avg_time = df_agg['time_diff'].mean()
     df_agg['variance'] = df_agg['time_diff'] - avg_time
     colors = ['#2ca02c' if v <= 0 else '#d62728' for v in df_agg['variance']]
-    fig = make_subplots(rows=2, cols=1, shared_xaxes=True, specs=[[{"secondary_y": False}], [{"secondary_y": True}]])
+    
+    fig = make_subplots(rows=3, cols=1, shared_xaxes=True, specs=[[{"secondary_y": False}], [{"secondary_y": True}], [{"secondary_y": False}]])
+    
+    # Pace
     fig.add_trace(go.Bar(x=df_agg['segment_100m'], y=df_agg['variance'], marker_color=colors, name='Pace Var'), row=1, col=1)
+    # Mechanics
     fig.add_trace(go.Scatter(x=df_agg['segment_100m'], y=df_agg['stride_len'], name='Stride (m)', line=dict(color='blue')), row=2, col=1)
     fig.add_trace(go.Scatter(x=df_agg['segment_100m'], y=df_agg['cadence'], name='Cadence', line=dict(color='orange', dash='dot')), row=2, col=1, secondary_y=True)
-    fig.update_layout(height=600, title_text=title, hovermode="x unified")
+    # Elevation Profile
+    fig.add_trace(go.Scatter(x=df_agg['segment_100m'], y=df_agg['ele_change'].cumsum(), name='Elevation', fill='tozeroy', line=dict(color='grey')), row=3, col=1)
+    
+    fig.update_layout(height=800, title_text=title, hovermode="x unified")
     fig.write_html(output_path)
 
 # 3. ANALYSIS: RECOVERY
@@ -105,8 +171,8 @@ def analyze_recovery(df, target_max_hr):
     status = "SUCCESS" if score == 100 else "WARNING" if score > 90 else "FAILED"
     
     df['minute_bin'] = (df['timer_sec'] // 60).astype(int)
-    minute_stats = df.groupby('minute_bin')['hr'].mean().reset_index()
-    minute_stats.columns = ['Minute', 'Avg HR']
+    minute_stats = df.groupby('minute_bin')[['hr', 'gap_speed_mps']].mean().reset_index()
+    minute_stats.columns = ['Minute', 'Avg HR', 'Avg GAP']
     
     return {
         "status": status, "score": score, "max_hit": max_hr_hit,
@@ -116,10 +182,13 @@ def analyze_recovery(df, target_max_hr):
 
 def create_recovery_figure(minute_df, target_hr):
     colors = ['red' if x > target_hr else 'green' for x in minute_df['Avg HR']]
-    fig = go.Figure()
-    fig.add_trace(go.Bar(x=minute_df['Minute'], y=minute_df['Avg HR'], marker_color=colors, name='Avg HR'))
+    fig = make_subplots(specs=[[{"secondary_y": True}]])
+    
+    fig.add_trace(go.Bar(x=minute_df['Minute'], y=minute_df['Avg HR'], marker_color=colors, name='Avg HR'), secondary_y=False)
+    fig.add_trace(go.Scatter(x=minute_df['Minute'], y=minute_df['Avg GAP'], line=dict(color='grey', dash='dot'), name='GAP (m/s)'), secondary_y=True)
+    
     fig.add_shape(type="line", x0=minute_df['Minute'].min()-0.5, x1=minute_df['Minute'].max()+0.5, y0=target_hr, y1=target_hr, line=dict(color="black", width=2, dash="dash"), name="Limit")
-    fig.update_layout(title=f"Heart Rate by Minute (Cap: {target_hr} bpm)", xaxis_title="Minute", yaxis_title="Avg BPM")
+    fig.update_layout(title=f"Heart Rate vs Effort (GAP)", xaxis_title="Minute", yaxis_title="Avg BPM")
     return fig
 
 # 4. GHOST BATTLE
@@ -141,7 +210,7 @@ def generate_ghost_plot(dfMain, dfGhost, output_path):
     fig = create_ghost_figure(dfMain, dfGhost)
     if fig: fig.write_html(output_path)
 
-# 5. ANALYSIS: INTERVALS
+# 5. ANALYSIS: INTERVALS (Updated for Raw + GAP)
 # ---------------------------------------------------------
 def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_sec=0, target_pace_str=None, target_hr=None):
     intervals = []
@@ -170,13 +239,26 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
         df_int = df.loc[mask]
         
         if not df_int.empty:
-            avg_mps = df_int['speed_smooth'].mean()
-            pace_str = "0:00"
+            # GAP Speed (Used for Scoring)
+            avg_mps = df_int['gap_speed_mps'].mean() 
+            gap_pace_str = "0:00"
             rep_sec_km = 0
             if avg_mps > 0:
                 rep_sec_km = 1000 / avg_mps
-                pace_str = f"{int(rep_sec_km//60)}:{int(rep_sec_km%60):02d}"
+                gap_pace_str = f"{int(rep_sec_km//60)}:{int(rep_sec_km%60):02d}"
+
+            # Raw Speed (For Display)
+            raw_mps = df_int['speed_smooth'].mean()
+            raw_pace_str = "0:00"
+            if raw_mps > 0:
+                raw_sec_km = 1000 / raw_mps
+                raw_pace_str = f"{int(raw_sec_km//60)}:{int(raw_sec_km%60):02d}"
             
+            # Elevation Context
+            ele_gain = df_int[df_int['ele_change'] > 0]['ele_change'].sum()
+            ele_loss = df_int[df_int['ele_change'] < 0]['ele_change'].sum()
+            
+            # Scoring Logic (Based on GAP)
             pace_points_earned = 0
             rep_pace_score = "N/A"
             if target_mps and rep_sec_km > 0:
@@ -193,7 +275,15 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
                 hr_score_pct = (len(under_hr) / len(df_int)) * 100
                 total_hr_points += hr_score_pct 
 
-            intervals.append({"Rep": i, "Avg HR": int(df_int['hr'].mean()), "Max HR": int(df_int['hr'].max()), "Pace": pace_str, "HR Compliance %": f"{int(hr_score_pct)}%", "Pace Rating": rep_pace_score})
+            intervals.append({
+                "Rep": i, 
+                "Avg HR": int(df_int['hr'].mean()), 
+                "GAP Pace": gap_pace_str,       # The Adjusted Pace
+                "Raw Pace": raw_pace_str,       # NEW: The Original Pace
+                "Elev Net": f"+{int(ele_gain)}/{int(ele_loss)}m",
+                "HR Compliance %": f"{int(hr_score_pct)}%", 
+                "Pace Rating": rep_pace_score
+            })
         t_cursor = rep_end_abs + (rest_min * 60)
     
     avg_hr_compliance = total_hr_points / reps if reps > 0 else 0
@@ -202,20 +292,15 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
     scores = {"Total": final_total_score, "Pace Pts": int(total_pace_points), "HR Pts": int(final_hr_score), "Avg HR Compliance": int(avg_hr_compliance)}
     return pd.DataFrame(intervals), target_mps, scores
 
-# 6. DISCIPLINE GRAPH (Intervals - TRIMMED)
+# 6. DISCIPLINE GRAPH (Updated for GAP)
 # ---------------------------------------------------------
 def create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_min, work_min, rest_min, reps):
     if not target_mps: return None
     mins, secs = map(int, target_pace_str.split(':'))
     base_sec_km = (mins * 60) + secs
     
-    # Calculate Trim Windows
-    # Start: End of Warmup
-    # End: Start of Cooldown (or end of last rest)
     start_trim = warm_min * 60
     end_trim = start_trim + (reps * (work_min + rest_min) * 60)
-    
-    # Filter Dataframe for visual clarity
     df_trim = df[(df['timer_sec'] >= start_trim) & (df['timer_sec'] <= end_trim)].copy()
     
     speed_target = target_mps
@@ -225,16 +310,17 @@ def create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_m
     speed_minus_15s = 1000 / (base_sec_km + 15)
 
     fig = go.Figure()
-    
-    # Use Trimmed X-Axis limits for shapes
     x0, x1 = start_trim, end_trim
     
     fig.add_shape(type="rect", x0=x0, x1=x1, y0=speed_minus_15s, y1=speed_plus_15s, fillcolor="rgba(255, 165, 0, 0.15)", line_width=0, layer="below", name="Orange Band")
     fig.add_shape(type="rect", x0=x0, x1=x1, y0=speed_minus_10s, y1=speed_plus_10s, fillcolor="rgba(0, 255, 0, 0.25)", line_width=0, layer="below", name="Green Band")
     fig.add_shape(type="line", x0=x0, x1=x1, y0=speed_target, y1=speed_target, line=dict(color="green", width=2, dash="dash"), name="Target Pace")
     
-    # Plot Actual Pace (Trimmed)
-    fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['speed_smooth'], mode='lines', name='Instant Pace', line=dict(color='black', width=1.5, shape='spline'), hovertemplate='%{y:.2f} m/s <extra></extra>'))
+    # Plot Actual GAP (Black)
+    fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['gap_speed_mps'], mode='lines', name='GAP (Effort)', line=dict(color='black', width=1.5, shape='spline'), hovertemplate='%{y:.2f} m/s <extra></extra>'))
+    
+    # Plot Raw Speed (Grey/Faint) to show the difference
+    fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['speed_smooth'], mode='lines', name='Raw Speed', line=dict(color='grey', width=1, dash='dot'), opacity=0.5))
 
     t_cursor = start_trim
     for i, row in intervals_df.iterrows():
@@ -242,35 +328,26 @@ def create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_m
         w_start = (warm_min * 60) + ((rep_num - 1) * ((work_min + rest_min) * 60))
         w_end = w_start + (work_min * 60)
         fig.add_vrect(x0=w_start, x1=w_end, fillcolor="grey", opacity=0.05, layer="below", annotation_text=f"R{rep_num}")
-        p_min, p_sec = map(int, row['Pace'].split(':'))
+        p_min, p_sec = map(int, row['GAP Pace'].split(':')) # Use GAP Pace here
         rep_sec_km = (p_min * 60) + p_sec
         if rep_sec_km > 0:
             rep_avg_speed = 1000 / rep_sec_km
-            fig.add_trace(go.Scatter(x=[w_start, w_end], y=[rep_avg_speed, rep_avg_speed], mode='lines', line=dict(color='blue', width=3), name='Rep Avg' if i == 0 else None, showlegend=(i == 0), hovertemplate=f"Rep {rep_num} Avg: {row['Pace']}/km<extra></extra>"))
+            fig.add_trace(go.Scatter(x=[w_start, w_end], y=[rep_avg_speed, rep_avg_speed], mode='lines', line=dict(color='blue', width=3), name='Rep Avg GAP' if i == 0 else None, showlegend=(i == 0), hovertemplate=f"Rep {rep_num} GAP: {row['GAP Pace']}/km<extra></extra>"))
 
     y_center = speed_target
     y_range = (speed_plus_15s - speed_minus_15s) * 1.5
     fig.update_yaxes(range=[y_center - y_range, y_center + y_range], title="Speed (m/s)", showgrid=False)
-    fig.update_layout(title=f"Interval Discipline: Target {target_pace_str}", hovermode="x unified", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+    fig.update_layout(title=f"Interval Discipline (GAP Adjusted)", hovermode="x unified", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
     return fig
 
-def generate_interval_graph(df, intervals_df, output_path, target_pace_str, target_mps, warm_min, work_min, rest_min, reps):
-    fig = create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_min, work_min, rest_min, reps)
-    if fig: fig.write_html(output_path)
-
-# 7. INFOGRAPHIC GENERATOR (Complex Discipline Graph)
+# 7. INFOGRAPHIC GENERATOR (Matplotlib)
 # ---------------------------------------------------------
-def create_infographic(run_type, stats, score, score_label, df_trace=None, trace_col=None, target_line=None, 
-                       # New params for complex interval graph
-                       intervals_df=None, warm_min=0, work_min=0, rest_min=0, reps=0):
-    
+def create_infographic(run_type, stats, score, score_label, df_trace=None, trace_col=None, target_line=None, intervals_df=None, warm_min=0, work_min=0, rest_min=0, reps=0):
     fig = plt.figure(figsize=(6, 5), facecolor='#f8f9fa')
     gs = fig.add_gridspec(2, 1, height_ratios=[1, 0.6])
     
-    # === TOP SECTION (Text) ===
     ax_text = fig.add_subplot(gs[0])
     ax_text.axis('off')
-    
     plt.text(0.05, 0.85, run_type, fontsize=16, fontweight='bold', color='#333', transform=ax_text.transAxes)
     plt.text(0.05, 0.75, "Run Analysis Tool", fontsize=10, color='grey', transform=ax_text.transAxes)
     
@@ -286,28 +363,21 @@ def create_infographic(run_type, stats, score, score_label, df_trace=None, trace
         plt.text(0.35, y_pos, v, fontsize=10, fontweight='bold', transform=ax_text.transAxes)
         y_pos -= 0.15
 
-    # === BOTTOM SECTION (Complex Chart) ===
     if df_trace is not None and trace_col in df_trace.columns:
         ax_chart = fig.add_subplot(gs[1])
         ax_chart.set_facecolor='#f8f9fa'
         for spine in ax_chart.spines.values(): spine.set_visible(False)
         ax_chart.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
         
-        # TRIM LOGIC (Same as Plotly)
-        start_trim = warm_min * 60
-        end_trim = start_trim + (reps * (work_min + rest_min) * 60)
+        # NOTE: trace_col passed from App might be 'gap_speed_mps' now
         
-        # If running in interval mode (indicated by valid 'intervals_df')
         if intervals_df is not None and target_line:
-            # 1. Trim Data
+            start_trim = warm_min * 60
+            end_trim = start_trim + (reps * (work_min + rest_min) * 60)
             df_plot = df_trace[(df_trace.index >= start_trim) & (df_trace.index <= end_trim)]
             
-            # 2. Draw Bands (Convert pace to speed mps then plot)
-            # target_line passed in is target_mps
             base_speed = target_line
-            # Math reverse: speed = 1000/sec_km
             sec_km = 1000 / base_speed
-            
             s_minus_10 = 1000 / (sec_km + 10)
             s_plus_10 = 1000 / (sec_km - 10)
             s_minus_15 = 1000 / (sec_km + 15)
@@ -317,29 +387,25 @@ def create_infographic(run_type, stats, score, score_label, df_trace=None, trace
             ax_chart.axhspan(s_minus_10, s_plus_10, color='green', alpha=0.25)
             ax_chart.axhline(base_speed, color='green', linestyle='--', linewidth=1)
             
-            # 3. Draw Actual Pace
             ax_chart.plot(df_plot.index, df_plot[trace_col], color='black', linewidth=1)
             
-            # 4. Draw Rep Averages (Blue Lines)
             for _, row in intervals_df.iterrows():
                 rep_num = int(row['Rep'])
                 w_start = (warm_min * 60) + ((rep_num - 1) * ((work_min + rest_min) * 60))
                 w_end = w_start + (work_min * 60)
                 
-                # Parse Rep Pace
-                p_min, p_sec = map(int, row['Pace'].split(':'))
+                # Check column name - might be 'GAP Pace' or 'Pace'
+                p_str = row.get('GAP Pace', row.get('Pace'))
+                p_min, p_sec = map(int, p_str.split(':'))
                 rep_speed = 1000 / ((p_min*60) + p_sec)
                 
                 ax_chart.plot([w_start, w_end], [rep_speed, rep_speed], color='blue', linewidth=2)
 
-            # Zoom Y Axis to focus on bands
             y_range = (s_plus_15 - s_minus_15) * 1.5
             ax_chart.set_ylim(base_speed - y_range, base_speed + y_range)
-            
-            plt.text(0.02, 0.05, "Discipline Profile (Trimmed)", color='#999', fontsize=6, transform=ax_chart.transAxes)
+            plt.text(0.02, 0.05, "GAP Discipline (Trimmed)", color='#999', fontsize=6, transform=ax_chart.transAxes)
 
         else:
-            # Fallback for Recovery/Standard (Simple Trace)
             ax_chart.plot(df_trace.index, df_trace[trace_col], color='#444', linewidth=1.5)
             ax_chart.fill_between(df_trace.index, df_trace[trace_col], alpha=0.1, color='#444')
             if target_line:

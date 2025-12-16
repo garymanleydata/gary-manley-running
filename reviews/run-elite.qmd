@@ -1,0 +1,90 @@
+---
+title: "Run Elite"
+author: "Andrew Snow"
+date: "2025-12-16"
+categories: ['training', 'mindset', 'nutrition']
+image: ""
+rating: "3"
+description: "Review of Run Elite"
+---
+
+# The Vibe Check
+
+**Book:** *Run Elite* by Andrew Snow
+**Difficulty:** Moderate (An attempt to cover everything)
+**The Gist:** A book that aims to be a comprehensive manual covering training, mindset, and nutrition.
+
+::: {.callout-caution}
+## TL;DR Verdict
+**Score: 6/10** (Would be higher without the nutrition section).
+It tries to be a "Jack of all trades" but ends up being a master of none. It offers a great introduction to various concepts, but if you want deep expertise, you might be left hungry.
+:::
+
+---
+
+## 1. The Warm-Up (The Premise)
+
+It is notoriously hard to review general training books because they walk a fine line between "too simple" and "too complex." Andrew Snow attempts to bridge the gap by offering a holistic system.
+
+The book shines brightest in its opening chapters. Snow dives deep into the psychology of performance, referencing the approaches of legends like **Emil Zátopek, Roger Bannister, Eliud Kipchoge, Steve Prefontaine,** and **Usain Bolt**. It sets a strong stage, suggesting that before you train the legs, you must train the governor in the brain.
+
+---
+
+## 2. The Key Splits (Core Concepts)
+
+### A. The Mindset Mile (The Strongest Split)
+This is where the book delivers real value. The sections on mental resilience are actionable and engaging.
+* It serves as a solid gateway drug to dedicated mental training.
+* *Reviewer Note:* If this section hooks you, you are better off graduating immediately to specialized texts like **The Confident Mind** or **Beyond Grit** for the deep dive.
+
+### B. The "Short Sharp" Stimulus
+Snow advocates for a specific type of speed work that many endurance runners neglect: **Alactic Hill Sprints**.
+* The logic is to recruit maximum muscle fibers without flooding the legs with lactate. It’s about neural drive, not metabolic conditioning.
+
+### C. The Nutrition "Bonk" (The Weakest Split)
+This is where the book loses momentum. The nutritional advice feels less rigorous than the training philosophy.
+* *Critique:* The nutrition section feels like "junk miles." It distracts from the core message. If you want evidence-based nutrition or metabolic efficiency, you are better off waiting for the new **Lore of Running** or looking up **Tim Noakes'** recent work.
+
+### D. The Training Plans
+While the book covers base training, speed work, and tapering, the actual plans lack the specificity and inspiration found in the gold standards.
+* *Alternative:* If you want a plan that is battle-tested, go to **Jack Daniels** (for precision) or **Pfitzinger’s *Advanced Marathoning*** (for volume).
+
+---
+
+## 3. The Stride Analysis (Actionable Takeaways)
+
+Despite the critiques, there are three diamonds in the rough that I have incorporated into my own training:
+
+::: {.callout-note icon=false}
+## 🏃 Practical Application
+
+1.  **Taper Less**
+    Snow argues that many amateur runners treat the taper like a vacation. They shut down too early, losing muscle tension and "pop." The takeaway: Keep the intensity high, just drop the volume. Don't let your engine go cold.
+
+2.  **Work More on Mindset**
+    Physical fitness is often capped by mental fragility. Snow reinforces that you need to intentionally train your ability to suffer and stay calm, just like you train your VO2 Max.
+
+3.  **The 8-Second Hill Rep**
+    This is a specific, actionable workout.
+    * **The Drill:** Run up a steep hill at **max effort** for only 8 seconds.
+    * **The Recovery:** Full recovery (wait until you are breathing normally).
+    * **The Why:** This builds explosive power and running economy without the fatigue of a 400m repeat. It creates a "springier" runner.
+:::
+
+---
+
+## 4. The Finish Line (The Verdict)
+
+
+
+Is it a PR or a DNF?
+
+**Verdict: A Solid Tempo Run (But not a Race Winner)**
+
+*Run Elite* is well worth a read—**especially if you can find it second-hand**. It offers some unique training advice (like the hill reps) that you won't hear elsewhere. However, it suffers from trying to do too much. It offers an appetizer for every aspect of running but doesn't quite serve the main course.
+
+**Final Recommendations:**
+* **For Mindset:** Switch to *The Confident Mind*.
+* **For Plans:** Switch to *Faster Road Racing* (Pfitzinger).
+* **For Nutrition:** Switch to Tim Noakes.
+* **For *Run Elite*:** Read the first half, steal the hill sprints, and skim the rest.
