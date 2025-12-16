@@ -98,12 +98,19 @@ Comparison against {os.path.basename(ghost_file)}.
         
         score_color = "green" if res['score'] == 100 else "orange" if res['score'] > 80 else "red"
         
+        # Save the Minute Graph for the blog
+        rec_fig = run_analytics.create_recovery_figure(res['minute_data'], target_hr)
+        rec_file = f"recovery_{vDateStr}.html"
+        rec_fig.write_html(os.path.join(vAssetDir, 'graphs', rec_file))
+        
         post_content = f"""
 ## Recovery Discipline: <span style="color:{score_color}">{res['score']}/100</span>
-* **Target Cap:** < {target_hr} bpm
-* **Result:** {res['status']}
+* **Avg HR:** {res['avg_hr']} bpm
+* **Max HR:** {res['max_hit']} bpm
 * **Time Violation:** {res['violation_time_min']} mins (Minutes spent over cap)
-* **Max HR Hit:** {res['max_hit']} bpm
+
+### Heart Rate Profile
+<iframe src="../assets/graphs/{rec_file}" width="100%" height="500" style="border:none;"></iframe>
 """
 
     # === PATH 3: INTERVALS ===

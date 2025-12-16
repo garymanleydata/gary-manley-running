@@ -76,5 +76,11 @@
   },
   "tools.qmd": {
     "tools.html": "f937e4db"
+  },
+  "posts/2025-12-16-run.qmd": {
+    "2025-12-16-run.html": "bef06dda"
+  },
+  "posts/2025-12-16-journal.qmd": {
+    "2025-12-16-journal.html": "6a6a07ef"
   }
 }
