@@ -8,12 +8,13 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(__file__), 'scripts'))
 from modules import run_analytics
 
+# --- PAGE CONFIG ---
 st.set_page_config(page_title="Run Analytics Tool", layout="wide", page_icon="🏃‍♂️")
 
 st.title("🏃‍♂️ Advanced Run Analyzer")
 st.markdown("Upload your **TCX** or **GPX** file for professional-grade analysis.")
 
-# --- SIDEBAR ---
+# --- SIDEBAR CONFIG ---
 st.sidebar.header("Data Source")
 use_demo = st.sidebar.checkbox("⚡ Try with Demo Data")
 uploaded_file = None
@@ -33,7 +34,6 @@ st.sidebar.divider()
 ghost_file_upload = st.sidebar.file_uploader("Optional: Ghost File", type=['tcx', 'gpx'])
 st.sidebar.divider()
 smoothing = st.sidebar.slider("GPS Smoothing", 0, 30, 15)
-
 
 @st.cache_data
 def load_data(file_bytes, file_name, smooth_sec):
@@ -72,10 +72,12 @@ if uploaded_file is not None:
         c3.metric("Duration", f"{int(duration_min)} mins")
         st.divider()
 
-        modes = ["Standard", "Intervals", "Recovery"]
+        # UI FIX: Added "Select Mode" to prevent auto-load lag
+        modes = ["Select Analysis Mode", "Standard", "Intervals", "Recovery"]
         if df_ghost is not None: modes.append("Ghost Battle")
-        mode = st.radio("Select Analysis Mode:", modes, horizontal=True)
+        mode = st.radio("Mode:", modes, horizontal=True)
 
+        # === MODE: INTERVALS ===
         if mode == "Intervals":
             st.subheader("Norwegian Singles Analysis")
             with st.form("interval_config"):
@@ -110,7 +112,6 @@ if uploaded_file is not None:
                 sc2.metric("Pace Score", f"{scores['Pace Pts']}/50")
                 sc3.metric("HR Score", f"{scores['HR Pts']}/50")
                 
-                # Set Rep as index to remove the 0,1,2 numbering
                 st.dataframe(df_ints.set_index('Rep'), use_container_width=True)
                 
                 fig = run_analytics.create_interval_figure(df, df_ints, target_pace, res['target_mps'], warm, work, rest, reps)
@@ -125,20 +126,19 @@ if uploaded_file is not None:
                 
                 stats = {"Reps": f"{reps} x {work} min", "Target Pace": target_pace, "Target HR": f"<{target_hr} bpm"}
                 
-                # We reset the index to 'timer_sec' for easy plotting in matplotlib
                 df_plot = df.set_index('timer_sec')
-                
                 img_buf = run_analytics.create_infographic(
                     "Interval Session", stats, scores['Total'], "Session Score", 
                     df_plot, 'gap_speed_mps', res['target_mps'], 
-                    # PASSING EXTRA ARGS FOR COMPLEX GRAPH
                     intervals_df=df_ints, warm_min=warm, work_min=work, rest_min=rest, reps=reps
                 )
                 e2.download_button("Download Infographic (PNG)", img_buf, "interval_card.png", "image/png")
 
+        # === MODE: RECOVERY ===
         elif mode == "Recovery":
             st.subheader("Recovery Discipline")
             target_rec_hr = st.number_input("Target Max HR", value=145)
+            
             if st.button("Analyze Recovery"):
                 res = run_analytics.analyze_recovery(df, target_rec_hr)
                 st.session_state['rec_results'] = res
@@ -169,6 +169,7 @@ if uploaded_file is not None:
                 )
                 e2.download_button("Download Infographic (PNG)", img_buf, "recovery_card.png", "image/png")
 
+        # === MODE: GHOST ===
         elif mode == "Ghost Battle":
             st.subheader("👻 Ghost Battle Analysis")
             if df_ghost is not None:
@@ -184,8 +185,10 @@ if uploaded_file is not None:
             else:
                 st.warning("Please upload a Ghost file in the sidebar to use this mode.")
 
-        else:
+        # === MODE: STANDARD ===
+        elif mode == "Standard":
             st.subheader("Performance Data")
             st.line_chart(df, x='total_dist_m', y=['speed_smooth', 'hr'])
+            
 else:
     st.info("👈 Upload a .tcx/.gpx file or click 'Try with Demo Data' to start.")
