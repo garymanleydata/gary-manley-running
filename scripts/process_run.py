@@ -74,7 +74,7 @@ def main():
     choice = input("Enter choice (1-3): ").strip()
     
     post_content = ""
-    header_image = "" # Initialize variable to prevent errors
+    header_image = "" # Initialize variable
     title = f"Run: {vDate}"
     
     # === PATH 1: STANDARD ===
@@ -113,7 +113,7 @@ Comparison against {os.path.basename(ghost_file)}.
         rec_file = f"recovery_{vDateStr}.html"
         rec_fig.write_html(os.path.join(vAssetDir, 'graphs', rec_file))
         
-        # Save Static Thumbnail (Fixes 404)
+        # Save Static Thumbnail
         stats = {
             "Avg HR": f"{res['avg_hr']} bpm",
             "Max HR": f"{res['max_hit']} bpm",
@@ -164,25 +164,33 @@ Comparison against {os.path.basename(ghost_file)}.
         target_pace = get_str_input("Target Pace (MM:SS)", "3:45")
         target_hr = int(get_input("Target Max HR cap", 170))
         
+        # New Options (Defaults for blog: Use GAP=True, Use HR=True)
+        # You could add input() prompts here if you wanted flexibility in the script too
+        use_gap = True
+        use_hr = True
+        
         # Analysis
         df_ints, target_mps, scores = run_analytics.analyze_intervals(
-            df, warm, work, rest, reps, cool, buffer, target_pace, target_hr
+            df, warm, work, rest, reps, cool, buffer, target_pace, target_hr,
+            use_gap=use_gap, ignore_hr=not use_hr
         )
         
         # Graphs
         disc_file = f"discipline_{vDateStr}.html"
         run_analytics.generate_interval_graph(
             df, df_ints, os.path.join(vAssetDir, 'graphs', disc_file),
-            target_pace, target_mps, warm, work, rest, reps
+            target_pace, target_mps, warm, work, rest, reps, use_gap=use_gap
         )
         
+        # Table (Markdown)
         tbl_name = f"intervals_{vDateStr}.md"
+        # We save the full table which now includes "GAP Pace" and "Raw Pace"
         df_ints.to_markdown(os.path.join(vAssetDir, 'tables', tbl_name), index=False)
         
         score = scores['Total']
         score_color = "green" if score >= 80 else "orange" if score >= 50 else "red"
         
-        # Save Static Thumbnail for Intervals too!
+        # Save Static Thumbnail
         stats = {
             "Reps": f"{reps} x {work} min",
             "Target Pace": target_pace,
@@ -191,8 +199,8 @@ Comparison against {os.path.basename(ghost_file)}.
         df_plot = df.set_index('timer_sec')
         img_buf = run_analytics.create_infographic(
             "Interval Session", stats, scores['Total'], "Session Score", 
-            df_plot, 'speed_smooth', target_mps, 
-            intervals_df=df_ints, warm_min=warm, work_min=work, rest_min=rest, reps=reps
+            df_plot, 'gap_speed_mps', target_mps, 
+            intervals_df=df_ints, warm_min=warm, work_min=work, rest_min=rest, reps=reps, use_gap=use_gap
         )
         
         thumb_name = f"interval_card_{vDateStr}.png"
@@ -204,15 +212,15 @@ Comparison against {os.path.basename(ghost_file)}.
         
         post_content = f"""
 ## Session Score: <span style="color:{score_color}">{score}/100</span>
-* **Pace Score:** {scores['Pace Pts']}/50 (Avg pace vs Target +/- 5s, 10s, 15s)
+* **Pace Score:** {scores['Pace Pts']}/50 (Based on GAP Adjusted Pace)
 * **HR Score:** {scores['HR Pts']}/50 (Avg {scores['Avg HR Compliance']}% compliance)
 
 **Target:** {target_pace}/km | **HR Cap:** {target_hr} bpm  
 
 {{{{< include ../assets/tables/{tbl_name} >}}}}
 
-### Pace Discipline Graph
-Green Band = +/- 10s. Blue Line = **Rep Average**.  
+### Pace Discipline Graph (GAP)
+Green Band = +/- 10s. Blue Line = **Rep Average (GAP)**.  
 <iframe src="../assets/graphs/{disc_file}" width="100%" height="600" style="border:none;"></iframe>
 """
 

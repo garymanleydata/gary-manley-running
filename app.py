@@ -72,7 +72,6 @@ if uploaded_file is not None:
         c3.metric("Duration", f"{int(duration_min)} mins")
         st.divider()
 
-        # UI FIX: Added "Select Mode" to prevent auto-load lag
         modes = ["Select Analysis Mode", "Standard", "Intervals", "Recovery"]
         if df_ghost is not None: modes.append("Ghost Battle")
         mode = st.radio("Mode:", modes, horizontal=True)
@@ -86,35 +85,45 @@ if uploaded_file is not None:
                 reps = c2.number_input("Reps", value=10, step=1)
                 work = c3.number_input("Work (min)", value=3.0)
                 rest = c4.number_input("Rest (min)", value=1.0)
+                
                 c5, c6, c7 = st.columns(3)
                 cool = c5.number_input("Cool (min)", value=10)
                 buffer = c6.number_input("Buffer (sec)", value=15)
                 target_pace = c7.text_input("Target Pace (MM:SS)", value="3:45")
                 target_hr = c5.number_input("HR Cap", value=170)
                 
+                st.markdown("---")
+                st.markdown("**Scoring Options**")
+                o1, o2 = st.columns(2)
+                # NEW OPTIONS
+                use_gap = o1.checkbox("Use Grade Adjusted Pace (GAP)", value=True, help="Adjusts pace for hills. Uncheck for flat track.")
+                use_hr = o2.checkbox("Include Heart Rate in Score", value=True, help="Uncheck if you don't have HR data.")
+                
                 if st.form_submit_button("Run Analysis"):
+                    # Pass the booleans to the engine
                     df_ints, target_mps, scores = run_analytics.analyze_intervals(
-                        df, warm, work, rest, reps, cool, buffer, target_pace, target_hr
+                        df, warm, work, rest, reps, cool, buffer, target_pace, target_hr,
+                        use_gap=use_gap, ignore_hr=not use_hr
                     )
                     st.session_state['int_results'] = {
                         'df_ints': df_ints, 'target_mps': target_mps, 'scores': scores,
-                        'params': (target_pace, warm, work, rest, reps, target_hr)
+                        'params': (target_pace, warm, work, rest, reps, target_hr, use_gap, use_hr)
                     }
 
             if st.session_state['int_results']:
                 res = st.session_state['int_results']
                 scores = res['scores']
                 df_ints = res['df_ints']
-                target_pace, warm, work, rest, reps, target_hr = res['params']
+                target_pace, warm, work, rest, reps, target_hr, use_gap, use_hr = res['params']
                 
                 sc1, sc2, sc3 = st.columns(3)
                 sc1.metric("Session Score", f"{scores['Total']}/100")
-                sc2.metric("Pace Score", f"{scores['Pace Pts']}/50")
-                sc3.metric("HR Score", f"{scores['HR Pts']}/50")
+                sc2.metric("Pace Score", f"{scores['Pace Pts']}/{'50' if use_hr else '100'}")
+                sc3.metric("HR Score", f"{scores['HR Pts']}/50" if use_hr else "N/A")
                 
                 st.dataframe(df_ints.set_index('Rep'), use_container_width=True)
                 
-                fig = run_analytics.create_interval_figure(df, df_ints, target_pace, res['target_mps'], warm, work, rest, reps)
+                fig = run_analytics.create_interval_figure(df, df_ints, target_pace, res['target_mps'], warm, work, rest, reps, use_gap=use_gap)
                 if fig: st.plotly_chart(fig, use_container_width=True)
 
                 st.divider()
@@ -125,12 +134,17 @@ if uploaded_file is not None:
                 e1.download_button("Download Data (CSV)", csv, "intervals.csv", "text/csv")
                 
                 stats = {"Reps": f"{reps} x {work} min", "Target Pace": target_pace, "Target HR": f"<{target_hr} bpm"}
+                if not use_hr: stats.pop("Target HR") # Remove HR from card if ignored
                 
                 df_plot = df.set_index('timer_sec')
+                
+                # Dynamically choose column for infographic
+                plot_col = 'gap_speed_mps' if use_gap else 'speed_smooth'
+                
                 img_buf = run_analytics.create_infographic(
                     "Interval Session", stats, scores['Total'], "Session Score", 
-                    df_plot, 'gap_speed_mps', res['target_mps'], 
-                    intervals_df=df_ints, warm_min=warm, work_min=work, rest_min=rest, reps=reps
+                    df_plot, plot_col, res['target_mps'], 
+                    intervals_df=df_ints, warm_min=warm, work_min=work, rest_min=rest, reps=reps, use_gap=use_gap
                 )
                 e2.download_button("Download Infographic (PNG)", img_buf, "interval_card.png", "image/png")
 

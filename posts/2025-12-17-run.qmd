@@ -1,0 +1,26 @@
+---
+title: "Norwegian Singles: 2025-12-17"
+date: "2025-12-17"
+categories: [running, data]
+format: html
+image: "../assets/images/interval_card_2025-12-17.png"
+---
+
+
+
+
+## Session Score: <span style="color:green">94/100</span>
+* **Pace Score:** 44/50 (Based on GAP Adjusted Pace)
+* **HR Score:** 49/50 (Avg 99% compliance)
+
+**Target:** 4:02/km | **HR Cap:** 170 bpm  
+
+{{< include ../assets/tables/intervals_2025-12-17.md >}}
+
+### Pace Discipline Graph (GAP)
+Green Band = +/- 10s. Blue Line = **Rep Average (GAP)**.  
+<iframe src="../assets/graphs/discipline_2025-12-17.html" width="100%" height="600" style="border:none;"></iframe>
+
+
+## Deep Dive Dashboard
+<iframe src="../assets/graphs/dashboard_2025-12-17.html" width="100%" height="600" style="border:none;"></iframe>
