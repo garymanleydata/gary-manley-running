@@ -1,6 +1,8 @@
 import gpxpy
 import pandas as pd
 import folium
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
 import plotly.graph_objects as go
@@ -10,6 +12,7 @@ import numpy as np
 import io
 import math
 from tcxreader.tcxreader import TCXReader
+
 
 # 0. PHYSICS ENGINE (Minetti Formula)
 # ---------------------------------------------------------
