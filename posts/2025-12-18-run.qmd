@@ -1,0 +1,22 @@
+---
+title: "Recovery: 2025-12-18"
+date: "2025-12-18"
+categories: [running, data]
+format: html
+image: "../assets/images/recovery_card_2025-12-18.png"
+---
+
+
+
+
+## Recovery Discipline: <span style="color:orange">99/100</span>
+* **Avg HR:** 102 bpm
+* **Max HR:** 176.0 bpm
+* **Time Violation:** 0.3 mins (Minutes spent over cap)
+
+### Heart Rate Profile
+<iframe src="../assets/graphs/recovery_2025-12-18.html" width="100%" height="500" style="border:none;"></iframe>
+
+
+## Deep Dive Dashboard
+<iframe src="../assets/graphs/dashboard_2025-12-18.html" width="100%" height="600" style="border:none;"></iframe>
