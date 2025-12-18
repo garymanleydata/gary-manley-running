@@ -4,6 +4,7 @@ date: "2025-12-18"
 categories: [running, data]
 format: html
 image: "../assets/images/recovery_card_2025-12-18.png"
+description: "Recovery run analysis with heart rate compliance score."
 ---
 
 

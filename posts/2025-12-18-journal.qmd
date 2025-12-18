@@ -13,5 +13,5 @@ image: ../assets/images/2025-12-18_radar.png
 
 ## Notes
 
-*Enter your written journal notes here...*
+Recovery run felt good and stuck to the target HR. 
 
