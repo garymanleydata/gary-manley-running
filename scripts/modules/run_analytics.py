@@ -1,5 +1,5 @@
 import matplotlib
-matplotlib.use('Agg') # CRITICAL: Must be at the top
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import gpxpy
 import pandas as pd
@@ -13,14 +13,130 @@ import io
 import math
 from tcxreader.tcxreader import TCXReader
 
-# 0. PHYSICS ENGINE (Minetti Formula)
+# 0. PHYSICS & PHYSIOLOGY ENGINE
 # ---------------------------------------------------------
+class PhysicsEngine:
+    @staticmethod
+    def time_str_to_sec(t_str):
+        try:
+            parts = list(map(int, t_str.split(':')))
+            if len(parts) == 2: return parts[0]*60 + parts[1]
+            return 0
+        except: return 0
+
+    @staticmethod
+    def sec_to_time_str(seconds):
+        mins = int(seconds // 60)
+        secs = int(seconds % 60)
+        return f"{mins}:{secs:02d}"
+
+    @staticmethod
+    def adjust_pace(base_sec, multiplier):
+        """Applies a percentage slowdown (multiplier > 1.0)"""
+        adj_sec = base_sec * multiplier
+        return PhysicsEngine.sec_to_time_str(adj_sec)
+    
+    @staticmethod
+    def calculate_penalty_multiplier(temp_c, wind_kmh):
+        """Calculates performance degradation multiplier based on conditions."""
+        mult = 1.0
+        
+        # HEAT PENALTY (Baseline 15°C)
+        # Approx 0.3% slowdown per degree above 15°C
+        if temp_c > 15:
+            diff = temp_c - 15
+            mult += (diff * 0.003)
+            
+        # WIND PENALTY (Baseline 5km/h)
+        # Approx 1.0% slowdown per 10km/h wind above baseline
+        if wind_kmh > 5:
+            diff = wind_kmh - 5
+            mult += (diff * 0.001)
+            
+        return mult
+
+    @staticmethod
+    def generate_conditions_matrix(base_paces):
+        scenarios = {
+            "Neutral (15°C)": 1.0,
+            "Warm (20°C)": 1.015,
+            "Hot (25°C)": 1.03,
+            "Rolling Hills": 1.04,
+            "Headwind": 1.025
+        }
+        data = []
+        for session, pace_range in base_paces.items():
+            try:
+                p_fast_str, p_slow_str = pace_range.split(' - ')
+                s_fast = PhysicsEngine.time_str_to_sec(p_fast_str)
+                s_slow = PhysicsEngine.time_str_to_sec(p_slow_str)
+                row = {"Session Type": session}
+                for cond_name, mult in scenarios.items():
+                    adj_fast = PhysicsEngine.adjust_pace(s_fast, mult)
+                    adj_slow = PhysicsEngine.adjust_pace(s_slow, mult)
+                    row[cond_name] = f"{adj_fast} - {adj_slow}"
+                data.append(row)
+            except: continue
+        return pd.DataFrame(data)
+
 def calculate_gap_factor(gradient_pct):
     i = gradient_pct / 100.0
     cost = 155.4*(i**5) - 30.4*(i**4) - 43.3*(i**3) + 46.3*(i**2) + 19.5*i + 3.6
     flat_cost = 3.6
-    factor = cost / flat_cost
-    return factor
+    return cost / flat_cost
+
+def calculate_zones(df, max_hr):
+    if 'hr' not in df.columns or df['hr'].isnull().all(): return None
+    zones = [0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    labels = ['Z1', 'Z2', 'Z3', 'Z4', 'Z5']
+    counts = []
+    for i in range(5):
+        low = max_hr * zones[i]
+        high = max_hr * zones[i+1]
+        mask = (df['hr'] >= low) & (df['hr'] < high)
+        if i == 4: mask = (df['hr'] >= low) 
+        counts.append(len(df[mask]))
+    mins = [c / 60 for c in counts]
+    return pd.DataFrame({'Zone': labels, 'Minutes': mins})
+
+def calculate_decoupling(df):
+    if 'hr' not in df.columns or 'speed_smooth' not in df.columns: return None
+    mask = (df['speed_smooth'] > 1.5) & (df['hr'] > 60)
+    clean_df = df[mask].copy()
+    if len(clean_df) < 600: return None 
+    midpoint = len(clean_df) // 2
+    h1 = clean_df.iloc[:midpoint]
+    h2 = clean_df.iloc[midpoint:]
+    ef1 = (h1['speed_smooth'] / h1['hr']).mean()
+    ef2 = (h2['speed_smooth'] / h2['hr']).mean()
+    if ef1 == 0: return 0
+    decoupling = ((ef1 - ef2) / ef1) * 100
+    return round(decoupling, 2)
+
+def calculate_training_paces(race_dist_km, race_time_str):
+    try:
+        parts = list(map(int, race_time_str.split(':')))
+        if len(parts) == 2: seconds = parts[0]*60 + parts[1]
+        elif len(parts) == 3: seconds = parts[0]*3600 + parts[1]*60 + parts[2]
+        else: return None
+    except: return None
+    t1 = seconds
+    d1 = race_dist_km
+    def get_pace_range(dist, variance_sec=3):
+        t2 = t1 * (dist / d1)**1.06
+        base_pace_sec = t2 / dist
+        fast_sec = base_pace_sec - variance_sec
+        slow_sec = base_pace_sec + variance_sec
+        def fmt(s): return f"{int(s // 60)}:{int(s % 60):02d}"
+        return f"{fmt(fast_sec)} - {fmt(slow_sec)}"
+
+    base_paces = {
+        "Short Intervals (15k Pace)": get_pace_range(21.0975, variance_sec=4),
+        "Medium Intervals (HM Pace)": get_pace_range(30.0, variance_sec=4),
+        "Long Intervals (30k Pace)": get_pace_range(42.195, variance_sec=4)
+    }
+    matrix_df = PhysicsEngine.generate_conditions_matrix(base_paces)
+    return base_paces, matrix_df
 
 # 1. PARSING
 # ---------------------------------------------------------
@@ -71,20 +187,17 @@ def parse_file(file_path, smoothing_span=15):
         df['time_diff'] = (df['time'] - df['prev_time']).dt.total_seconds()
         df['adjusted_diff'] = np.where(df['time_diff'] > 10, 0, df['time_diff'])
         df['timer_sec'] = df['adjusted_diff'].cumsum().fillna(0)
-        
         df = df[df['time_diff'] > 0]
         
         df['speed_mps'] = df['dist_m'] / df['time_diff']
         df['speed_smooth'] = df['speed_mps'].ewm(span=smoothing_span, adjust=False).mean()
         
-        # Elevation & Gradient
         df['ele_smooth'] = df['ele'].rolling(window=smoothing_span, min_periods=1, center=True).mean()
         df['ele_change'] = df['ele_smooth'].diff()
         df['gradient_pct'] = (df['ele_change'] / df['dist_m']) * 100
         df['gradient_pct'] = df['gradient_pct'].fillna(0).clip(-25, 25)
         df['gradient_smooth'] = df['gradient_pct'].ewm(span=smoothing_span*2, adjust=False).mean()
-
-        # GAP
+        
         df['gap_factor'] = df['gradient_smooth'].apply(calculate_gap_factor)
         df['gap_speed_mps'] = df['speed_smooth'] * df['gap_factor']
         
@@ -97,7 +210,7 @@ def parse_file(file_path, smoothing_span=15):
         print(f"Error: {e}")
         return None
 
-# 2. VISUALS (Standard)
+# 2. VISUALS
 # ---------------------------------------------------------
 def generate_map(df, output_path):
     m = folium.Map(location=[df.iloc[0]['lat'], df.iloc[0]['lon']], zoom_start=14, tiles='CartoDB positron')
@@ -110,24 +223,48 @@ def generate_map(df, output_path):
         folium.PolyLine(locations=[(df_sample.iloc[i-1]['lat'], df_sample.iloc[i-1]['lon']), (df_sample.iloc[i]['lat'], df_sample.iloc[i]['lon'])], color=color, weight=5, opacity=0.8).add_to(m)
     m.save(output_path)
 
-def generate_dashboard(df, output_path, title="Run Analysis"):
+def generate_dashboard(df, output_path, title="Run Deep Dive", max_hr=190):
     df['segment_100m'] = (df['total_dist_m'] // 100).astype(int)
-    agg_dict = {'time_diff': 'sum', 'stride_len': 'mean', 'cadence': 'mean', 'ele_change': 'sum'}
-    df_agg = df.groupby('segment_100m').agg(agg_dict).reset_index()
-    avg_time = df_agg['time_diff'].mean()
-    df_agg['variance'] = df_agg['time_diff'] - avg_time
-    colors = ['#2ca02c' if v <= 0 else '#d62728' for v in df_agg['variance']]
+    agg_dict = {'gap_speed_mps': 'mean', 'speed_smooth': 'mean', 'hr': 'mean', 'cadence': 'mean', 'stride_len': 'mean', 'ele_smooth': 'mean', 'total_dist_m': 'max'}
+    available_cols = [c for c in agg_dict.keys() if c in df.columns]
+    safe_agg = {k: agg_dict[k] for k in available_cols}
+    df_agg = df.groupby('segment_100m').agg(safe_agg).reset_index()
     
-    fig = make_subplots(rows=3, cols=1, shared_xaxes=True, specs=[[{"secondary_y": False}], [{"secondary_y": True}], [{"secondary_y": False}]])
-    fig.add_trace(go.Bar(x=df_agg['segment_100m'], y=df_agg['variance'], marker_color=colors, name='Pace Var'), row=1, col=1)
-    fig.add_trace(go.Scatter(x=df_agg['segment_100m'], y=df_agg['stride_len'], name='Stride (m)', line=dict(color='blue')), row=2, col=1)
-    fig.add_trace(go.Scatter(x=df_agg['segment_100m'], y=df_agg['cadence'], name='Cadence', line=dict(color='orange', dash='dot')), row=2, col=1, secondary_y=True)
-    fig.add_trace(go.Scatter(x=df_agg['segment_100m'], y=df_agg['ele_change'].cumsum(), name='Elevation', fill='tozeroy', line=dict(color='grey')), row=3, col=1)
-    fig.update_layout(height=800, title_text=title, hovermode="x unified")
+    decoupling = calculate_decoupling(df)
+    decoupling_str = f"{decoupling}%" if decoupling is not None else "N/A"
+    zones_df = calculate_zones(df, max_hr)
+    
+    fig = make_subplots(
+        rows=4, cols=1, shared_xaxes=False, 
+        vertical_spacing=0.08, row_heights=[0.35, 0.25, 0.15, 0.25],
+        specs=[[{"secondary_y": True}], [{"secondary_y": True}], [{"secondary_y": False}], [{"secondary_y": False}]]
+    )
+    x_axis = df_agg['total_dist_m'] / 1000 
+    
+    fig.add_trace(go.Scatter(x=x_axis, y=df_agg['gap_speed_mps'], name='GAP (Effort)', line=dict(color='#1f77b4', width=2), hovertemplate='%{y:.2f} m/s'), row=1, col=1, secondary_y=False)
+    if 'hr' in df_agg.columns:
+        fig.add_trace(go.Scatter(x=x_axis, y=df_agg['hr'], name='Heart Rate', line=dict(color='#d62728', width=1), fill='tozeroy', opacity=0.1), row=1, col=1, secondary_y=True)
+
+    if 'cadence' in df_agg.columns:
+        fig.add_trace(go.Scatter(x=x_axis, y=df_agg['cadence'], name='Cadence', line=dict(color='#9467bd', width=1.5)), row=2, col=1, secondary_y=False)
+    if 'stride_len' in df_agg.columns:
+        fig.add_trace(go.Scatter(x=x_axis, y=df_agg['stride_len'], name='Stride (m)', line=dict(color='#2ca02c', width=1.5, dash='dot')), row=2, col=1, secondary_y=True)
+
+    fig.add_trace(go.Scatter(x=x_axis, y=df_agg['ele_smooth'], name='Elevation', fill='tozeroy', line=dict(color='#7f7f7f', width=1)), row=3, col=1)
+
+    if zones_df is not None:
+        colors = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#e31a1c']
+        fig.add_trace(go.Bar(x=zones_df['Zone'], y=zones_df['Minutes'], marker_color=colors, name='Time in Zone'), row=4, col=1)
+
+    fig.update_layout(height=1000, title_text=f"{title} | Decoupling: {decoupling_str}", hovermode="x unified", template="plotly_white", showlegend=False)
+    fig.update_yaxes(title_text="Speed (m/s)", row=1, col=1, secondary_y=False)
+    fig.update_yaxes(title_text="HR", row=1, col=1, secondary_y=True, showgrid=False)
+    fig.update_yaxes(title_text="Cadence", row=2, col=1, secondary_y=False)
+    fig.update_yaxes(title_text="Elev (m)", row=3, col=1)
+    fig.update_yaxes(title_text="Minutes", row=4, col=1)
+    fig.update_xaxes(title_text="Distance (km)", row=3, col=1)
     fig.write_html(output_path)
 
-# 3. ANALYSIS: RECOVERY
-# ---------------------------------------------------------
 def analyze_recovery(df, target_max_hr):
     max_hr_hit = df['hr'].max()
     avg_hr = int(df['hr'].mean()) 
@@ -135,11 +272,9 @@ def analyze_recovery(df, target_max_hr):
     violation_mins = violation_sec / 60
     score = max(0, int(100 - violation_mins))
     status = "SUCCESS" if score == 100 else "WARNING" if score > 90 else "FAILED"
-    
     df['minute_bin'] = (df['timer_sec'] // 60).astype(int)
     minute_stats = df.groupby('minute_bin')[['hr', 'gap_speed_mps']].mean().reset_index()
     minute_stats.columns = ['Minute', 'Avg HR', 'Avg GAP']
-    
     return {
         "status": status, "score": score, "max_hit": max_hr_hit,
         "avg_hr": avg_hr, "violation_time_min": round(violation_mins, 1),
@@ -155,8 +290,6 @@ def create_recovery_figure(minute_df, target_hr):
     fig.update_layout(title=f"Heart Rate vs Effort (GAP)", xaxis_title="Minute", yaxis_title="Avg BPM")
     return fig
 
-# 4. GHOST BATTLE
-# ---------------------------------------------------------
 def create_ghost_figure(dfMain, dfGhost):
     max_dist = min(dfMain['total_dist_m'].max(), dfGhost['total_dist_m'].max())
     if max_dist == 0: return None
@@ -170,16 +303,16 @@ def create_ghost_figure(dfMain, dfGhost):
     fig.add_shape(type="line", x0=0, x1=max_dist, y0=0, y1=0, line=dict(color="red", width=1, dash="dash"))
     return fig
 
-def generate_ghost_plot(dfMain, dfGhost, output_path):
-    fig = create_ghost_figure(dfMain, dfGhost)
-    if fig: fig.write_html(output_path)
-
-# 5. ANALYSIS: INTERVALS
+# 5. ANALYSIS: INTERVALS (Updated for NGP)
 # ---------------------------------------------------------
-def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_sec=0, target_pace_str=None, target_hr=None, use_gap=True, ignore_hr=False):
+def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_sec=0, target_pace_str=None, target_hr=None, use_gap=True, ignore_hr=False, lenient_first_rep=False, temp_c=15, wind_kmh=0):
     intervals = []
     target_mps = None
     target_sec_km = 0
+    
+    # Calculate Environmental Penalty
+    penalty_mult = PhysicsEngine.calculate_penalty_multiplier(temp_c, wind_kmh)
+    
     if target_pace_str:
         try:
             mins, secs = map(int, target_pace_str.split(':'))
@@ -205,15 +338,29 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
         
         if not df_int.empty:
             scoring_mps = df_int['gap_speed_mps'].mean() if use_gap else df_int['speed_smooth'].mean()
+            
+            # --- PACING STRINGS ---
+            # 1. Actual GAP Pace
             gap_pace_str = "0:00"
             if df_int['gap_speed_mps'].mean() > 0:
                 s = 1000 / df_int['gap_speed_mps'].mean()
                 gap_pace_str = f"{int(s//60)}:{int(s%60):02d}"
 
+            # 2. Raw Pace
             raw_pace_str = "0:00"
             if df_int['speed_smooth'].mean() > 0:
                 s = 1000 / df_int['speed_smooth'].mean()
                 raw_pace_str = f"{int(s//60)}:{int(s%60):02d}"
+                
+            # 3. NGP (Normalized Graded Pace) - The "Ego" Metric
+            # Logic: If penalty is 1.03 (3% slower due to heat), 
+            # then "Effort Seconds" = Actual Seconds / 1.03.
+            # (e.g. 240s actual / 1.03 = 233s effort)
+            ngp_str = "N/A"
+            if scoring_mps > 0:
+                actual_sec_km = 1000 / scoring_mps
+                ngp_sec_km = actual_sec_km / penalty_mult
+                ngp_str = f"{int(ngp_sec_km//60)}:{int(ngp_sec_km%60):02d}"
             
             rep_sec_km = 0
             if scoring_mps > 0: rep_sec_km = 1000 / scoring_mps
@@ -224,16 +371,21 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
             pace_points_earned = 0
             rep_pace_score = "N/A"
             if target_mps and rep_sec_km > 0:
-                diff = abs(rep_sec_km - target_sec_km)
-                if diff <= 5: pace_points_earned = pace_points_per_rep * 1.0; rep_pace_score = "Target"
-                elif diff <= 10: pace_points_earned = pace_points_per_rep * 0.66; rep_pace_score = "Close"
-                elif diff <= 15: pace_points_earned = pace_points_per_rep * 0.33; rep_pace_score = "Okay"
+                diff = rep_sec_km - target_sec_km 
+                abs_diff = abs(diff)
+                
+                threshold_perfect = 5
+                if i == 1 and lenient_first_rep and diff > 0: 
+                    threshold_perfect = 15
+
+                if abs_diff <= threshold_perfect: pace_points_earned = pace_points_per_rep * 1.0; rep_pace_score = "Target"
+                elif abs_diff <= (threshold_perfect + 5): pace_points_earned = pace_points_per_rep * 0.66; rep_pace_score = "Close"
+                elif abs_diff <= (threshold_perfect + 10): pace_points_earned = pace_points_per_rep * 0.33; rep_pace_score = "Okay"
                 else: rep_pace_score = "Miss"
                 total_pace_points += pace_points_earned
 
             hr_score_pct = 0
             avg_hr_rep = int(df_int['hr'].mean()) if not df['hr'].isna().all() else 0
-            
             if target_hr and not ignore_hr:
                 under_hr = df_int[df_int['hr'] <= target_hr]
                 hr_score_pct = (len(under_hr) / len(df_int)) * 100
@@ -241,83 +393,64 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
 
             intervals.append({
                 "Rep": i, "Avg HR": avg_hr_rep if not ignore_hr else "N/A", 
-                "GAP Pace": gap_pace_str, "Raw Pace": raw_pace_str,
+                "GAP Pace": gap_pace_str, 
+                "Raw Pace": raw_pace_str,
+                "NGP (Effort)": ngp_str, # NEW COLUMN
                 "Elev Net": f"+{int(ele_gain)}/{int(ele_loss)}m",
                 "HR Compliance %": f"{int(hr_score_pct)}%" if not ignore_hr else "N/A", 
                 "Pace Rating": rep_pace_score
             })
         t_cursor = rep_end_abs + (rest_min * 60)
     
-    if ignore_hr:
-        final_hr_score = 0
-        avg_hr_compliance = 0
-    else:
-        avg_hr_compliance = total_hr_points / reps if reps > 0 else 0
-        final_hr_score = (avg_hr_compliance / 100) * 50
-        
+    if ignore_hr: final_hr_score = 0; avg_hr_compliance = 0
+    else: avg_hr_compliance = total_hr_points / reps if reps > 0 else 0; final_hr_score = (avg_hr_compliance / 100) * 50
     final_total_score = int(total_pace_points + final_hr_score)
     scores = {"Total": final_total_score, "Pace Pts": int(total_pace_points), "HR Pts": int(final_hr_score), "Avg HR Compliance": int(avg_hr_compliance)}
     return pd.DataFrame(intervals), target_mps, scores
 
-# 6. DISCIPLINE GRAPH
-# ---------------------------------------------------------
+# 6. DISCIPLINE GRAPH (Unchanged)
 def create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_min, work_min, rest_min, reps, use_gap=True):
     if not target_mps: return None
     mins, secs = map(int, target_pace_str.split(':'))
     base_sec_km = (mins * 60) + secs
-    
     start_trim = warm_min * 60
     end_trim = start_trim + (reps * (work_min + rest_min) * 60)
     df_trim = df[(df['timer_sec'] >= start_trim) & (df['timer_sec'] <= end_trim)].copy()
-    
     speed_target = target_mps
-    speed_plus_10s = 1000 / (base_sec_km - 10) 
-    speed_minus_10s = 1000 / (base_sec_km + 10) 
-    speed_plus_15s = 1000 / (base_sec_km - 15) 
-    speed_minus_15s = 1000 / (base_sec_km + 15)
+    s_plus_10 = 1000 / (base_sec_km - 10); s_minus_10 = 1000 / (base_sec_km + 10)
+    s_plus_15 = 1000 / (base_sec_km - 15); s_minus_15 = 1000 / (base_sec_km + 15)
 
     fig = go.Figure()
     x0, x1 = start_trim, end_trim
-    fig.add_shape(type="rect", x0=x0, x1=x1, y0=speed_minus_15s, y1=speed_plus_15s, fillcolor="rgba(255, 165, 0, 0.15)", line_width=0, layer="below", name="Orange Band")
-    fig.add_shape(type="rect", x0=x0, x1=x1, y0=speed_minus_10s, y1=speed_plus_10s, fillcolor="rgba(0, 255, 0, 0.25)", line_width=0, layer="below", name="Green Band")
-    fig.add_shape(type="line", x0=x0, x1=x1, y0=speed_target, y1=speed_target, line=dict(color="green", width=2, dash="dash"), name="Target Pace")
+    fig.add_shape(type="rect", x0=x0, x1=x1, y0=s_minus_15, y1=s_plus_15, fillcolor="rgba(255, 165, 0, 0.15)", line_width=0, layer="below", name="Orange")
+    fig.add_shape(type="rect", x0=x0, x1=x1, y0=s_minus_10, y1=s_plus_10, fillcolor="rgba(0, 255, 0, 0.25)", line_width=0, layer="below", name="Green")
+    fig.add_shape(type="line", x0=x0, x1=x1, y0=speed_target, y1=speed_target, line=dict(color="green", width=2, dash="dash"), name="Target")
     
     if use_gap:
-        fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['gap_speed_mps'], mode='lines', name='GAP (Scoring)', line=dict(color='black', width=1.5, shape='spline')))
-        fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['speed_smooth'], mode='lines', name='Raw Speed', line=dict(color='grey', width=1, dash='dot'), opacity=0.5))
+        fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['gap_speed_mps'], mode='lines', name='GAP', line=dict(color='black', width=1.5, shape='spline')))
+        fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['speed_smooth'], mode='lines', name='Raw', line=dict(color='grey', width=1, dash='dot'), opacity=0.5))
     else:
-        fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['speed_smooth'], mode='lines', name='Raw Speed (Scoring)', line=dict(color='black', width=1.5, shape='spline')))
+        fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['speed_smooth'], mode='lines', name='Raw', line=dict(color='black', width=1.5, shape='spline')))
         fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['gap_speed_mps'], mode='lines', name='GAP', line=dict(color='grey', width=1, dash='dot'), opacity=0.5))
 
-    t_cursor = start_trim
     for i, row in intervals_df.iterrows():
         rep_num = int(row['Rep'])
         w_start = (warm_min * 60) + ((rep_num - 1) * ((work_min + rest_min) * 60))
         w_end = w_start + (work_min * 60)
-        fig.add_vrect(x0=w_start, x1=w_end, fillcolor="grey", opacity=0.05, layer="below", annotation_text=f"R{rep_num}")
-        
+        fig.add_vrect(x0=w_start, x1=w_end, fillcolor="grey", opacity=0.05, layer="below")
         p_str = row.get('GAP Pace') if use_gap else row.get('Raw Pace')
         if not p_str: p_str = row.get('Pace', '0:00')
-            
         p_min, p_sec = map(int, p_str.split(':'))
-        rep_sec_km = (p_min * 60) + p_sec
-        if rep_sec_km > 0:
-            rep_avg_speed = 1000 / rep_sec_km
-            fig.add_trace(go.Scatter(x=[w_start, w_end], y=[rep_avg_speed, rep_avg_speed], mode='lines', line=dict(color='blue', width=3), name='Rep Avg' if i == 0 else None, showlegend=(i == 0), hovertemplate=f"Rep {rep_num}: {p_str}/km<extra></extra>"))
+        if ((p_min*60)+p_sec) > 0:
+            rep_speed = 1000 / ((p_min*60)+p_sec)
+            fig.add_trace(go.Scatter(x=[w_start, w_end], y=[rep_speed, rep_speed], mode='lines', line=dict(color='blue', width=3), showlegend=False))
 
     y_center = speed_target
-    y_range = (speed_plus_15s - speed_minus_15s) * 1.5
+    y_range = (s_plus_15 - s_minus_15) * 1.5
     fig.update_yaxes(range=[y_center - y_range, y_center + y_range], title="Speed (m/s)", showgrid=False)
-    fig.update_layout(title=f"Interval Discipline ({'GAP' if use_gap else 'Raw'} Based)", hovermode="x unified", legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1))
+    fig.update_layout(title=f"Interval Discipline", hovermode="x unified")
     return fig
 
-# ADDED WRAPPER FOR BLOG SCRIPT (Restored)
-def generate_interval_graph(df, intervals_df, output_path, target_pace_str, target_mps, warm_min, work_min, rest_min, reps, use_gap=True):
-    fig = create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_min, work_min, rest_min, reps, use_gap)
-    if fig: fig.write_html(output_path)
-
-# 7. INFOGRAPHIC GENERATOR
-# ---------------------------------------------------------
 def create_infographic(run_type, stats, score, score_label, df_trace=None, trace_col=None, target_line=None, intervals_df=None, warm_min=0, work_min=0, rest_min=0, reps=0, use_gap=True):
     fig = plt.figure(figsize=(6, 5), facecolor='#f8f9fa')
     gs = fig.add_gridspec(2, 1, height_ratios=[1, 0.6])
@@ -352,31 +485,24 @@ def create_infographic(run_type, stats, score, score_label, df_trace=None, trace
             
             base_speed = target_line
             sec_km = 1000 / base_speed
-            s_minus_10 = 1000 / (sec_km + 10)
-            s_plus_10 = 1000 / (sec_km - 10)
-            s_minus_15 = 1000 / (sec_km + 15)
-            s_plus_15 = 1000 / (sec_km - 15)
+            s_minus_15 = 1000 / (sec_km + 15); s_plus_15 = 1000 / (sec_km - 15)
+            s_minus_10 = 1000 / (sec_km + 10); s_plus_10 = 1000 / (sec_km - 10)
             
             ax_chart.axhspan(s_minus_15, s_plus_15, color='orange', alpha=0.15)
             ax_chart.axhspan(s_minus_10, s_plus_10, color='green', alpha=0.25)
             ax_chart.axhline(base_speed, color='green', linestyle='--', linewidth=1)
-            
             ax_chart.plot(df_plot.index, df_plot[trace_col], color='black', linewidth=1)
             
             for _, row in intervals_df.iterrows():
                 rep_num = int(row['Rep'])
                 w_start = (warm_min * 60) + ((rep_num - 1) * ((work_min + rest_min) * 60))
                 w_end = w_start + (work_min * 60)
-                
-                # Pick correct pace string for blue lines
                 p_str = row.get('GAP Pace') if use_gap else row.get('Raw Pace')
                 if not p_str: p_str = row.get('Pace', '0:00')
-                
                 p_min, p_sec = map(int, p_str.split(':'))
                 rep_speed = 1000 / ((p_min*60) + p_sec)
-                
                 ax_chart.plot([w_start, w_end], [rep_speed, rep_speed], color='blue', linewidth=2)
-
+            
             y_range = (s_plus_15 - s_minus_15) * 1.5
             ax_chart.set_ylim(base_speed - y_range, base_speed + y_range)
             lbl = "GAP Discipline" if use_gap else "Raw Discipline"
@@ -385,11 +511,9 @@ def create_infographic(run_type, stats, score, score_label, df_trace=None, trace
         else:
             ax_chart.plot(df_trace.index, df_trace[trace_col], color='#444', linewidth=1.5)
             ax_chart.fill_between(df_trace.index, df_trace[trace_col], alpha=0.1, color='#444')
-            if target_line:
-                ax_chart.axhline(y=target_line, color=circle_color, linestyle='--', linewidth=1, alpha=0.8)
+            if target_line: ax_chart.axhline(y=target_line, color=circle_color, linestyle='--', linewidth=1, alpha=0.8)
             plt.text(0.02, 0.05, "Profile", color='#999', fontsize=6, transform=ax_chart.transAxes)
 
-    # Removed branding line as requested
     buf = io.BytesIO()
     plt.savefig(buf, format='png', bbox_inches='tight', dpi=150)
     buf.seek(0)

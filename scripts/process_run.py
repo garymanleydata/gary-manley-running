@@ -224,8 +224,15 @@ Green Band = +/- 10s. Blue Line = **Rep Average (GAP)**.
 <iframe src="../assets/graphs/{disc_file}" width="100%" height="600" style="border:none;"></iframe>
 """
 
-    # 5. WRITE POST
+ # 5. WRITE POST
     full_path = os.path.join(vPostDir, f"{vDateStr}-run.qmd")
+    
+    # Generate a dynamic description based on the run
+    description_text = f"Data analysis of {title}."
+    if "Recovery" in title:
+        description_text = "Heart rate compliance check and recovery score."
+    elif "Intervals" in title:
+        description_text = "Norwegian singles interval analysis and gap scoring."
     
     template = f"""---
 title: "{title}"
@@ -233,6 +240,7 @@ date: "{vDate}"
 categories: [running, data]
 format: html
 {header_image}
+description: "{description_text}"
 ---
 
 {map_html_block}
@@ -241,8 +249,7 @@ format: html
 
 ## Deep Dive Dashboard
 <iframe src="../assets/graphs/{dash_file}" width="100%" height="600" style="border:none;"></iframe>
-"""
-    
+"""   
     with open(full_path, 'w') as f:
         f.write(template)
         

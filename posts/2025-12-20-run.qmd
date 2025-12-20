@@ -1,0 +1,22 @@
+---
+title: "Run Analysis: 2025-12-20"
+date: "2025-12-20"
+categories: [running, data]
+format: html
+
+description: "Data analysis of Run Analysis: 2025-12-20."
+---
+
+
+## Route
+<iframe src="../assets/maps/map_2025-12-20.html" width="100%" height="400" style="border:none;"></iframe>
+
+
+A standard analysis of today's run.
+## Ghost Battle
+Comparison against Gary_Manley_2025-12-13_09-03-50.TCX.
+<iframe src="../assets/graphs/ghost_2025-12-20.html" width="100%" height="500" style="border:none;"></iframe>
+
+
+## Deep Dive Dashboard
+<iframe src="../assets/graphs/dashboard_2025-12-20.html" width="100%" height="600" style="border:none;"></iframe>
