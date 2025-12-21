@@ -4,7 +4,7 @@ import plotly.graph_objects as go
 import os
 import sys
 import time
-from datetime import date
+from datetime import date, timedelta # Added timedelta
 
 # Add scripts folder to path
 sys.path.append(os.path.join(os.path.dirname(__file__), 'scripts'))
@@ -76,6 +76,7 @@ def clean_and_sort_history(df):
     for c in STD_COLS:
         if c not in df.columns: df[c] = 0
     df = df[STD_COLS].copy()
+    # Ensure Date is datetime date object
     df['Date'] = pd.to_datetime(df['Date']).dt.date
     df = df.sort_values('Date', ascending=False)
     return df
@@ -158,7 +159,6 @@ elif tool_mode == "Fitness Manager":
                     st.session_state['loaded_file_id'] = hist_file.name
                     st.success(f"Loaded {len(df_hist)} activities.")
                 else:
-                    # Try Parsers (Intervals/Strava)
                     hist_file.seek(0)
                     df_imp, msg = fitness_manager.parse_intervals_csv(hist_file)
                     if df_imp is not None:
@@ -172,6 +172,8 @@ elif tool_mode == "Fitness Manager":
                             st.session_state['fitness_history'] = clean_and_sort_history(df_imp)
                             st.session_state['loaded_file_id'] = hist_file.name
                             st.success("Imported from Strava.")
+                        else:
+                            st.error("Could not parse file.")
             except Exception as e:
                 st.error(f"Error loading file: {e}")
 
@@ -242,28 +244,55 @@ elif tool_mode == "Fitness Manager":
     if not df_hist.empty:
         df_calc = df_hist.sort_values('Date', ascending=True)
         df_pmc = fitness_manager.calculate_pmc(df_calc)
-        
-        # PMC METRICS
         today_stats = df_pmc.iloc[-1]
+        
         m1, m2, m3 = st.columns(3)
         m1.metric("Fitness (CTL)", f"{int(today_stats['CTL'])}", delta="42 Day Avg")
         m2.metric("Fatigue (ATL)", f"{int(today_stats['ATL'])}", delta="7 Day Avg", delta_color="inverse")
         m3.metric("Form (TSB)", f"{int(today_stats['TSB'])}", delta="Balance")
         
-        # POLARIZATION GAUGE
+        # --- POLARIZATION GAUGES (UPDATED) ---
         st.markdown("### 📊 Training Distribution (Last 30 Days)")
-        total_z12 = df_calc['Z1'].sum() + df_calc['Z2'].sum()
-        total_hard = df_calc['Z3'].sum() + df_calc['Z4'].sum() + df_calc['Z5'].sum()
-        total_time = total_z12 + total_hard
         
-        if total_time > 0:
-            pct_easy = (total_z12 / total_time) * 100
-            pct_hard = (total_hard / total_time) * 100
+        # Filter strictly for last 30 days
+        cutoff_date = date.today() - timedelta(days=30)
+        df_recent = df_calc[df_calc['Date'] >= cutoff_date]
+        
+        if not df_recent.empty:
+            # 1. Total Activity
+            t_z12 = df_recent['Z1'].sum() + df_recent['Z2'].sum()
+            t_hard = df_recent['Z3'].sum() + df_recent['Z4'].sum() + df_recent['Z5'].sum()
+            t_total = t_z12 + t_hard
             
-            p1, p2 = st.columns(2)
-            p1.metric("Zone 1/2 (Easy)", f"{int(pct_easy)}%", delta="Target: 80%")
-            p2.metric("Zone 3+ (Hard)", f"{int(pct_hard)}%", delta="Target: 20%", delta_color="inverse")
-            st.progress(int(pct_easy) / 100, text=f"Polarization: {int(pct_easy)}% Easy / {int(pct_hard)}% Hard")
+            # 2. Running Only
+            df_run = df_recent[df_recent['Type'] == 'Run']
+            r_z12 = df_run['Z1'].sum() + df_run['Z2'].sum()
+            r_hard = df_run['Z3'].sum() + df_run['Z4'].sum() + df_run['Z5'].sum()
+            r_total = r_z12 + r_hard
+
+            c1, c2 = st.columns(2)
+            
+            with c1:
+                st.markdown("#### 🌐 All Activities")
+                if t_total > 0:
+                    pt_easy = int((t_z12 / t_total) * 100)
+                    pt_hard = 100 - pt_easy
+                    st.progress(pt_easy/100, text=f"{pt_easy}% Easy / {pt_hard}% Hard")
+                    st.caption("Includes: Run, Cycle, Swim, etc.")
+                else:
+                    st.info("No data in 30 days.")
+
+            with c2:
+                st.markdown("#### 🏃 Running Only")
+                if r_total > 0:
+                    pr_easy = int((r_z12 / r_total) * 100)
+                    pr_hard = 100 - pr_easy
+                    st.progress(pr_easy/100, text=f"{pr_easy}% Easy / {pr_hard}% Hard")
+                    st.caption("Impact Discipline")
+                else:
+                    st.info("No runs in 30 days.")
+        else:
+            st.info("No activity data found for the last 30 days.")
         
         st.plotly_chart(fitness_manager.create_pmc_figure(df_pmc), use_container_width=True)
         st.plotly_chart(fitness_manager.create_zone_figure(df_calc), use_container_width=True)
@@ -296,7 +325,6 @@ elif tool_mode == "Run Analyzer":
                 df_ghost = load_data(ghost_file_upload.getvalue(), ghost_file_upload.name, smoothing)
 
         if df is not None:
-            # Check GPS for Mode Selection
             has_dist = df['total_dist_m'].max() > 100
             
             run_date = df['time'].iloc[0].strftime('%Y-%m-%d %H:%M')
@@ -318,7 +346,7 @@ elif tool_mode == "Run Analyzer":
 
             if not has_dist:
                 st.warning("⚠️ No GPS distance found. Speed/Pace metrics are unavailable. (Interval Mode Disabled)")
-                modes = ["Recovery"] # Only Recovery available for Strength
+                modes = ["Recovery"]
             else:
                 modes = ["Select Analysis Mode", "Standard", "Intervals", "Recovery"]
                 if df_ghost: modes.append("Ghost Battle")
@@ -361,7 +389,6 @@ elif tool_mode == "Run Analyzer":
                     scores = res['scores']
                     st.dataframe(res['df_ints'].set_index('Rep'), use_container_width=True)
                     
-                    # CSV DOWNLOAD
                     csv = res['df_ints'].to_csv(index=False).encode('utf-8')
                     st.download_button("Download CSV Data", csv, "interval_data.csv", "text/csv")
                     
@@ -383,11 +410,9 @@ elif tool_mode == "Run Analyzer":
                     r1.metric("Score", f"{res['score']}/100", delta=res['status'])
                     st.plotly_chart(run_analytics.create_recovery_figure(res['minute_data'], target_rec_hr), use_container_width=True)
                     
-                    # CARD DOWNLOAD
                     rec_buf = run_analytics.create_recovery_card(res, res['score'], res['status'])
                     st.download_button("Download Recovery Card", rec_buf, "recovery_card.png", "image/png")
                     
-                    # Standard Dash skipped for strength if no dist
                     if has_dist:
                         run_analytics.generate_dashboard(df, "temp_dash.html", "Recovery Deep Dive", user_max_hr)
                         with open("temp_dash.html", 'r', encoding='utf-8') as f:
