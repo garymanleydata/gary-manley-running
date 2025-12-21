@@ -7,7 +7,7 @@ import sys
 from datetime import datetime
 import google.generativeai as genai
 from dotenv import load_dotenv
-
+# quarto render
 # 1. Setup Configuration & Paths
 # ---------------------------------------------------------
 vScriptDir = os.path.dirname(os.path.abspath(__file__))

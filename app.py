@@ -60,6 +60,7 @@ def load_data(file_bytes, file_name, smooth_sec):
 # SESSION STATE
 if 'int_results' not in st.session_state: st.session_state['int_results'] = None
 if 'rec_results' not in st.session_state: st.session_state['rec_results'] = None
+if 'pace_results' not in st.session_state: st.session_state['pace_results'] = None
 
 # Define Standard Schema
 STD_COLS = ['Date', 'Activity', 'Type', 'Load', 'Duration', 'Z1', 'Z2', 'Z3', 'Z4', 'Z5']
@@ -80,69 +81,13 @@ def clean_and_sort_history(df):
     return df
 
 # ==============================================================================
-# TOOL 1: GUIDELINES (KNOWLEDGE BASE)
+# TOOL 1: GUIDELINES
 # ==============================================================================
 if tool_mode == "Guidelines":
     st.header("📖 Methodology & Guidelines")
-    
     tab1, tab2, tab3 = st.tabs(["The Method", "App Manual", "Glossary & Links"])
-    
     with tab1:
-        st.markdown("""
-        ### The Norwegian Singles Method
-        *Adapted from Marius Bakken & "Sirpoc"*
-        
-        **The Philosophy:**
-        Train exactly at the physiological tipping point (Threshold) without crossing it. By staying slightly *below* threshold (Sub-Threshold), you can accumulate massive volume without the fatigue of traditional "Hard" workouts.
-
-        **1. Single vs. Double Threshold**
-        * **Elites (Ingebrigtsen):** Run "Double Threshold" (AM and PM sessions) to maximize time-in-zone.
-        * **Us (The Method):** We focus on **Single Threshold**. We perform longer, single sessions (e.g., 10x3min or 3x10min) to get the benefit without the lifestyle cost of two showers a day.
-
-        **2. The 75/25 Rule**
-        * **75% of Volume:** Strict Zone 1/2. Easy, conversational running.
-        * **25% of Volume:** Sub-Threshold Intervals (Zone 3/Low Zone 4).
-        * **0% of Volume:** "Grey Zone" (High Z4/Z5). We rarely sprint or race in training.
-
-        **3. Sub-Threshold Targets**
-        * **Lactate Target:** 2.0 - 3.5 mmol/L.
-        * **Feeling:** "Comfortably Hard." You should finish every interval feeling like you could do 2-3 more.
-        """)
-        
-
-    with tab2:
-        st.markdown("""
-        ### How to Use This App
-
-        #### 1. The Run Analyzer
-        * **Intervals Mode:** Use this for your 10x3' or 3x10' sessions. 
-            * *Input:* Enter your **Target Pace** and the **Environmental Conditions**.
-            * *Output:* The app scores your **Discipline** (did you stick to the plan?) and calculates your **NGP** (what was your effort really worth?).
-        * **Recovery Mode:** Ensures you stayed below your HR cap (usually 70% Max HR).
-        * **Ghost Battle:** Upload two files to race them against each other.
-
-        #### 2. The Fitness Manager (CTL)
-        Tracks your long-term fitness.
-        * **Setup:** Import your history from **Intervals.icu** (Settings -> Options -> Export CSV) or Strava.
-        * **Daily Use:** Upload your run file in the sidebar, click **"Calculate & Add to Log"**.
-        * **Cross Training:** Use the "Manual Entry" form.
-        """)
-
-    with tab3:
-        st.markdown("""
-        ### Glossary of Terms
-
-        * **GAP (Grade Adjusted Pace):** Your pace adjusted for hills. "What would this pace be on the flat?"
-        * **NGP (Normalized Graded Pace):** GAP adjusted for **Heat and Wind**. "What would this effort be in perfect conditions?"
-        * **CTL (Chronic Training Load):** Your "Fitness." A 42-day weighted average of your training load.
-        * **TSB (Training Stress Balance):** Your "Form." Positive means fresh, negative means tired. Optimal training is usually -10 to -30.
-        * **Decoupling (Pw:HR):** Efficiency fade. If your HR rises more than 5% while pace stays steady, you are "Decoupling" (fatiguing).
-
-        ### External References
-        * [Reddit Norwegian Singles Wiki](https://www.reddit.com/r/NorwegianSinglesRun/wiki/index/) - The community bible for this method.
-        * [Marius Bakken's Website](https://www.mariusbakken.com/) - The originator of the method.
-        * [The "Sub-Threshold" Site](https://sites.google.com/view/sub-threshold/home) - Archive of the famous LetsRun thread.
-        """)
+        st.markdown("""### The Norwegian Singles Method\nTrain exactly at the physiological tipping point.""")
 
 # ==============================================================================
 # TOOL 2: PACE CALCULATOR
@@ -160,25 +105,42 @@ elif tool_mode == "Pace Calculator":
         base_paces, matrix_df = run_analytics.calculate_training_paces(dist_map[race_dist], race_time)
         
         if base_paces:
-            st.divider()
-            st.markdown("### Neutral Conditions Targets (15°C / Light Wind)")
-            c1, c2, c3 = st.columns(3)
-            
-            # Safe Key Access
-            short_k = next(k for k in base_paces if "Short" in k)
-            med_k = next(k for k in base_paces if "Medium" in k)
-            long_k = next(k for k in base_paces if "Long" in k)
-            
-            c1.metric("Short Intervals", base_paces[short_k], delta="e.g. 10 x 3min (HM Pace)", help="Protocol: 10-12 reps of 3 minutes. Rest 60s.")
-            c2.metric("Medium Intervals", base_paces[med_k], delta="e.g. 6 x 6min (30k Pace)", help="Protocol: 4-6 reps of 6-8 minutes. Rest 60-90s.")
-            c3.metric("Long Intervals", base_paces[long_k], delta="e.g. 3 x 10min (Mar Pace)", help="Protocol: 3-4 reps of 10 minutes. Rest 60-90s.")
-            
-            st.divider()
-            st.markdown("### 🌡️ Conditions Adjustment Matrix")
-            st.dataframe(matrix_df, use_container_width=True, hide_index=True)
-            st.markdown("*Adjust targets if conditions match these scenarios.*")
+            st.session_state['pace_results'] = {
+                'base': base_paces, 'matrix': matrix_df, 'dist': race_dist, 'time': race_time
+            }
         else:
             st.error("Invalid time format.")
+
+    if st.session_state['pace_results']:
+        res = st.session_state['pace_results']
+        base_paces = res['base']
+        matrix_df = res['matrix']
+        
+        st.divider()
+        c1, c2, c3 = st.columns(3)
+        short_k = next(k for k in base_paces if "Short" in k)
+        med_k = next(k for k in base_paces if "Medium" in k)
+        long_k = next(k for k in base_paces if "Long" in k)
+        
+        c1.metric("Short Intervals", base_paces[short_k])
+        c2.metric("Medium Intervals", base_paces[med_k])
+        c3.metric("Long Intervals", base_paces[long_k])
+        
+        st.divider()
+        d1, d2 = st.columns(2)
+        
+        # Image Download
+        card_buf = run_analytics.create_pace_card(res['dist'], res['time'], base_paces)
+        d1.download_button("Download Targets Card (PNG)", card_buf, "training_targets.png", "image/png", use_container_width=True)
+        
+        # Table Download
+        pace_data = [{"Session": k.split(' (')[0], "Pace Range": v} for k, v in base_paces.items()]
+        df_paces = pd.DataFrame(pace_data)
+        csv = df_paces.to_csv(index=False).encode('utf-8')
+        d2.download_button("Download Table (CSV)", csv, "targets.csv", "text/csv", use_container_width=True)
+        
+        st.markdown("### 🌡️ Conditions Adjustment Matrix")
+        st.dataframe(matrix_df, use_container_width=True, hide_index=True)
 
 # ==============================================================================
 # TOOL 3: FITNESS MANAGER
@@ -186,49 +148,44 @@ elif tool_mode == "Pace Calculator":
 elif tool_mode == "Fitness Manager":
     st.subheader("📈 Fitness Manager")
     
-    # 1. HISTORY LOADER (Fixed Overwrite Bug)
     with st.expander("📂 1. Load History (Start Here)", expanded=True):
         hist_file = st.file_uploader("Upload 'training_log.csv' (or Intervals.icu / Strava CSV)", type=['csv'])
-        if hist_file is not None:
-            if st.session_state['loaded_file_id'] != hist_file.name:
-                try:
-                    df_hist = pd.read_csv(hist_file)
-                    
-                    if 'Load' in df_hist.columns and 'Date' in df_hist.columns:
-                        st.session_state['fitness_history'] = clean_and_sort_history(df_hist)
+        if hist_file is not None and st.session_state['loaded_file_id'] != hist_file.name:
+            try:
+                df_hist = pd.read_csv(hist_file)
+                if 'Load' in df_hist.columns and 'Date' in df_hist.columns:
+                    st.session_state['fitness_history'] = clean_and_sort_history(df_hist)
+                    st.session_state['loaded_file_id'] = hist_file.name
+                    st.success(f"Loaded {len(df_hist)} activities.")
+                else:
+                    # Try Parsers (Intervals/Strava)
+                    hist_file.seek(0)
+                    df_imp, msg = fitness_manager.parse_intervals_csv(hist_file)
+                    if df_imp is not None:
+                        st.session_state['fitness_history'] = clean_and_sort_history(df_imp)
                         st.session_state['loaded_file_id'] = hist_file.name
-                        st.success(f"Loaded {len(df_hist)} activities.")
+                        st.success("Imported from Intervals.icu!")
                     else:
                         hist_file.seek(0)
-                        df_imp, msg = fitness_manager.parse_intervals_csv(hist_file)
+                        df_imp, msg = fitness_manager.parse_strava_csv(hist_file, user_max_hr, user_rest_hr)
                         if df_imp is not None:
                             st.session_state['fitness_history'] = clean_and_sort_history(df_imp)
                             st.session_state['loaded_file_id'] = hist_file.name
-                            st.success(f"Imported {len(df_imp)} from Intervals.icu!")
-                        else:
-                            hist_file.seek(0)
-                            df_imp, msg = fitness_manager.parse_strava_csv(hist_file, user_max_hr, user_rest_hr)
-                            if df_imp is not None:
-                                st.session_state['fitness_history'] = clean_and_sort_history(df_imp)
-                                st.session_state['loaded_file_id'] = hist_file.name
-                                st.success(f"Imported {len(df_imp)} from Strava.")
-                            else:
-                                st.error("Could not parse file.")
-                except Exception as e:
-                    st.error(f"Error loading file: {e}")
+                            st.success("Imported from Strava.")
+            except Exception as e:
+                st.error(f"Error loading file: {e}")
 
-    # 2. ADD ACTIVITY
     st.divider()
     c1, c2 = st.columns(2)
-    
     with c1:
-        st.markdown("#### Add from Current Run")
+        st.markdown("#### Add from Current Upload")
         if uploaded_file:
+            curr_type = st.selectbox("Activity Type", ["Run", "Walk", "Hike", "Cycle", "Swim", "Elliptical", "Strength"], key='upload_type')
             if st.button("Calculate & Add to Log"):
                 df_curr = load_data(uploaded_file.getvalue(), uploaded_file.name, smoothing)
                 if df_curr is not None:
                     duration = int(df_curr['timer_sec'].max() / 60)
-                    avg_hr = int(df_curr['hr'].mean()) if 'hr' in df_curr.columns else 0
+                    avg_hr = int(df_curr['hr'].mean()) if 'hr' in df_curr.columns and not df_curr['hr'].isnull().all() else 0
                     
                     if avg_hr > 0:
                         load = fitness_manager.calculate_trimp(duration, avg_hr, user_max_hr, user_rest_hr)
@@ -240,31 +197,28 @@ elif tool_mode == "Fitness Manager":
                         
                         new_row = pd.DataFrame([{
                             'Date': df_curr['time'].iloc[0].date(),
-                            'Activity': 'Uploaded Run', 'Type': 'Run',
+                            'Activity': 'Uploaded Session', 'Type': curr_type,
                             'Load': load, 'Duration': duration,
                             'Z1': z_vals['Z1'], 'Z2': z_vals['Z2'], 'Z3': z_vals['Z3'],
                             'Z4': z_vals['Z4'], 'Z5': z_vals['Z5']
                         }])
-                        
                         updated_df = pd.concat([st.session_state['fitness_history'], new_row], ignore_index=True)
                         st.session_state['fitness_history'] = clean_and_sort_history(updated_df)
-                        
-                        st.toast(f"✅ Run Added! Score: {load} TSS", icon="🎉")
+                        st.toast(f"✅ {curr_type} Added! Score: {load} TSS", icon="🎉")
                         time.sleep(1.5) 
                         st.rerun() 
                     else:
                         st.error("No Heart Rate data found.")
         else:
-            st.info("Upload GPX/TCX file in the sidebar to enable this.")
+            st.info("Upload GPX/TCX file in the sidebar.")
 
     with c2:
         st.markdown("#### Manual Entry")
         with st.form("manual_add"):
             m_date = st.date_input("Date", date.today())
-            m_type = st.selectbox("Type", ["Run", "Gym", "Cycle", "Swim"])
+            m_type = st.selectbox("Type", ["Run", "Gym", "Cycle", "Swim", "Walk", "Hike"])
             m_dur = st.number_input("Duration (min)", 0, 300, 60)
             m_rpe = st.slider("Intensity (RPE 1-10)", 1, 10, 5)
-            st.markdown("Optional: Zone Breakdown (min)")
             zc1, zc2 = st.columns(2)
             z1_in = zc1.number_input("Z1/Z2 (Easy)", value=m_dur)
             z3_in = zc2.number_input("Z3+ (Hard)", value=0)
@@ -278,24 +232,38 @@ elif tool_mode == "Fitness Manager":
                 }])
                 updated_df = pd.concat([st.session_state['fitness_history'], new_row], ignore_index=True)
                 st.session_state['fitness_history'] = clean_and_sort_history(updated_df)
-                
                 st.toast(f"✅ Manual Entry Added!", icon="✍️")
                 time.sleep(1.5)
                 st.rerun() 
 
-    # 3. DASHBOARD
     st.divider()
     df_hist = st.session_state['fitness_history']
     
     if not df_hist.empty:
         df_calc = df_hist.sort_values('Date', ascending=True)
         df_pmc = fitness_manager.calculate_pmc(df_calc)
-        today_stats = df_pmc.iloc[-1]
         
+        # PMC METRICS
+        today_stats = df_pmc.iloc[-1]
         m1, m2, m3 = st.columns(3)
         m1.metric("Fitness (CTL)", f"{int(today_stats['CTL'])}", delta="42 Day Avg")
         m2.metric("Fatigue (ATL)", f"{int(today_stats['ATL'])}", delta="7 Day Avg", delta_color="inverse")
         m3.metric("Form (TSB)", f"{int(today_stats['TSB'])}", delta="Balance")
+        
+        # POLARIZATION GAUGE
+        st.markdown("### 📊 Training Distribution (Last 30 Days)")
+        total_z12 = df_calc['Z1'].sum() + df_calc['Z2'].sum()
+        total_hard = df_calc['Z3'].sum() + df_calc['Z4'].sum() + df_calc['Z5'].sum()
+        total_time = total_z12 + total_hard
+        
+        if total_time > 0:
+            pct_easy = (total_z12 / total_time) * 100
+            pct_hard = (total_hard / total_time) * 100
+            
+            p1, p2 = st.columns(2)
+            p1.metric("Zone 1/2 (Easy)", f"{int(pct_easy)}%", delta="Target: 80%")
+            p2.metric("Zone 3+ (Hard)", f"{int(pct_hard)}%", delta="Target: 20%", delta_color="inverse")
+            st.progress(int(pct_easy) / 100, text=f"Polarization: {int(pct_easy)}% Easy / {int(pct_hard)}% Hard")
         
         st.plotly_chart(fitness_manager.create_pmc_figure(df_pmc), use_container_width=True)
         st.plotly_chart(fitness_manager.create_zone_figure(df_calc), use_container_width=True)
@@ -310,7 +278,7 @@ elif tool_mode == "Fitness Manager":
         st.info("No data loaded.")
 
 # ==============================================================================
-# TOOL 4: RUN ANALYZER (Original)
+# TOOL 4: RUN ANALYZER
 # ==============================================================================
 elif tool_mode == "Run Analyzer":
     if uploaded_file is not None:
@@ -328,10 +296,18 @@ elif tool_mode == "Run Analyzer":
                 df_ghost = load_data(ghost_file_upload.getvalue(), ghost_file_upload.name, smoothing)
 
         if df is not None:
+            # Check GPS for Mode Selection
+            has_dist = df['total_dist_m'].max() > 100
+            
             run_date = df['time'].iloc[0].strftime('%Y-%m-%d %H:%M')
-            dist_km = df['total_dist_m'].max() / 1000
             duration_min = df['timer_sec'].max() / 60
-            decoupling = run_analytics.calculate_decoupling(df)
+            
+            if has_dist:
+                dist_km = df['total_dist_m'].max() / 1000
+                decoupling = run_analytics.calculate_decoupling(df)
+            else:
+                dist_km = 0
+                decoupling = None
             
             c1, c2, c3, c4 = st.columns(4)
             c1.metric("Date", run_date)
@@ -340,11 +316,16 @@ elif tool_mode == "Run Analyzer":
             c4.metric("Decoupling", f"{decoupling}%" if decoupling else "N/A", delta="Good" if decoupling and decoupling < 5 else "Drift" if decoupling else None, delta_color="inverse")
             st.divider()
 
-            modes = ["Select Analysis Mode", "Standard", "Intervals", "Recovery"]
-            if df_ghost: modes.append("Ghost Battle")
+            if not has_dist:
+                st.warning("⚠️ No GPS distance found. Speed/Pace metrics are unavailable. (Interval Mode Disabled)")
+                modes = ["Recovery"] # Only Recovery available for Strength
+            else:
+                modes = ["Select Analysis Mode", "Standard", "Intervals", "Recovery"]
+                if df_ghost: modes.append("Ghost Battle")
+                
             mode = st.radio("Mode:", modes, horizontal=True)
 
-            if mode == "Intervals":
+            if mode == "Intervals" and has_dist:
                 st.subheader("Norwegian Singles Analysis")
                 with st.form("interval_config"):
                     c1, c2, c3, c4 = st.columns(4)
@@ -358,12 +339,11 @@ elif tool_mode == "Run Analyzer":
                     target_pace = c7.text_input("Target Pace", value="3:45")
                     target_hr = c5.number_input("HR Cap", value=170)
                     
-                    st.markdown("**Environmental Conditions**")
-                    e1, e2 = st.columns(2)
+                    e1, e2, e3 = st.columns(3)
                     temp_c = e1.number_input("Temperature (°C)", value=15, step=1)
                     wind_kmh = e2.number_input("Wind Speed (km/h)", value=0, step=5)
+                    surface_pen = e3.number_input("Surface Penalty (sec/km)", value=0, step=1)
                     
-                    st.markdown("**Scoring Options**")
                     o1, o2, o3 = st.columns(3)
                     use_gap = o1.checkbox("Use GAP", value=True)
                     use_hr = o2.checkbox("Include HR", value=True)
@@ -372,7 +352,7 @@ elif tool_mode == "Run Analyzer":
                     if st.form_submit_button("Run Analysis"):
                         df_ints, target_mps, scores = run_analytics.analyze_intervals(
                             df, warm, work, rest, reps, cool, buffer, target_pace, target_hr, 
-                            use_gap, not use_hr, lenient_rep1, temp_c, wind_kmh
+                            use_gap, not use_hr, lenient_rep1, temp_c, wind_kmh, surface_pen
                         )
                         st.session_state['int_results'] = {'df_ints': df_ints, 'target_mps': target_mps, 'scores': scores, 'params': (target_pace, warm, work, rest, reps, target_hr, use_gap, use_hr)}
 
@@ -380,15 +360,13 @@ elif tool_mode == "Run Analyzer":
                     res = st.session_state['int_results']
                     scores = res['scores']
                     st.dataframe(res['df_ints'].set_index('Rep'), use_container_width=True)
+                    
+                    # CSV DOWNLOAD
+                    csv = res['df_ints'].to_csv(index=False).encode('utf-8')
+                    st.download_button("Download CSV Data", csv, "interval_data.csv", "text/csv")
+                    
                     fig = run_analytics.create_interval_figure(df, res['df_ints'], res['params'][0], res['target_mps'], res['params'][1], res['params'][2], res['params'][3], res['params'][4], res['params'][6])
                     if fig: st.plotly_chart(fig, use_container_width=True)
-                    
-                    with st.expander("ℹ️ Glossary of Pace Terms"):
-                        st.markdown("""
-                        * **Raw Pace:** The actual speed recorded by your GPS device.
-                        * **GAP (Grade Adjusted Pace):** An estimate of your pace if you were running on flat ground.
-                        * **NGP (Normalized Graded Pace):** In this tool, NGP adjusts your GAP for **Heat and Wind**. It answers: *"What would my pace have been on a flat road in perfect weather?"*
-                        """)
                     
                     stats = {"Reps": f"{reps} x {work} min", "Target Pace": target_pace}
                     img_buf = run_analytics.create_infographic("Interval Session", stats, scores['Total'], "Session Score", df.set_index('timer_sec'), 'gap_speed_mps' if use_gap else 'speed_smooth', res['target_mps'], intervals_df=res['df_ints'], warm_min=warm, work_min=work, rest_min=rest, reps=reps, use_gap=use_gap)
@@ -405,17 +383,23 @@ elif tool_mode == "Run Analyzer":
                     r1.metric("Score", f"{res['score']}/100", delta=res['status'])
                     st.plotly_chart(run_analytics.create_recovery_figure(res['minute_data'], target_rec_hr), use_container_width=True)
                     
-                    run_analytics.generate_dashboard(df, "temp_dash.html", "Recovery Deep Dive", user_max_hr)
-                    with open("temp_dash.html", 'r', encoding='utf-8') as f:
-                        html_data = f.read()
-                    st.components.v1.html(html_data, height=1000, scrolling=True)
+                    # CARD DOWNLOAD
+                    rec_buf = run_analytics.create_recovery_card(res, res['score'], res['status'])
+                    st.download_button("Download Recovery Card", rec_buf, "recovery_card.png", "image/png")
+                    
+                    # Standard Dash skipped for strength if no dist
+                    if has_dist:
+                        run_analytics.generate_dashboard(df, "temp_dash.html", "Recovery Deep Dive", user_max_hr)
+                        with open("temp_dash.html", 'r', encoding='utf-8') as f:
+                            html_data = f.read()
+                        st.components.v1.html(html_data, height=1000, scrolling=True)
 
             elif mode == "Ghost Battle":
                 if df_ghost is not None:
                     fig = run_analytics.create_ghost_figure(df, df_ghost)
                     st.plotly_chart(fig, use_container_width=True)
 
-            elif mode == "Standard":
+            elif mode == "Standard" and has_dist:
                 run_analytics.generate_dashboard(df, "temp_dash.html", "Standard Run Analysis", user_max_hr)
                 with open("temp_dash.html", 'r', encoding='utf-8') as f:
                     html_data = f.read()
