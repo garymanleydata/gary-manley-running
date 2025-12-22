@@ -88,7 +88,6 @@ def calculate_zones(df, max_hr):
 
 def calculate_decoupling(df):
     if 'hr' not in df.columns or 'speed_smooth' not in df.columns: return None
-    # If speed is 0 (strength), return None
     if df['speed_smooth'].sum() == 0: return None
     
     mask = (df['speed_smooth'] > 1.5) & (df['hr'] > 60)
@@ -128,12 +127,14 @@ def calculate_training_paces(race_dist_km, race_time_str):
     matrix_df = PhysicsEngine.generate_conditions_matrix(base_paces)
     return base_paces, matrix_df
 
-# 1. PARSING (FIXED FOR STRENGTH FILES)
+# 1. PARSING
 # ---------------------------------------------------------
-def parse_file(file_path, smoothing_span=15):
-    if not os.path.exists(file_path): return None
+def parse_file(file_path, smoothing_span=30):
+    if not os.path.exists(file_path): return None, []
     ext = os.path.splitext(file_path)[1].lower()
     data = []
+    raw_laps = [] 
+    
     try:
         if ext == '.gpx':
             with open(file_path, 'r') as gpx_file:
@@ -149,17 +150,24 @@ def parse_file(file_path, smoothing_span=15):
                                         if 'hr' in child.tag: hr = int(child.text)
                                         if 'cad' in child.tag: cad = int(child.text)
                         data.append({'time': point.time, 'lat': point.latitude, 'lon': point.longitude, 'ele': point.elevation, 'hr': hr, 'cadence': cad})
+        
         elif ext == '.tcx':
             tcx_reader = TCXReader()
             activity = tcx_reader.read(file_path)
+            
+            if hasattr(activity, 'laps') and activity.laps:
+                for lap in activity.laps:
+                    raw_laps.append({
+                        'start': lap.start_time,
+                        'end': lap.end_time
+                    })
+                
             for tp in activity.trackpoints:
                 data.append({'time': tp.time, 'lat': tp.latitude, 'lon': tp.longitude, 'ele': tp.elevation, 'hr': tp.hr_value, 'cadence': tp.cadence})
         
         df = pd.DataFrame(data)
-        if df.empty: return None
+        if df.empty: return None, []
 
-        # --- SAFE GPS HANDLING ---
-        # Strength files often have no Lat/Lon. We must handle this to prevent crashes.
         has_gps = False
         if 'lat' in df.columns and 'lon' in df.columns:
             if not df['lat'].isnull().all():
@@ -168,10 +176,27 @@ def parse_file(file_path, smoothing_span=15):
         df['prev_time'] = df['time'].shift(1)
         df['time_diff'] = (df['time'] - df['prev_time']).dt.total_seconds()
         
-        # Filter jumps
         df['adjusted_diff'] = np.where(df['time_diff'] > 10, 0, df['time_diff'])
         df['timer_sec'] = df['adjusted_diff'].cumsum().fillna(0)
         df = df[df['time_diff'] > 0]
+
+        final_laps = []
+        if raw_laps:
+            for lap in raw_laps:
+                try:
+                    start_mask = (df['time'] - lap['start']).abs()
+                    end_mask = (df['time'] - lap['end']).abs()
+                    
+                    if not start_mask.empty and not end_mask.empty:
+                        start_idx = start_mask.idxmin()
+                        end_idx = end_mask.idxmin()
+                        
+                        final_laps.append({
+                            'start_sec': df.loc[start_idx, 'timer_sec'],
+                            'end_sec': df.loc[end_idx, 'timer_sec']
+                        })
+                except:
+                    pass
 
         if has_gps:
             df['prev_lat'] = df['lat'].shift(1)
@@ -189,7 +214,6 @@ def parse_file(file_path, smoothing_span=15):
             df['speed_mps'] = df['dist_m'] / df['time_diff']
             df['speed_smooth'] = df['speed_mps'].ewm(span=smoothing_span, adjust=False).mean()
             
-            # Elevation & GAP
             df['ele_smooth'] = df['ele'].rolling(window=smoothing_span, min_periods=1, center=True).mean()
             df['ele_change'] = df['ele_smooth'].diff()
             df['gradient_pct'] = (df['ele_change'] / df['dist_m']) * 100
@@ -198,7 +222,6 @@ def parse_file(file_path, smoothing_span=15):
             df['gap_factor'] = df['gradient_smooth'].apply(calculate_gap_factor)
             df['gap_speed_mps'] = df['speed_smooth'] * df['gap_factor']
         else:
-            # NO GPS MODE (Strength/Treadmill) - Fill with Zeros
             df['dist_m'] = 0
             df['total_dist_m'] = 0
             df['speed_mps'] = 0
@@ -208,15 +231,15 @@ def parse_file(file_path, smoothing_span=15):
             df['gradient_pct'] = 0
         
         df['cadence'] = df['cadence'].fillna(0)
-        return df
+        return df, final_laps
     except Exception as e:
         print(f"Error parsing file: {e}")
-        return None
+        return None, []
 
 # 2. VISUALS
 # ---------------------------------------------------------
 def generate_dashboard(df, output_path, title="Run Deep Dive", max_hr=190):
-    if df['total_dist_m'].max() < 100: return # Skip dash for non-runs
+    if df['total_dist_m'].max() < 100: return 
     
     df['segment_100m'] = (df['total_dist_m'] // 100).astype(int)
     agg_dict = {'gap_speed_mps': 'mean', 'speed_smooth': 'mean', 'hr': 'mean', 'cadence': 'mean', 'ele_smooth': 'mean', 'total_dist_m': 'max'}
@@ -289,7 +312,7 @@ def create_ghost_figure(dfMain, dfGhost):
     fig.add_shape(type="line", x0=0, x1=max_dist, y0=0, y1=0, line=dict(color="red", width=1, dash="dash"))
     return fig
 
-def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_sec=0, target_pace_str=None, target_hr=None, use_gap=True, ignore_hr=False, lenient_first_rep=False, temp_c=15, wind_kmh=0, surface_penalty_sec=0):
+def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_sec=0, target_pace_str=None, target_hr=None, use_gap=True, ignore_hr=False, lenient_first_rep=False, temp_c=15, wind_kmh=0, surface_penalty_sec=0, custom_laps=None):
     intervals = []
     target_mps = None
     target_sec_km = 0
@@ -305,20 +328,66 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
 
     total_pace_points = 0
     total_hr_points = 0
-    max_pace_pts = 100 if ignore_hr else 50
-    pace_points_per_rep = max_pace_pts / reps if reps > 0 else 0
-    t_cursor = warm_min * 60 
     
-    for i in range(1, reps + 1):
-        rep_start_abs = t_cursor
-        rep_end_abs = rep_start_abs + (work_min * 60)
-        calc_start = rep_start_abs + buffer_sec
-        calc_end = rep_end_abs - buffer_sec
-        if calc_end <= calc_start: calc_start, calc_end = rep_start_abs, rep_end_abs
+    rep_structure = []
+    
+    if custom_laps and len(custom_laps) > 0:
+        for i, lap in enumerate(custom_laps):
+            rep_structure.append({
+                'num': i+1,
+                'start': lap['start_sec'],
+                'end': lap['end_sec'],
+                'calc_start': lap['start_sec'] + buffer_sec,
+                'calc_end': lap['end_sec'] - buffer_sec
+            })
+        actual_reps = len(rep_structure)
+    else:
+        t_cursor = warm_min * 60
+        for i in range(1, reps + 1):
+            rep_start = t_cursor
+            rep_end = rep_start + (work_min * 60)
+            rep_structure.append({
+                'num': i,
+                'start': rep_start,
+                'end': rep_end,
+                'calc_start': rep_start + buffer_sec,
+                'calc_end': rep_end - buffer_sec
+            })
+            t_cursor = rep_end + (rest_min * 60)
+        actual_reps = reps
+
+    if actual_reps == 0: return pd.DataFrame(), target_mps, {'Total': 0}
+
+    max_pace_pts = 100 if ignore_hr else 50
+    pace_points_per_rep = max_pace_pts / actual_reps
+    
+    for rep_data in rep_structure:
+        i = rep_data['num']
+        calc_start = rep_data['calc_start']
+        calc_end = rep_data['calc_end']
+        
+        if calc_end <= calc_start: 
+            calc_start = rep_data['start']
+            calc_end = rep_data['end']
 
         mask = (df['timer_sec'] >= calc_start) & (df['timer_sec'] < calc_end)
         df_int = df.loc[mask]
         
+        # HRR Calculation
+        hrr_val = None
+        try:
+            if not df['hr'].isnull().all():
+                idx_peak = (df['timer_sec'] - rep_data['end']).abs().idxmin()
+                hr_peak = df.loc[idx_peak, 'hr']
+                t_recovery = rep_data['end'] + 60
+                if t_recovery <= df['timer_sec'].max():
+                    idx_rec = (df['timer_sec'] - t_recovery).abs().idxmin()
+                    hr_rec = df.loc[idx_rec, 'hr']
+                    hrr_val = int(hr_peak - hr_rec)
+        except: pass
+        
+        hrr_str = f"{hrr_val} bpm" if hrr_val is not None else "N/A"
+
         if not df_int.empty:
             scoring_mps = df_int['gap_speed_mps'].mean() if use_gap else df_int['speed_smooth'].mean()
             
@@ -346,7 +415,7 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
             ele_gain = df_int[df_int['ele_change'] > 0]['ele_change'].sum()
             ele_loss = df_int[df_int['ele_change'] < 0]['ele_change'].sum()
             
-            pace_points_earned = 0
+            rep_pace_points = 0
             rep_pace_score = "N/A"
             if target_mps and rep_sec_km > 0:
                 diff = rep_sec_km - target_sec_km 
@@ -355,11 +424,11 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
                 threshold_perfect = 5
                 if i == 1 and lenient_first_rep and diff > 0: threshold_perfect = 15
 
-                if abs_diff <= threshold_perfect: pace_points_earned = pace_points_per_rep * 1.0; rep_pace_score = "Target"
-                elif abs_diff <= (threshold_perfect + 5): pace_points_earned = pace_points_per_rep * 0.66; rep_pace_score = "Close"
-                elif abs_diff <= (threshold_perfect + 10): pace_points_earned = pace_points_per_rep * 0.33; rep_pace_score = "Okay"
+                if abs_diff <= threshold_perfect: rep_pace_points = pace_points_per_rep * 1.0; rep_pace_score = "Target"
+                elif abs_diff <= (threshold_perfect + 5): rep_pace_points = pace_points_per_rep * 0.66; rep_pace_score = "Close"
+                elif abs_diff <= (threshold_perfect + 10): rep_pace_points = pace_points_per_rep * 0.33; rep_pace_score = "Okay"
                 else: rep_pace_score = "Miss"
-                total_pace_points += pace_points_earned
+                total_pace_points += rep_pace_points
 
             hr_score_pct = 0
             avg_hr_rep = int(df_int['hr'].mean()) if not df['hr'].isna().all() else 0
@@ -368,19 +437,33 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
                 hr_score_pct = (len(under_hr) / len(df_int)) * 100
                 total_hr_points += hr_score_pct 
 
+            normalized_pace = 0
+            if target_mps:
+                normalized_pace = (rep_pace_points / pace_points_per_rep) * 100
+            
+            if ignore_hr:
+                final_rep_score = int(normalized_pace)
+            else:
+                final_rep_score = int((normalized_pace * 0.5) + (hr_score_pct * 0.5))
+
             intervals.append({
-                "Rep": i, "Avg HR": avg_hr_rep if not ignore_hr else "N/A", 
+                "Rep": i, 
+                "Score": final_rep_score,
+                "Avg HR": avg_hr_rep if not ignore_hr else "N/A", 
+                "HRR (60s)": hrr_val if hrr_val is not None else 0,
+                "HRR Display": hrr_str,
                 "GAP Pace": gap_pace_str, 
                 "Raw Pace": raw_pace_str,
                 "NGP (Effort)": ngp_str, 
                 "Elev Net": f"+{int(ele_gain)}/{int(ele_loss)}m",
-                "HR Compliance %": f"{int(hr_score_pct)}%" if not ignore_hr else "N/A", 
-                "Pace Rating": rep_pace_score
+                "Pace Rating": rep_pace_score,
+                # ADDED VISUALIZATION HELPERS
+                "Start Sec": rep_data['start'],
+                "End Sec": rep_data['end']
             })
-        t_cursor = rep_end_abs + (rest_min * 60)
     
     if ignore_hr: final_hr_score = 0; avg_hr_compliance = 0
-    else: avg_hr_compliance = total_hr_points / reps if reps > 0 else 0; final_hr_score = (avg_hr_compliance / 100) * 50
+    else: avg_hr_compliance = total_hr_points / actual_reps if actual_reps > 0 else 0; final_hr_score = (avg_hr_compliance / 100) * 50
     final_total_score = int(total_pace_points + final_hr_score)
     scores = {"Total": final_total_score, "Pace Pts": int(total_pace_points), "HR Pts": int(final_hr_score), "Avg HR Compliance": int(avg_hr_compliance)}
     return pd.DataFrame(intervals), target_mps, scores
@@ -389,9 +472,17 @@ def create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_m
     if not target_mps: return None
     mins, secs = map(int, target_pace_str.split(':'))
     base_sec_km = (mins * 60) + secs
-    start_trim = warm_min * 60
-    end_trim = start_trim + (reps * (work_min + rest_min) * 60)
+    
+    # DETERMINE TRIM (RESTORED LOGIC VIA INTERVALS_DF)
+    # Using the intervals_df is safer because it accounts for manual OR file laps
+    start_trim = intervals_df['Start Sec'].min()
+    end_trim = intervals_df['End Time'].max() + 30 if 'End Time' in intervals_df.columns else intervals_df['End Sec'].max() + 30
+    
+    # Fallback if manual warm_min passed logic is needed for some reason, but usually dataframe is best source of truth now
+    if pd.isna(start_trim): start_trim = warm_min * 60
+    
     df_trim = df[(df['timer_sec'] >= start_trim) & (df['timer_sec'] <= end_trim)].copy()
+    
     speed_target = target_mps
     s_plus_10 = 1000 / (base_sec_km - 10); s_minus_10 = 1000 / (base_sec_km + 10)
     s_plus_15 = 1000 / (base_sec_km - 15); s_minus_15 = 1000 / (base_sec_km + 15)
@@ -407,11 +498,15 @@ def create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_m
     else:
         fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['speed_smooth'], mode='lines', name='Raw', line=dict(color='black', width=1.5, shape='spline')))
 
+    # RESTORED BLUE BARS (Using helper columns)
     for i, row in intervals_df.iterrows():
-        rep_num = int(row['Rep'])
-        w_start = (warm_min * 60) + ((rep_num - 1) * ((work_min + rest_min) * 60))
-        w_end = w_start + (work_min * 60)
+        w_start = row['Start Sec']
+        w_end = row['End Sec']
+        
+        # Shade the rep area
         fig.add_vrect(x0=w_start, x1=w_end, fillcolor="grey", opacity=0.05, layer="below")
+        
+        # Draw the average pace line
         p_str = row.get('GAP Pace') if use_gap else row.get('Raw Pace')
         if not p_str: p_str = row.get('Pace', '0:00')
         p_min, p_sec = map(int, p_str.split(':'))
@@ -423,6 +518,34 @@ def create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_m
     y_range = (s_plus_15 - s_minus_15) * 1.5
     fig.update_yaxes(range=[y_center - y_range, y_center + y_range], title="Speed (m/s)", showgrid=False)
     fig.update_layout(title=f"Interval Discipline", hovermode="x unified")
+    return fig
+
+def create_hrr_figure(intervals_df):
+    if 'HRR (60s)' not in intervals_df.columns or intervals_df['HRR (60s)'].sum() == 0:
+        return None
+        
+    df_plot = intervals_df[intervals_df['HRR (60s)'] > 0].copy()
+    
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=df_plot['Rep'], 
+        y=df_plot['HRR (60s)'],
+        marker_color='#d62728',
+        name='HR Drop (bpm)'
+    ))
+    
+    if len(df_plot) > 2:
+        z = np.polyfit(df_plot['Rep'], df_plot['HRR (60s)'], 1)
+        p = np.poly1d(z)
+        fig.add_trace(go.Scatter(x=df_plot['Rep'], y=p(df_plot['Rep']), mode='lines', name='Trend', line=dict(color='black', dash='dot')))
+
+    fig.update_layout(
+        title="Heart Rate Recovery (60s) Trend",
+        xaxis_title="Repetition",
+        yaxis_title="Beats Dropped (bpm)",
+        template="plotly_white",
+        height=300
+    )
     return fig
 
 def create_infographic(run_type, stats, score, score_label, df_trace=None, trace_col=None, target_line=None, intervals_df=None, warm_min=0, work_min=0, rest_min=0, reps=0, use_gap=True):
@@ -453,8 +576,9 @@ def create_infographic(run_type, stats, score, score_label, df_trace=None, trace
         ax_chart.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
         
         if intervals_df is not None and target_line:
-            start_trim = warm_min * 60
-            end_trim = start_trim + (reps * (work_min + rest_min) * 60)
+            # Reconstruct logic for Matplotlib chart
+            start_trim = intervals_df['Start Sec'].min()
+            end_trim = intervals_df['End Sec'].max()
             df_plot = df_trace[(df_trace.index >= start_trim) & (df_trace.index <= end_trim)]
             
             base_speed = target_line
@@ -468,9 +592,8 @@ def create_infographic(run_type, stats, score, score_label, df_trace=None, trace
             ax_chart.plot(df_plot.index, df_plot[trace_col], color='black', linewidth=1)
             
             for _, row in intervals_df.iterrows():
-                rep_num = int(row['Rep'])
-                w_start = (warm_min * 60) + ((rep_num - 1) * ((work_min + rest_min) * 60))
-                w_end = w_start + (work_min * 60)
+                w_start = row['Start Sec']
+                w_end = row['End Sec']
                 p_str = row.get('GAP Pace') if use_gap else row.get('Raw Pace')
                 if not p_str: p_str = row.get('Pace', '0:00')
                 p_min, p_sec = map(int, p_str.split(':'))
