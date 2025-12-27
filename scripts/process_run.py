@@ -185,6 +185,7 @@ Comparison against {os.path.basename(ghost_file)}.
             "Reps": f"{reps} x {work} min",
             "Target Pace": target_pace,
             "Target HR": f"<{target_hr} bpm"
+            
         }
         df_plot = df.set_index('timer_sec')
         img_buf = run_analytics.create_infographic(

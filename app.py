@@ -474,6 +474,7 @@ elif tool_mode == "Run Analyser":
         file_name = getattr(uploaded_file, 'name', 'demo_file.tcx')
 
         with st.spinner("Processing..."):
+            # CHECKED FIX: Tuple unpacking
             df, detected_laps = load_data(file_bytes, file_name, smoothing)
 
         st.sidebar.divider()
@@ -508,7 +509,8 @@ elif tool_mode == "Run Analyser":
                 modes = ["Recovery"]
             else:
                 modes = ["Select Analysis Mode", "Standard", "Intervals", "Recovery"]
-                if df_ghost: modes.append("Ghost Battle")
+                # CHECKED FIX: Explicit None check
+                if df_ghost is not None: modes.append("Ghost Battle")
                 
             mode = st.radio("Mode:", modes, horizontal=True)
 
