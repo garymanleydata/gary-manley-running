@@ -41,7 +41,7 @@ if use_demo:
             uploaded_file = open(latest, 'rb') 
             st.sidebar.success(f"Loaded: {os.path.basename(latest)}")
 else:
-    uploaded_file = st.sidebar.file_uploader("Upload Run File (.tcx/.gpx)", type=['tcx', 'gpx'])
+    uploaded_file = st.sidebar.file_uploader("Upload Run File (.tcx/.gpx)", type=None)
 
 # DEFAULT GPS SMOOTHING
 smoothing = st.sidebar.slider("GPS Smoothing", 0, 60, 30)
