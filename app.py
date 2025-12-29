@@ -41,7 +41,8 @@ if use_demo:
             uploaded_file = open(latest, 'rb') 
             st.sidebar.success(f"Loaded: {os.path.basename(latest)}")
 else:
-    uploaded_file = st.sidebar.file_uploader("Upload Run File (.tcx/.gpx)", type=None)
+    # UPDATED FILE TYPES
+    uploaded_file = st.sidebar.file_uploader("Upload Run File (.tcx/.gpx)", type=['tcx', 'gpx', 'xml', 'txt'])
 
 # DEFAULT GPS SMOOTHING
 smoothing = st.sidebar.slider("GPS Smoothing", 0, 60, 30)
@@ -623,6 +624,10 @@ elif tool_mode == "Run Analyser":
                 with open("temp_dash.html", 'r', encoding='utf-8') as f:
                     html_data = f.read()
                 st.components.v1.html(html_data, height=1000, scrolling=True)
+        else:
+            # FALLBACK IF PARSER RETURNS NONE (For Mobile Errors)
+            st.error("Could not parse file. Ensure it is a valid TCX or GPX file (even if named .txt).")
+            st.info("Tip: Some mobile downloads corrupt file headers. Try re-downloading.")
                 
     else:
         st.info("👈 Upload a .tcx/.gpx file or click 'Try with Demo Data' to start.")
