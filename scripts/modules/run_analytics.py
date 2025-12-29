@@ -127,7 +127,7 @@ def calculate_training_paces(race_dist_km, race_time_str):
     matrix_df = PhysicsEngine.generate_conditions_matrix(base_paces)
     return base_paces, matrix_df
 
-# 1. PARSING (FIXED FOR MOBILE UPLOADS)
+# 1. PARSING (ROBUST MOBILE FIX)
 # ---------------------------------------------------------
 def parse_file(file_path, smoothing_span=30):
     if not os.path.exists(file_path): return None, []
@@ -135,12 +135,13 @@ def parse_file(file_path, smoothing_span=30):
     # DETERMINE FILE TYPE ROBUSTLY
     ext = os.path.splitext(file_path)[1].lower()
     
-    # If extension is ambiguous (.txt, .xml), peek at header
+    # Force check if extension is missing, txt, or xml
     if ext in ['.txt', '.xml', '']:
         try:
             with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
-                header = f.read(1000) # Read first 1000 chars
-                if '<TrainingCenterDatabase' in header:
+                header = f.read(2000).lower() # Read more, lowercase it
+                
+                if 'trainingcenterdatabase' in header:
                     ext = '.tcx'
                 elif '<gpx' in header:
                     ext = '.gpx'
@@ -248,7 +249,7 @@ def parse_file(file_path, smoothing_span=30):
         df['cadence'] = df['cadence'].fillna(0)
         return df, final_laps
     except Exception as e:
-        print(f"Error parsing file: {e}")
+        # Silently fail or return None to let app handle it
         return None, []
 
 # 2. VISUALS
@@ -461,4 +462,211 @@ def analyze_intervals(df, warm_min, work_min, rest_min, reps, cool_min, buffer_s
             else:
                 final_rep_score = int((normalized_pace * 0.5) + (hr_score_pct * 0.5))
 
+            intervals.append({
+                "Rep": i, 
+                "Score": final_rep_score,
+                "Avg HR": avg_hr_rep if not ignore_hr else "N/A", 
+                "HRR (60s)": hrr_val if hrr_val is not None else 0,
+                "HRR Display": hrr_str,
+                "GAP Pace": gap_pace_str, 
+                "Raw Pace": raw_pace_str,
+                "NGP (Effort)": ngp_str, 
+                "Elev Net": f"+{int(ele_gain)}/{int(ele_loss)}m",
+                "Pace Rating": rep_pace_score,
+                "Start Sec": rep_data['start'],
+                "End Sec": rep_data['end']
+            })
     
+    if ignore_hr: final_hr_score = 0; avg_hr_compliance = 0
+    else: avg_hr_compliance = total_hr_points / actual_reps if actual_reps > 0 else 0; final_hr_score = (avg_hr_compliance / 100) * 50
+    final_total_score = int(total_pace_points + final_hr_score)
+    scores = {"Total": final_total_score, "Pace Pts": int(total_pace_points), "HR Pts": int(final_hr_score), "Avg HR Compliance": int(avg_hr_compliance)}
+    return pd.DataFrame(intervals), target_mps, scores
+
+def create_interval_figure(df, intervals_df, target_pace_str, target_mps, warm_min, work_min, rest_min, reps, use_gap=True):
+    if not target_mps: return None
+    mins, secs = map(int, target_pace_str.split(':'))
+    base_sec_km = (mins * 60) + secs
+    
+    start_trim = intervals_df['Start Sec'].min()
+    end_trim = intervals_df['End Sec'].max() + 30 if 'End Sec' in intervals_df.columns else df['timer_sec'].max()
+    
+    if pd.isna(start_trim): start_trim = warm_min * 60
+    
+    df_trim = df[(df['timer_sec'] >= start_trim) & (df['timer_sec'] <= end_trim)].copy()
+    
+    speed_target = target_mps
+    s_plus_10 = 1000 / (base_sec_km - 10); s_minus_10 = 1000 / (base_sec_km + 10)
+    s_plus_15 = 1000 / (base_sec_km - 15); s_minus_15 = 1000 / (base_sec_km + 15)
+
+    fig = go.Figure()
+    x0, x1 = start_trim, end_trim
+    fig.add_shape(type="rect", x0=x0, x1=x1, y0=s_minus_15, y1=s_plus_15, fillcolor="rgba(255, 165, 0, 0.15)", line_width=0, layer="below", name="Orange")
+    fig.add_shape(type="rect", x0=x0, x1=x1, y0=s_minus_10, y1=s_plus_10, fillcolor="rgba(0, 255, 0, 0.25)", line_width=0, layer="below", name="Green")
+    fig.add_shape(type="line", x0=x0, x1=x1, y0=speed_target, y1=speed_target, line=dict(color="green", width=2, dash="dash"), name="Target")
+    
+    if use_gap:
+        fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['gap_speed_mps'], mode='lines', name='GAP', line=dict(color='black', width=1.5, shape='spline')))
+    else:
+        fig.add_trace(go.Scatter(x=df_trim['timer_sec'], y=df_trim['speed_smooth'], mode='lines', name='Raw', line=dict(color='black', width=1.5, shape='spline')))
+
+    for i, row in intervals_df.iterrows():
+        w_start = row['Start Sec']
+        w_end = row['End Sec']
+        
+        fig.add_vrect(x0=w_start, x1=w_end, fillcolor="grey", opacity=0.05, layer="below")
+        
+        p_str = row.get('GAP Pace') if use_gap else row.get('Raw Pace')
+        if not p_str: p_str = row.get('Pace', '0:00')
+        p_min, p_sec = map(int, p_str.split(':'))
+        if ((p_min*60)+p_sec) > 0:
+            rep_speed = 1000 / ((p_min*60)+p_sec)
+            fig.add_trace(go.Scatter(x=[w_start, w_end], y=[rep_speed, rep_speed], mode='lines', line=dict(color='blue', width=3), showlegend=False))
+
+    y_center = speed_target
+    y_range = (s_plus_15 - s_minus_15) * 1.5
+    fig.update_yaxes(range=[y_center - y_range, y_center + y_range], title="Speed (m/s)", showgrid=False)
+    fig.update_layout(title=f"Interval Discipline", hovermode="x unified")
+    return fig
+
+def create_hrr_figure(intervals_df):
+    if 'HRR (60s)' not in intervals_df.columns or intervals_df['HRR (60s)'].sum() == 0:
+        return None
+        
+    df_plot = intervals_df[intervals_df['HRR (60s)'] > 0].copy()
+    
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=df_plot['Rep'], 
+        y=df_plot['HRR (60s)'],
+        marker_color='#d62728',
+        name='HR Drop (bpm)'
+    ))
+    
+    if len(df_plot) > 2:
+        z = np.polyfit(df_plot['Rep'], df_plot['HRR (60s)'], 1)
+        p = np.poly1d(z)
+        fig.add_trace(go.Scatter(x=df_plot['Rep'], y=p(df_plot['Rep']), mode='lines', name='Trend', line=dict(color='black', dash='dot')))
+
+    fig.update_layout(
+        title="Heart Rate Recovery (60s) Trend",
+        xaxis_title="Repetition",
+        yaxis_title="Beats Dropped (bpm)",
+        template="plotly_white",
+        height=300
+    )
+    return fig
+
+def create_infographic(run_type, stats, score, score_label, df_trace=None, trace_col=None, target_line=None, intervals_df=None, warm_min=0, work_min=0, rest_min=0, reps=0, use_gap=True):
+    fig = plt.figure(figsize=(6, 5), facecolor='#f8f9fa')
+    gs = fig.add_gridspec(2, 1, height_ratios=[1, 0.6])
+    
+    ax_text = fig.add_subplot(gs[0])
+    ax_text.axis('off')
+    plt.text(0.05, 0.85, run_type, fontsize=16, fontweight='bold', color='#333', transform=ax_text.transAxes)
+    plt.text(0.05, 0.75, "Run Analysis Tool", fontsize=10, color='grey', transform=ax_text.transAxes)
+    
+    circle_color = '#28a745' if score >= 80 else '#ffc107' if score >= 50 else '#dc3545'
+    circle = plt.Circle((0.85, 0.7), 0.18, color=circle_color, transform=ax_text.transAxes, zorder=10)
+    ax_text.add_patch(circle)
+    plt.text(0.85, 0.67, str(score), fontsize=22, fontweight='bold', color='white', ha='center', va='center', transform=ax_text.transAxes, zorder=11)
+    plt.text(0.85, 0.45, score_label, fontsize=7, color=circle_color, ha='center', transform=ax_text.transAxes)
+    
+    y_pos = 0.50
+    for k, v in stats.items():
+        plt.text(0.05, y_pos, k.upper(), fontsize=8, color='grey', transform=ax_text.transAxes)
+        plt.text(0.35, y_pos, v, fontsize=10, fontweight='bold', transform=ax_text.transAxes)
+        y_pos -= 0.15
+
+    if df_trace is not None and trace_col in df_trace.columns:
+        ax_chart = fig.add_subplot(gs[1])
+        ax_chart.set_facecolor='#f8f9fa'
+        for spine in ax_chart.spines.values(): spine.set_visible(False)
+        ax_chart.tick_params(left=False, bottom=False, labelleft=False, labelbottom=False)
+        
+        if intervals_df is not None and target_line:
+            start_trim = intervals_df['Start Sec'].min()
+            end_trim = intervals_df['End Sec'].max()
+            df_plot = df_trace[(df_trace.index >= start_trim) & (df_trace.index <= end_trim)]
+            
+            base_speed = target_line
+            sec_km = 1000 / base_speed
+            s_minus_15 = 1000 / (sec_km + 15); s_plus_15 = 1000 / (sec_km - 15)
+            s_minus_10 = 1000 / (sec_km + 10); s_plus_10 = 1000 / (sec_km - 10)
+            
+            ax_chart.axhspan(s_minus_15, s_plus_15, color='orange', alpha=0.15)
+            ax_chart.axhspan(s_minus_10, s_plus_10, color='green', alpha=0.25)
+            ax_chart.axhline(base_speed, color='green', linestyle='--', linewidth=1)
+            ax_chart.plot(df_plot.index, df_plot[trace_col], color='black', linewidth=1)
+            
+            for _, row in intervals_df.iterrows():
+                w_start = row['Start Sec']
+                w_end = row['End Sec']
+                p_str = row.get('GAP Pace') if use_gap else row.get('Raw Pace')
+                if not p_str: p_str = row.get('Pace', '0:00')
+                p_min, p_sec = map(int, p_str.split(':'))
+                rep_speed = 1000 / ((p_min*60) + p_sec)
+                ax_chart.plot([w_start, w_end], [rep_speed, rep_speed], color='blue', linewidth=2)
+            
+            y_range = (s_plus_15 - s_minus_15) * 1.5
+            ax_chart.set_ylim(base_speed - y_range, base_speed + y_range)
+
+        else:
+            ax_chart.plot(df_trace.index, df_trace[trace_col], color='#444', linewidth=1.5)
+            ax_chart.fill_between(df_trace.index, df_trace[trace_col], alpha=0.1, color='#444')
+            if target_line: ax_chart.axhline(y=target_line, color=circle_color, linestyle='--', linewidth=1, alpha=0.8)
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=150)
+    buf.seek(0)
+    plt.close(fig)
+    return buf
+
+def create_pace_card(race_dist, race_time, base_paces):
+    fig, ax = plt.subplots(figsize=(6, 4), facecolor='white')
+    ax.axis('off')
+    
+    plt.text(0.5, 0.9, "TRAINING TARGETS", ha='center', fontsize=16, fontweight='bold', color='#333')
+    plt.text(0.5, 0.8, f"Based on: {race_dist} @ {race_time}", ha='center', fontsize=10, color='gray')
+    
+    y_pos = 0.6
+    plt.text(0.1, 0.65, "SESSION", fontsize=9, fontweight='bold', color='#555')
+    plt.text(0.6, 0.65, "PACE RANGE", fontsize=9, fontweight='bold', color='#555')
+    plt.axhline(y=0.63, xmin=0.05, xmax=0.95, color='#ddd', linewidth=1)
+
+    for k, v in base_paces.items():
+        name = k.split(" (")[0]
+        plt.text(0.1, y_pos, name, fontsize=11, fontweight='bold')
+        plt.text(0.6, y_pos, v, fontsize=11, color='#1f77b4', fontweight='bold')
+        y_pos -= 0.15
+    
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=150)
+    buf.seek(0)
+    plt.close(fig)
+    return buf
+
+def create_recovery_card(stats, score, score_label):
+    fig = plt.figure(figsize=(6, 4), facecolor='white')
+    ax = fig.add_subplot(111)
+    ax.axis('off')
+    
+    plt.text(0.05, 0.9, "Recovery Session", fontsize=14, fontweight='bold', color='#333')
+    plt.text(0.05, 0.82, "Compliance Report", fontsize=9, color='gray')
+
+    color = '#28a745' if score == 100 else '#dc3545'
+    plt.text(0.85, 0.85, str(score), fontsize=24, fontweight='bold', color=color, ha='center')
+    plt.text(0.85, 0.75, score_label, fontsize=7, color='gray', ha='center')
+
+    plt.text(0.1, 0.6, f"Max HR Hit: {stats['max_hit']} bpm", fontsize=10)
+    plt.text(0.1, 0.5, f"Avg HR: {stats['avg_hr']} bpm", fontsize=10)
+    plt.text(0.1, 0.4, f"Violation Time: {stats['violation_time_min']} min", fontsize=10, color=color if stats['violation_time_min']==0 else 'red')
+    
+    plt.axhline(y=0.3, xmin=0.05, xmax=0.95, color='#ddd', linewidth=1)
+    plt.text(0.5, 0.2, "Goal: Stay below Cap (Zone 1/2)", ha='center', fontsize=8, style='italic')
+
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png', bbox_inches='tight', dpi=150)
+    buf.seek(0)
+    plt.close(fig)
+    return buf
