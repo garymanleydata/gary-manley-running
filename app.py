@@ -41,7 +41,7 @@ if use_demo:
             uploaded_file = open(latest, 'rb') 
             st.sidebar.success(f"Loaded: {os.path.basename(latest)}")
 else:
-    # UPDATED FILE TYPES
+    # Accept all types (XML/TXT common on mobile)
     uploaded_file = st.sidebar.file_uploader("Upload Run File (.tcx/.gpx)", type=['tcx', 'gpx', 'xml', 'txt'])
 
 # DEFAULT GPS SMOOTHING
@@ -49,16 +49,41 @@ smoothing = st.sidebar.slider("GPS Smoothing", 0, 60, 30)
 
 @st.cache_data
 def load_data(file_bytes, file_name, smooth_sec):
-    safe_name = os.path.basename(file_name) 
-    temp_filename = f"temp_{safe_name}"
-    with open(temp_filename, "wb") as f:
-        f.write(file_bytes)
+    """
+    Robust loader that detects file type from CONTENT, not filename.
+    Fixes Android/iOS issues where files are renamed to .txt
+    """
     try:
-        # Returns tuple: (DataFrame, Detected_Laps_List)
-        df, laps = run_analytics.parse_file(temp_filename, smoothing_span=smooth_sec)
+        # 1. Peek at the first 1000 chars to guess type
+        header = file_bytes[:1000].decode('utf-8', errors='ignore').lower()
+        
+        true_ext = ".tmp" # Fallback
+        if 'trainingcenterdatabase' in header:
+            true_ext = ".tcx"
+        elif '<gpx' in header:
+            true_ext = ".gpx"
+        else:
+            # Fallback to original extension if we can't guess
+            true_ext = os.path.splitext(file_name)[1]
+
+        # 2. Save with the CORRECT extension so parsers work
+        safe_name = f"temp_{int(time.time())}{true_ext}"
+        
+        with open(safe_name, "wb") as f:
+            f.write(file_bytes)
+        
+        # 3. Parse
+        df, laps = run_analytics.parse_file(safe_name, smoothing_span=smooth_sec)
         return df, laps
+        
+    except Exception as e:
+        # Return None to signal failure
+        return None, []
+        
     finally:
-        if os.path.exists(temp_filename): os.remove(temp_filename)
+        # Cleanup
+        if 'safe_name' in locals() and os.path.exists(safe_name):
+            os.remove(safe_name)
 
 # SESSION STATE
 if 'int_results' not in st.session_state: st.session_state['int_results'] = None
@@ -625,9 +650,16 @@ elif tool_mode == "Run Analyser":
                     html_data = f.read()
                 st.components.v1.html(html_data, height=1000, scrolling=True)
         else:
-            # FALLBACK IF PARSER RETURNS NONE (For Mobile Errors)
-            st.error("Could not parse file. Ensure it is a valid TCX or GPX file (even if named .txt).")
-            st.info("Tip: Some mobile downloads corrupt file headers. Try re-downloading.")
+            # ERROR STATE HANDLING
+            st.error("⚠️ File Format Error")
+            st.warning("""
+            The uploaded file could not be read. This is common with files uploaded from mobile devices (Android/iOS) 
+            where the filename extension (.tcx/.gpx) gets corrupted or appended with .txt.
+            
+            **Try this:**
+            1. Ensure the file is a valid .TCX or .GPX export.
+            2. If on mobile, try saving to 'Files' first, then uploading.
+            """)
                 
     else:
         st.info("👈 Upload a .tcx/.gpx file or click 'Try with Demo Data' to start.")
