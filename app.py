@@ -30,7 +30,8 @@ user_rest_hr = st.sidebar.number_input("Your Resting Heart Rate", 30, 100, 50)
 st.sidebar.divider()
 st.sidebar.header("Current Activity")
 use_demo = st.sidebar.checkbox("⚡ Try with Demo Data")
-uploaded_file = None
+uploaded_file_bytes = None
+uploaded_file_name = None
 
 if use_demo:
     data_dir = os.path.join(os.path.dirname(__file__), 'data/runs')
@@ -38,11 +39,17 @@ if use_demo:
         files = [f for f in os.listdir(data_dir) if f.lower().endswith(('.tcx', '.gpx'))]
         if files:
             latest = max([os.path.join(data_dir, f) for f in files], key=os.path.getctime)
-            uploaded_file = open(latest, 'rb') 
-            st.sidebar.success(f"Loaded: {os.path.basename(latest)}")
+            with open(latest, 'rb') as f:
+                uploaded_file_bytes = f.read()
+                uploaded_file_name = os.path.basename(latest)
+            st.sidebar.success(f"Loaded: {uploaded_file_name}")
 else:
     # Accept all types (XML/TXT common on mobile)
     uploaded_file = st.sidebar.file_uploader("Upload Run File (.tcx/.gpx)", type=['tcx', 'gpx', 'xml', 'txt'])
+    if uploaded_file:
+        # CRITICAL FIX: getvalue() is required for mobile to prevent "empty file" on reruns
+        uploaded_file_bytes = uploaded_file.getvalue()
+        uploaded_file_name = uploaded_file.name
 
 # DEFAULT GPS SMOOTHING
 smoothing = st.sidebar.slider("GPS Smoothing", 0, 60, 30)
@@ -53,6 +60,9 @@ def load_data(file_bytes, file_name, smooth_sec):
     Robust loader that detects file type from CONTENT, not filename.
     Fixes Android/iOS issues where files are renamed to .txt
     """
+    if not file_bytes:
+        return None, []
+        
     try:
         # 1. Peek at the first 1000 chars to guess type
         header = file_bytes[:1000].decode('utf-8', errors='ignore').lower()
@@ -66,11 +76,13 @@ def load_data(file_bytes, file_name, smooth_sec):
             # Fallback to original extension if we can't guess
             true_ext = os.path.splitext(file_name)[1]
 
-        # 2. Save with the CORRECT extension so parsers work
+        # 2. Save with the CORRECT extension and sanitized name for mobile OS
         safe_name = f"temp_{int(time.time())}{true_ext}"
+        safe_name = "".join([c for c in safe_name if c.isalnum() or c in "._-"])
         
         with open(safe_name, "wb") as f:
             f.write(file_bytes)
+            f.flush() # Ensure bytes are on disk
         
         # 3. Parse
         df, laps = run_analytics.parse_file(safe_name, smoothing_span=smooth_sec)
@@ -83,7 +95,10 @@ def load_data(file_bytes, file_name, smooth_sec):
     finally:
         # Cleanup
         if 'safe_name' in locals() and os.path.exists(safe_name):
-            os.remove(safe_name)
+            try:
+                os.remove(safe_name)
+            except:
+                pass
 
 # SESSION STATE
 if 'int_results' not in st.session_state: st.session_state['int_results'] = None
@@ -367,11 +382,11 @@ elif tool_mode == "Fitness Manager":
     
     with c1:
         st.markdown("#### Add from Current Upload")
-        if uploaded_file:
+        if uploaded_file_bytes:
             curr_type = st.selectbox("Activity Type", ["Run", "Walk", "Hike", "Cycle", "Swim", "Elliptical", "Strength"], key='upload_type')
             
             if st.button("Calculate & Add to Log"):
-                df_curr, _ = load_data(uploaded_file.getvalue(), uploaded_file.name, smoothing)
+                df_curr, _ = load_data(uploaded_file_bytes, uploaded_file_name, smoothing)
                 if df_curr is not None:
                     duration = int(df_curr['timer_sec'].max() / 60)
                     avg_hr = int(df_curr['hr'].mean()) if 'hr' in df_curr.columns and not df_curr['hr'].isnull().all() else 0
@@ -495,13 +510,10 @@ elif tool_mode == "Fitness Manager":
 # TOOL 4: RUN ANALYZER
 # ==============================================================================
 elif tool_mode == "Run Analyser":
-    if uploaded_file is not None:
-        file_bytes = uploaded_file.read() if hasattr(uploaded_file, 'read') else uploaded_file.getvalue()
-        file_name = getattr(uploaded_file, 'name', 'demo_file.tcx')
-
+    if uploaded_file_bytes:
         with st.spinner("Processing..."):
             # CHECKED FIX: Tuple unpacking
-            df, detected_laps = load_data(file_bytes, file_name, smoothing)
+            df, detected_laps = load_data(uploaded_file_bytes, uploaded_file_name, smoothing)
 
         st.sidebar.divider()
         ghost_file_upload = st.sidebar.file_uploader("Optional: Ghost File", type=['tcx', 'gpx'])
